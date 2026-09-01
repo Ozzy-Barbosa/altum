@@ -1,7 +1,7 @@
 # Altum — Soluciones Digitales
 
 Sitio corporativo y portafolio estático preparado para
-`https://www.altumlpz.com/`, GitHub Pages y hosting tradicional.
+`https://www.altumlapaz.com/`, GitHub Pages y hosting tradicional.
 
 ## Características
 
@@ -25,7 +25,7 @@ cualquier servidor HTTP local para comprobar rutas y recursos.
 1. Sube el contenido completo de esta carpeta a la rama `main`.
 2. En GitHub abre **Settings → Pages**.
 3. Selecciona **Deploy from a branch**, rama `main` y carpeta `/ (root)`.
-4. Configura `www.altumlpz.com` como dominio personalizado.
+4. Configura `www.altumlapaz.com` como dominio personalizado.
 5. En el proveedor DNS, crea el registro `CNAME` de `www` hacia el destino que
    indique GitHub Pages.
 6. Activa **Enforce HTTPS** cuando el certificado esté disponible.
@@ -38,7 +38,7 @@ Pages procese los archivos como un proyecto Jekyll.
 1. Sube todos los archivos, incluida la carpeta `assets`, a `public_html` o al
    directorio público configurado para el dominio.
 2. Asegúrate de incluir los archivos ocultos `.htaccess` y `.nojekyll`.
-3. Apunta `www.altumlpz.com` al hosting y configura el dominio raíz para redirigir
+3. Apunta `www.altumlapaz.com` al hosting y configura el dominio raíz para redirigir
    a `www`.
 4. Instala y activa el certificado SSL antes de anunciar el sitio.
 
@@ -58,7 +58,7 @@ utilice Apache, esas reglas deben replicarse desde el panel del proveedor.
 
 ## Antes del lanzamiento público
 
-- Confirmar que DNS y HTTPS funcionen para `www.altumlpz.com` y el dominio raíz.
+- Confirmar que DNS y HTTPS funcionen para `www.altumlapaz.com` y el dominio raíz.
 - Registrar el dominio en Google Search Console y enviar `sitemap.xml`.
 - Conectar una herramienta de analítica sólo si se define una política de
   privacidad y consentimiento adecuada.

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.altumlpz.com/sitemap.xml
+Sitemap: https://www.altumlapaz.com/sitemap.xml
