@@ -6,7 +6,7 @@ Sitio corporativo y portafolio estático preparado para
 ## Características
 
 - Sitio responsive sin dependencias ni proceso de compilación.
-- Portafolio con Orthomax, Alexa Lara Fotografía y Proyectcons.
+- Portafolio con Orthomax, Conchalito Tours, Alexa Lara Fotografía y Proyectcons.
 - Formulario que organiza el brief y lo envía directamente por WhatsApp.
 - Enlaces oficiales de Facebook, Instagram y TikTok.
 - SEO técnico: URL canónica, Open Graph, Twitter Card, JSON-LD,
@@ -64,5 +64,5 @@ utilice Apache, esas reglas deben replicarse desde el panel del proveedor.
   privacidad y consentimiento adecuada.
 - Publicar un aviso de privacidad antes de almacenar formularios, usar píxeles
   publicitarios o instalar cookies no esenciales.
-- Sustituir las capturas y el estado “en desarrollo” cuando finalicen los tres
-  proyectos mostrados.
+- Sustituir las capturas y el estado “en desarrollo” cuando finalicen Alexa Lara
+  Fotografía y Proyectcons.
