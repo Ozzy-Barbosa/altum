@@ -1,0 +1,45 @@
+<div class="atom-field" aria-hidden="true">
+  <div class="atom-halo"></div>
+  <svg viewBox="0 0 600 600" class="atom-svg">
+    <defs>
+      <linearGradient id="orbit-color"
+        ><stop stop-color="#28d2e7" stop-opacity=".85"></stop><stop
+          offset=".5"
+          stop-color="#478aff"
+          stop-opacity=".15"></stop><stop offset="1" stop-color="#a87aff" stop-opacity=".8"
+        ></stop></linearGradient
+      >
+      <radialGradient id="orbit-halo"
+        ><stop stop-color="#2686fc" stop-opacity=".13"></stop><stop
+          offset="1"
+          stop-color="#2686fc"
+          stop-opacity="0"></stop></radialGradient
+      >
+    </defs>
+    <circle cx="300" cy="300" r="280" fill="url(#orbit-halo)"></circle>
+    <circle cx="300" cy="300" r="257" class="atom-perimeter"></circle>
+    {
+      [
+        [-32, 'atom-one'],
+        [38, 'atom-two'],
+        [90, 'atom-three'],
+      ].map(([rotation, name]) => (
+        <g transform={`rotate(${rotation} 300 300)`}>
+          <ellipse cx="300" cy="300" rx="265" ry="104" class="atom-track" />
+          <g class={`atom-electron ${name}`}>
+            <>
+              <circle cx="0" cy="0" r="4" />
+              <circle class="electron-glow" cx="0" cy="0" r="10" />
+            </>
+          </g>
+        </g>
+      ))
+    }
+    <g class="atom-stars"
+      ><circle cx="138" cy="110" r="2"></circle><circle cx="520" cy="256" r="2"></circle><circle
+        cx="370"
+        cy="543"
+        r="2"></circle></g
+    >
+  </svg>
+</div>

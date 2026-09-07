@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
+import TechStack from '../components/TechStack.astro';
 import { projects, site } from '../data/catalog';
 ---
 
@@ -59,7 +60,7 @@ import { projects, site } from '../data/catalog';
         }
       </div>
     </div>
-  </section><section class="section container">
+  </section><TechStack /><section class="section container">
     <div class="section-heading">
       <div>
         <p class="eyebrow">TRABAJO SELECCIONADO</p><h2>Contexto, decisiones<br />y ejecución.</h2>
@@ -68,7 +69,8 @@ import { projects, site } from '../data/catalog';
   </section><section class="container callout">
     <div>
       <h2>Aplicaciones para explorar.</h2><p>
-        Seis recorridos interactivos con información de ejemplo y funciones que puedes probar.
+        Diez recorridos interactivos con información de ejemplo: desde una tienda hasta finanzas,
+        ventas y órdenes de servicio.
       </p>
     </div><a class="button" href="/demos/">Abrir laboratorio de demos ↗</a>
   </section></Layout

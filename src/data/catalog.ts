@@ -139,6 +139,94 @@ export const solutions = [
       'Es búsqueda de texto sobre documentos de muestra. No utiliza IA ni consulta información privada de otros negocios.',
     next: ['Fuentes externas', 'Búsqueda semántica', 'Permisos por documento'],
   },
+  {
+    slug: 'finanzas',
+    name: 'Altum Finanzas',
+    label: 'Finanzas del negocio',
+    category: 'Finanzas',
+    icon: 'chart',
+    color: '#7ddfc2',
+    headline: 'Entiende a dónde va tu dinero.',
+    description:
+      'Un panel de ingresos, gastos y presupuestos para entender el flujo de tu negocio mes a mes.',
+    audience: 'Profesionales, comercios y pequeños negocios que quieren ordenar sus números.',
+    features: [
+      'Registro y edición de ingresos y gastos',
+      'Reporte mensual y flujo neto',
+      'Presupuestos con alertas por categoría',
+      'Búsqueda y exportación de movimientos',
+    ],
+    demo: 'Registra un gasto y observa su efecto en el flujo neto y el presupuesto de la categoría.',
+    boundary:
+      'La demo no conecta bancos ni calcula impuestos. No sustituye un sistema contable ni asesoría profesional.',
+    next: ['Cuentas por cobrar', 'Conciliación de movimientos', 'Permisos por responsable'],
+  },
+  {
+    slug: 'crm',
+    name: 'Altum Clientes',
+    label: 'Ventas y clientes',
+    category: 'Comercio',
+    icon: 'users',
+    color: '#e9bc7f',
+    headline: 'Ninguna oportunidad olvidada.',
+    description:
+      'Organiza prospectos, etapas comerciales y próximos seguimientos para dar continuidad a cada conversación.',
+    audience: 'Negocios de servicios, vendedores y equipos que atienden oportunidades comerciales.',
+    features: [
+      'Cartera editable de oportunidades',
+      'Etapas del proceso de venta',
+      'Fechas y notas de seguimiento',
+      'Valor potencial y exportación de cartera',
+    ],
+    demo: 'Agrega un prospecto, programa su seguimiento y actualiza su etapa en el proceso comercial.',
+    boundary:
+      'La demo no envía mensajes ni sincroniza contactos reales. El valor potencial no representa ingresos cobrados.',
+    next: ['Recordatorios', 'Historial de conversaciones', 'Asignación por vendedor'],
+  },
+  {
+    slug: 'cotizaciones',
+    name: 'Altum Cotiza',
+    label: 'Cotizaciones digitales',
+    category: 'Comercio',
+    icon: 'file',
+    color: '#bdacff',
+    headline: 'Presenta tu propuesta con claridad.',
+    description:
+      'Crea presupuestos con conceptos, cantidades y descuentos, y prepara un documento que puedas presentar.',
+    audience: 'Técnicos, talleres, estudios y profesionales que cotizan productos o servicios.',
+    features: [
+      'Conceptos y totales calculados',
+      'Descuentos y vigencia de propuesta',
+      'Duplicación y seguimiento de estados',
+      'Documento imprimible y exportación',
+    ],
+    demo: 'Crea una cotización, agrega conceptos, revisa el total y abre su vista lista para imprimir.',
+    boundary:
+      'Es un presupuesto de ejemplo sin cálculo de impuestos. No genera facturas fiscales ni envíos al cliente.',
+    next: ['Aceptación por cliente', 'Catálogo de conceptos', 'Conversión a orden de trabajo'],
+  },
+  {
+    slug: 'servicios',
+    name: 'Altum Servicio',
+    label: 'Órdenes de servicio',
+    category: 'Servicios',
+    icon: 'tool',
+    color: '#87caff',
+    headline: 'Cada servicio, de principio a fin.',
+    description:
+      'Recibe equipos o solicitudes, asigna responsables y lleva un historial del trabajo hasta la entrega.',
+    audience: 'Talleres, instaladores y negocios de reparación o mantenimiento.',
+    features: [
+      'Alta y edición de órdenes con folio',
+      'Responsable, fecha y prioridad',
+      'Etapas con historial de avances',
+      'Búsqueda y exportación de servicios',
+    ],
+    demo: 'Abre una orden, registra un cambio de estado con una nota y consulta su historial.',
+    boundary:
+      'La demo no envía avisos ni ofrece un portal público de seguimiento. Los equipos y clientes son ficticios.',
+    next: ['Evidencias fotográficas', 'Seguimiento por cliente', 'Mantenimiento recurrente'],
+  },
 ] as const;
 export const projects = [
   {
@@ -398,7 +486,7 @@ export const services = [
     faq: [
       [
         '¿Qué tipos de dashboard se pueden crear?',
-        'Ventas, inventario, operación y seguimiento de proyectos, entre otros. Cada panel se diseña alrededor de una decisión concreta.',
+        'Finanzas, ventas, inventario, operación y seguimiento de proyectos, entre otros. Cada panel se diseña alrededor de una decisión concreta.',
       ],
       [
         '¿Pueden usar mis archivos actuales?',

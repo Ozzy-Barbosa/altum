@@ -38,7 +38,90 @@ const { service: s } = Astro.props;
         El alcance, los tiempos y la inversión se acuerdan según las necesidades de cada proyecto.
       </p>
     </div>
-  </section><section class="container section split">
+  </section>
+  {
+    s.slug === 'dashboards-inventario-la-paz' && (
+      <section class="container section">
+        <>
+          <div class="section-heading">
+            <>
+              <div>
+                <>
+                  <p class="eyebrow">EL PANEL ADECUADO PARA CADA DECISIÓN</p>
+                  <h2>
+                    Distintos datos.
+                    <br />
+                    Distintas preguntas.
+                  </h2>
+                </>
+              </div>
+              <p>
+                Un dashboard debe permitir entender el indicador y consultar los registros que lo
+                explican. Estas demos muestran cuatro enfoques.
+              </p>
+            </>
+          </div>
+          <div class="table-scroll">
+            <table class="data-table">
+              <>
+                <caption>Tipos de dashboard para negocios</caption>
+                <thead>
+                  <tr>
+                    <>
+                      <th>Panel</th>
+                      <th>Qué permite revisar</th>
+                      <th>Ejemplo interactivo</th>
+                    </>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    [
+                      'Financiero',
+                      'Ingresos, gastos, flujo neto mensual y uso del presupuesto.',
+                      'finanzas',
+                    ],
+                    [
+                      'Comercial',
+                      'Oportunidades abiertas, valor potencial y siguientes seguimientos.',
+                      'crm',
+                    ],
+                    [
+                      'Inventario',
+                      'Existencias, productos bajo mínimos y movimientos del almacén.',
+                      'inventario',
+                    ],
+                    [
+                      'Operación de servicios',
+                      'Órdenes activas, prioridades, responsables y avance hasta la entrega.',
+                      'servicios',
+                    ],
+                  ].map(([label, description, slug]) => (
+                    <tr>
+                      <td>
+                        <strong>{label}</strong>
+                      </td>
+                      <td>{description}</td>
+                      <td>
+                        <a class="text-link" href={`/demos/${slug}/`}>
+                          Probar panel ↗
+                        </a>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </>
+            </table>
+          </div>
+          <p class="form-note">
+            Los indicadores de estas demos se calculan con información ficticia. Para una
+            implementación real acordamos fuentes de datos, periodos, permisos y reglas del negocio.
+          </p>
+        </>
+      </section>
+    )
+  }
+  <section class="container section split">
     <div><p class="eyebrow">ANTES DE EMPEZAR</p><h2>Preguntas frecuentes.</h2></div><div>
       {
         s.faq.map(([q, a]) => (

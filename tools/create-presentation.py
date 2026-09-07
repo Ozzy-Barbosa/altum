@@ -59,26 +59,26 @@ def header(label):
 def footer(page):
     line(786)
     para('www.altumlapaz.com  |  +52 612 212 5198',42,799,445,9,NAVY,True)
-    para(f'{page:02d} / 04',W-95,799,60,8,MUTED)
+    para(f'{page:02d} / {1 + (len(data["solutions"])+1)//2:02d}',W-95,799,60,8,MUTED)
 
 header('LA PAZ, BAJA CALIFORNIA SUR')
 para('TU NEGOCIO, EN DIGITAL',42,123,W-84,9,BLUE,True)
-para('Tu negocio.<br/>Su siguiente<br/>gran versión.',42,150,W-84,37,NAVY,True,41)
-para('Páginas web, tiendas y herramientas que ayudan a presentar tus servicios, atender clientes y organizar tu operación.',42,292,W-100,13,MUTED)
+para('Tu negocio.<br/>Su siguiente gran versión.',42,150,W-84,32,NAVY,True,37)
+para('Páginas web, tiendas y herramientas que ayudan a presentar tus servicios, atender clientes y organizar tu operación.',42,249,W-100,12,MUTED)
 for i,s in enumerate(data['solutions']):
     col,row=i%2,i//2
-    x,y=42+col*265,373+row*63
-    para(s['label'],x,y,240,12,NAVY,True)
-    para(s['headline'],x,y+23,230,9,MUTED)
+    x,y=42+col*265,320+row*48
+    para(s['label'],x,y,240,11,NAVY,True)
+    para(s['headline'],x,y+19,245,8.5,MUTED)
 line(574)
 para('Un proyecto claro, desde el inicio.',42,594,450,16,NAVY,True)
 para('Conocemos tu negocio. Definimos el alcance. Diseñamos y desarrollamos. Publicamos y te acompañamos.',42,626,350,10,MUTED)
-para('Prueba las seis demos.',42,686,340,15,BLUE,True)
+para('Prueba las diez demos.',42,686,340,15,BLUE,True)
 para('Escanea el código con tu celular.<br/>Sin registro. Con información de ejemplo.',42,715,340,10,MUTED)
 qr(data['site']['origin']+'/demos/',W-145,677,104)
 footer(1);c.showPage()
 
-for page,pair in enumerate([(0,1),(2,3),(4,5)],start=2):
+for page,pair in enumerate([range(i,min(i+2,len(data['solutions']))) for i in range(0,len(data['solutions']),2)],start=2):
     header('HERRAMIENTAS QUE PUEDES PROBAR')
     for position,index in enumerate(pair):
         s=data['solutions'][index]

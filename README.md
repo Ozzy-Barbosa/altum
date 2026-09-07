@@ -1,6 +1,6 @@
 # Altum · Plataforma y demostraciones
 
-Sitio de servicios, casos de trabajo, portafolio profesional y seis aplicaciones de demostración para [Altum](https://www.altumlapaz.com), La Paz, BCS.
+Sitio de servicios, casos de trabajo, portafolio profesional y diez aplicaciones de demostración para [Altum](https://www.altumlapaz.com), La Paz, BCS.
 
 ## Arquitectura
 
@@ -33,16 +33,20 @@ La compilación comprueba páginas, enlaces locales, títulos, descripciones, et
 
 ## Aplicaciones
 
-| Ruta                 | Demostración funcional                                                     |
-| -------------------- | -------------------------------------------------------------------------- |
-| `/demos/menu/`       | Carta, filtros, carrito, administración y pedidos simulados                |
-| `/demos/agenda/`     | Servicios, duración, disponibilidad por profesional, reserva y cancelación |
-| `/demos/inventario/` | CRUD, movimientos, mínimos, indicadores y CSV                              |
-| `/demos/commerce/`   | Catálogo, carrito, envío de ejemplo y compra simulada                      |
-| `/demos/proyectos/`  | Tareas, responsables, fechas, estados, avance y exportación                |
-| `/demos/search/`     | Biblioteca editable y búsqueda de texto por relevancia y categoría         |
+| Ruta                   | Demostración funcional                                                     |
+| ---------------------- | -------------------------------------------------------------------------- |
+| `/demos/menu/`         | Carta, filtros, carrito, administración y pedidos simulados                |
+| `/demos/agenda/`       | Servicios, duración, disponibilidad por profesional, reserva y cancelación |
+| `/demos/inventario/`   | CRUD, movimientos, mínimos, indicadores y CSV                              |
+| `/demos/commerce/`     | Catálogo, carrito, envío de ejemplo y compra simulada                      |
+| `/demos/proyectos/`    | Tareas, responsables, fechas, estados, avance y exportación                |
+| `/demos/search/`       | Biblioteca editable y búsqueda de texto por relevancia y categoría         |
+| `/demos/finanzas/`     | Movimientos, flujo mensual, presupuestos por categoría y CSV               |
+| `/demos/crm/`          | Oportunidades, etapas de venta, notas y seguimiento                        |
+| `/demos/cotizaciones/` | Conceptos, descuentos, folios, documento y estados                         |
+| `/demos/servicios/`    | Órdenes, responsable, prioridad e historial por estado                     |
 
-La lógica se encuentra en `src/lib/demo-domain.mjs`, y los ejemplos iniciales en `seed()`. `Restablecer demo` recupera esos ejemplos para el módulo abierto. El carrito sin confirmar es temporal. Los cambios confirmados permanecen en ese navegador. Abrir otra pestaña no ofrece edición colaborativa; recarga para ver su última copia guardada.
+La lógica se encuentra en `src/lib/demo-domain.mjs` y `src/lib/business-domain.mjs`, y los ejemplos iniciales en `seed()`. `Restablecer demo` recupera esos ejemplos para el módulo abierto. El carrito sin confirmar es temporal. Los cambios confirmados permanecen en ese navegador. Abrir otra pestaña no ofrece edición colaborativa; recarga para ver su última copia guardada.
 
 ## Publicación y reversión
 
@@ -60,6 +64,12 @@ El portafolio personal está en `/portafolio/`: añadir foto y datos profesional
 
 Páginas específicas de servicios para La Paz, metadatos por ruta, contenido semántico, fuentes locales, imágenes con dimensiones, navegación accesible y movimiento reducido. Mapa del sitio: `/sitemap-index.xml`. Las demos y la presentación llevan `noindex` para que los negocios ficticios no compitan con las páginas comerciales.
 
-La propiedad de dominio de Altum está verificada en Google Search Console. El 7 de septiembre de 2026 se envió `/sitemap-index.xml` y Google lo aceptó con estado «Correcto». La portada ya figuraba como indexada; el mapa nuevo permite descubrir 22 páginas comerciales. Tener SEO técnico correcto y un sitemap aceptado no garantiza la indexación de todas las páginas ni posiciones. Bing Webmaster Tools queda pendiente. Mantener casos reales y contenido útil es trabajo continuo.
+La propiedad de dominio de Altum está verificada en Google Search Console. El 7 de septiembre de 2026 se envió `/sitemap-index.xml` y Google lo aceptó con estado «Correcto». La portada ya figuraba como indexada; el mapa nuevo permite descubrir las páginas comerciales (26 en la versión ampliada). Tener SEO técnico correcto y un sitemap aceptado no garantiza la indexación de todas las páginas ni posiciones. Bing Webmaster Tools queda pendiente. Mantener casos reales y contenido útil es trabajo continuo.
 
-`/presentacion/` ofrece cuatro hojas imprimibles y códigos QR a las demos. La versión PDF descargable está en `/documentos/altum-presentacion-comercial.pdf`.
+`/presentacion/` ofrece seis hojas imprimibles y códigos QR a las demos. La versión PDF descargable está en `/documentos/altum-presentacion-comercial.pdf`.
+
+## Evolución visual y referencias
+
+Constelaciones animadas, órbitas y partículas decorativas, pausa de movimiento persistente y respeto de la preferencia del sistema. El lienzo pausa su animación en pestañas ocultas y limita la densidad y resolución. Navegación con Inicio, iconos sociales, búsqueda y categorías de soluciones, tecnologías y herramientas para borrar datos locales de las demos.
+
+Las 25 referencias de video y las siguientes ideas están en [REFERENCIAS-YOUTUBE.md](docs/REFERENCIAS-YOUTUBE.md). Sus títulos fueron verificados; la revisión completa de los videos sigue pendiente.

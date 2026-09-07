@@ -1,7 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
-import { projects } from '../../data/catalog';
+import { projects, solutions } from '../../data/catalog';
 ---
 
 <Layout
@@ -31,6 +31,21 @@ import { projects } from '../../data/catalog';
           </div>
         ))
       }
+    </div>
+  </section><section class="section container">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">LABORATORIO DE PRODUCTO</p><h2>
+          Ideas que ya<br /><span class="gradient">puedes probar.</span>
+        </h2>
+      </div><p>
+        Proyectos propios con datos ficticios y operaciones interactivas. Cada base tiene su alcance
+        y posibles siguientes etapas.
+      </p>
+    </div><div class="new-projects">
+      <div class="new-project-links">
+        {solutions.slice(6).map((s) => <a href={`/soluciones/${s.slug}/`}>{s.name} ↗</a>)}
+      </div>
     </div>
   </section><section class="container callout">
     <div>

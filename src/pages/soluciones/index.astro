@@ -1,7 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import SolutionCard from '../../components/SolutionCard.astro';
-import { solutions, services } from '../../data/catalog';
+import SolutionCatalog from '../../components/SolutionCatalog.astro';
+import { services } from '../../data/catalog';
 ---
 
 <Layout
@@ -15,9 +15,7 @@ import { solutions, services } from '../../data/catalog';
       operación de tu negocio.
     </p>
   </section><section class="container compact-section">
-    <div class="solutions-grid">
-      {solutions.map((solution, index) => <SolutionCard {solution} {index} />)}
-    </div>
+    <SolutionCatalog />
   </section><section class="section container">
     <div class="section-heading">
       <div><p class="eyebrow">DESARROLLO CON ATENCIÓN LOCAL</p><h2>Servicios en La Paz.</h2></div><p

@@ -1,15 +1,19 @@
 # Bases de producto
 
-Las seis demos ejecutan operaciones sobre datos de ejemplo y se pueden restablecer. Son bases de interfaz y lógica con pruebas; todavía no son sistemas comerciales con usuarios, pagos o trabajo compartido.
+Las diez demos ejecutan operaciones sobre datos de ejemplo y se pueden restablecer. Son bases de interfaz y lógica con pruebas; todavía no son sistemas comerciales con usuarios, pagos o trabajo compartido.
 
-| Base       | Configuración para un cliente similar     | Desarrollo adicional habitual                                                        |
-| ---------- | ----------------------------------------- | ------------------------------------------------------------------------------------ |
-| Menú       | Marca, productos, precios, categorías     | Extras, pedidos por mesa, cocina, reparto, cobros                                    |
-| Agenda     | Marca, servicios, profesionales, duración | Horarios configurables, festivos, anticipos, recordatorios, concurrencia en servidor |
-| Inventario | Productos, categorías, mínimos, identidad | Compras, proveedores, almacenes, lotes, permisos, importación                        |
-| Commerce   | Marca, catálogo, información de productos | Variantes, pago, impuestos, entrega, devoluciones                                    |
-| Proyectos  | Proyectos, responsables, tareas           | Invitaciones, archivos, comentarios, permisos por cliente                            |
-| Search     | Documentos, categorías, marca             | Conectores, documentos privados, búsqueda semántica                                  |
+| Base       | Configuración para un cliente similar        | Desarrollo adicional habitual                                                        |
+| ---------- | -------------------------------------------- | ------------------------------------------------------------------------------------ |
+| Menú       | Marca, productos, precios, categorías        | Extras, pedidos por mesa, cocina, reparto, cobros                                    |
+| Agenda     | Marca, servicios, profesionales, duración    | Horarios configurables, festivos, anticipos, recordatorios, concurrencia en servidor |
+| Inventario | Productos, categorías, mínimos, identidad    | Compras, proveedores, almacenes, lotes, permisos, importación                        |
+| Commerce   | Marca, catálogo, información de productos    | Variantes, pago, impuestos, entrega, devoluciones                                    |
+| Proyectos  | Proyectos, responsables, tareas              | Invitaciones, archivos, comentarios, permisos por cliente                            |
+| Search     | Documentos, categorías, marca                | Conectores, documentos privados, búsqueda semántica                                  |
+| Finanzas   | Categorías, conceptos y presupuestos         | Bancos, conciliación, impuestos y contabilidad                                       |
+| Clientes   | Prospectos, etapas, notas y seguimientos     | Mensajería, recordatorios y asignación por vendedor                                  |
+| Cotiza     | Conceptos, descuentos y condiciones          | Impuestos, aceptación y facturación fiscal                                           |
+| Servicio   | Equipos, responsables, prioridades y órdenes | Fotos, portal privado y mantenimiento recurrente                                     |
 
 ## Primer cliente
 
@@ -32,7 +36,12 @@ Comenzar con un menú público y un administrador privado para una cafetería. C
 - Proyectos: trabajo por estado y porcentaje terminado.
 - Pedidos: historial e importe simulado.
 
-Los paneles de ventas con periodos, finanzas, marketing o analítica requieren fuentes e indicadores acordados; no se presentan como implementados en esta versión.
+- Finanzas: ingresos y gastos del mes, flujo neto y gasto frente al presupuesto.
+- Clientes: valor potencial abierto, etapas y seguimientos por atender.
+- Cotizaciones: propuestas guardadas, pendientes y aceptadas.
+- Servicios: órdenes activas, prioridades y entregas.
+
+Todos los paneles usan ejemplos locales. Los datos bancarios, ingresos reales, analítica y colaboración requieren fuentes, permisos e indicadores acordados. Los estados comerciales no equivalen a pagos.
 
 ## Portfolio técnico
 

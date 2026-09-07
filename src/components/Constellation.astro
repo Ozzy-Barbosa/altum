@@ -1,0 +1,80 @@
+<canvas id="constellation" class="constellation" aria-hidden="true"></canvas>
+<script>
+  const canvas = document.querySelector<HTMLCanvasElement>('#constellation');
+  const context = canvas?.getContext('2d');
+  if (canvas && context) {
+    const media = matchMedia('(prefers-reduced-motion: reduce)');
+    let width = 0,
+      height = 0,
+      frame = 0,
+      last = 0;
+    let stars: { x: number; y: number; vx: number; vy: number; r: number }[] = [];
+    const paused = () => document.documentElement.dataset.motion === 'paused' || media.matches;
+    const paint = (move: boolean) => {
+      context.clearRect(0, 0, width, height);
+      for (let i = 0; i < stars.length; i++) {
+        const p = stars[i];
+        if (move) {
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < 0 || p.x > width) p.vx *= -1;
+          if (p.y < 0 || p.y > height) p.vy *= -1;
+        }
+        for (let j = i + 1; j < stars.length; j++) {
+          const q = stars[j],
+            distance = Math.hypot(p.x - q.x, p.y - q.y);
+          if (distance < 145) {
+            context.strokeStyle = `rgba(91,157,231,${(1 - distance / 145) * 0.22})`;
+            context.beginPath();
+            context.moveTo(p.x, p.y);
+            context.lineTo(q.x, q.y);
+            context.stroke();
+          }
+        }
+        context.fillStyle = i % 4 === 0 ? 'rgba(73,219,239,.7)' : 'rgba(125,167,234,.45)';
+        context.beginPath();
+        context.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        context.fill();
+      }
+    };
+    const tick = (time: number) => {
+      frame = 0;
+      if (paused() || document.hidden) return;
+      if (time - last > 32) {
+        paint(true);
+        last = time;
+      }
+      frame = requestAnimationFrame(tick);
+    };
+    const sync = () => {
+      cancelAnimationFrame(frame);
+      frame = 0;
+      paint(false);
+      if (!paused() && !document.hidden) frame = requestAnimationFrame(tick);
+    };
+    const resize = () => {
+      width = innerWidth;
+      height = innerHeight;
+      const ratio = Math.min(devicePixelRatio || 1, 1.5);
+      canvas.width = Math.round(width * ratio);
+      canvas.height = Math.round(height * ratio);
+      context.setTransform(ratio, 0, 0, ratio, 0, 0);
+      stars = Array.from(
+        { length: Math.min(64, Math.max(25, Math.round((width * height) / 17000))) },
+        () => ({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.22,
+          vy: (Math.random() - 0.5) * 0.22,
+          r: Math.random() * 1.15 + 0.5,
+        }),
+      );
+      sync();
+    };
+    addEventListener('resize', resize, { passive: true });
+    document.addEventListener('visibilitychange', sync);
+    document.addEventListener('altum:motion', sync);
+    media.addEventListener('change', sync);
+    resize();
+  }
+</script>

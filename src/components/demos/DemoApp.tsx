@@ -7,6 +7,10 @@ const Agenda = lazy(() => import('./AgendaDemo'));
 const Inventory = lazy(() => import('./InventoryDemo'));
 const Projects = lazy(() => import('./ProjectsDemo'));
 const Search = lazy(() => import('./SearchDemo'));
+const Finance = lazy(() => import('./FinanceDemo'));
+const Crm = lazy(() => import('./CrmDemo'));
+const Quotes = lazy(() => import('./QuotesDemo'));
+const Services = lazy(() => import('./ServicesDemo'));
 class DemoErrorBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
   state = { failed: false };
   static getDerivedStateFromError() {
@@ -24,7 +28,9 @@ class DemoErrorBoundary extends Component<{ children: ReactNode }, { failed: boo
           className="demo-button"
           onClick={() => {
             const module = location.pathname.split('/').filter(Boolean).at(-1);
-            localStorage.removeItem(`altum-demo-v2:${module}`);
+            try {
+              localStorage.removeItem(`altum-demo-v2:${module}`);
+            } catch {}
             location.reload();
           }}
         >
@@ -56,6 +62,21 @@ function Workspace({ module }: { module: string }) {
             ↙ Todas las demos
           </a>
           <p className="demo-sidebar-label">TU NEGOCIO, EN DIGITAL</p>
+          <label className="demo-switcher">
+            Explorar otra demo
+            <select
+              value={module}
+              onChange={(e) => {
+                location.href = `/demos/${e.target.value}/`;
+              }}
+            >
+              {solutions.map((s) => (
+                <option value={s.slug} key={s.slug}>
+                  {s.name}
+                </option>
+              ))}
+            </select>
+          </label>
           <nav aria-label="Aplicaciones de demostración">
             {solutions.map((s, i) => (
               <a
@@ -63,7 +84,9 @@ function Workspace({ module }: { module: string }) {
                 aria-current={module === s.slug ? 'page' : undefined}
                 key={s.slug}
               >
-                <span aria-hidden="true">{['≋', '◷', '▦', '◇', '▤', '⌕'][i]}</span>
+                <span aria-hidden="true">
+                  {['≋', '◷', '▦', '◇', '▤', '⌕', '↗', '◎', '▧', '⚒'][i]}
+                </span>
                 {s.name}
               </a>
             ))}
@@ -113,6 +136,14 @@ function Workspace({ module }: { module: string }) {
                   <Inventory {...props} />
                 ) : module === 'proyectos' ? (
                   <Projects {...props} />
+                ) : module === 'finanzas' ? (
+                  <Finance {...props} />
+                ) : module === 'crm' ? (
+                  <Crm {...props} />
+                ) : module === 'cotizaciones' ? (
+                  <Quotes {...props} />
+                ) : module === 'servicios' ? (
+                  <Services {...props} />
                 ) : (
                   <Search {...props} />
                 )}

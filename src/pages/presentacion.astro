@@ -16,11 +16,9 @@ const codes = await Promise.all(
     }),
   ),
 );
-const pairs = [
-  [0, 1],
-  [2, 3],
-  [4, 5],
-];
+const pairs = Array.from({ length: Math.ceil(solutions.length / 2) }, (_, i) =>
+  [i * 2, i * 2 + 1].filter((n) => n < solutions.length),
+);
 ---
 
 <Layout
@@ -31,13 +29,13 @@ const pairs = [
     <p class="eyebrow">TU CARPETA COMERCIAL</p><h1>
       Una conversación.<br />Muchas posibilidades.
     </h1><p class="lead">
-      Cuatro hojas A4 con soluciones y códigos QR. Imprime a escala 100 %, desactiva encabezados y
+      Seis hojas A4 con soluciones y códigos QR. Imprime a escala 100 %, desactiva encabezados y
       pies del navegador y activa gráficos de fondo.
     </p>
   </section><div class="container">
     <div class="print-actions">
       <a class="button" href="/documentos/altum-presentacion-comercial.pdf" download
-        >Descargar PDF · 4 hojas ↓</a
+        >Descargar PDF · 6 hojas ↓</a
       ><button class="button button-secondary" data-print>Imprimir esta página</button><a
         class="text-link"
         href="/demos/">Explorar las demostraciones ↗</a
@@ -180,6 +178,19 @@ const pairs = [
     width: 100px;
   }
   @media print {
+    .print-sheet:first-of-type .print-item {
+      padding-block: 8px;
+    }
+    .print-sheet:first-of-type .print-item h3 {
+      font-size: 12pt;
+    }
+    .print-sheet:first-of-type .print-item p {
+      font-size: 9pt;
+    }
+    .print-sheet:first-of-type .print-grid {
+      margin-top: 15px !important;
+      gap: 10px 20px;
+    }
     .print-product {
       grid-template-columns: 1fr 100px;
       padding-bottom: 15px;

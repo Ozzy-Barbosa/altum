@@ -31,3 +31,24 @@ No se han habilitado pagos, mensajería, usuarios comerciales, sincronización p
 - Nuevo sitemap con 22 rutas indexables, excluyendo las demos ficticias. Conservada la URL antigua `/sitemap.xml` como índice compatible.
 - Google Search Console: propiedad de dominio existente, portada ya indexada y sitemap nuevo enviado con estado «Correcto». Esto no implica que las nuevas páginas ya estén indexadas. Bing no se ha configurado en esta entrega.
 - Se solicitó revisar la portada actualizada. Google confirmó «Se ha solicitado la indexación» y la incorporó a su cola de rastreo; no supone una mejora de posición inmediata.
+
+## Ampliación a diez demos y diseño orbital
+
+7 de septiembre de 2026, revisión posterior a la migración inicial:
+
+- 18 pruebas de dominio aprobadas. Se agregaron cálculos en centavos, descuentos, validación de fechas, folios sin reutilización, etapas comerciales e historial de servicio.
+- 39 páginas compiladas, 26 rutas indexables en el sitemap. Revisión de Astro/TypeScript sin errores, advertencias ni sugerencias. Metadatos únicos, enlaces locales, JSON-LD, breadcrumbs y noindex de demos comprobados.
+- Fondo de constelaciones y tres órbitas con partículas. Control para pausar, preferencia local, movimiento reducido del sistema y suspensión del canvas en pestañas ocultas.
+- Finanzas: gasto de prueba por $250.50 actualiza gastos a $7,860.00 y flujo neto a $11,340.00. Presupuesto de Servicios reducido a $500 muestra $849.50 y alerta de exceso. Persistencia confirmada tras recarga.
+- CRM: una oportunidad cambió de Propuesta a Ganado; totales y filtro mostraron dos oportunidades ganadas y dos abiertas.
+- Cotiza: propuesta de dos servicios de $850, descuento de 10 %, total $1,530. PDF descargado desde la interfaz y leído del disco con cliente, folio e importe correctos. PDF de 30 conceptos probado con cuatro páginas; sin HTML ni recursos externos evaluados.
+- Servicio: cambio de Diagnóstico a Lista con nota, agregado al historial manteniendo las etapas anteriores.
+- Carpeta comercial: seis hojas renderizadas e inspeccionadas, 11 códigos QR decodificados en el PDF y 11 en el HTML. Destinos corresponden a las diez demos y al catálogo.
+- Supabase: restricción ampliada a diez módulos mediante migración. RLS permanece habilitado, cuatro políticas por propietario, permisos públicos de lectura y escritura denegados y asesor de seguridad sin avisos.
+- jsPDF 4.2.1 fijado en el lockfile; instalación reportó cero vulnerabilidades. Su módulo se carga al solicitar la descarga, no al abrir la portada.
+
+La señal de descarga de la herramienta del navegador integrado agotó su espera, pero el archivo sí apareció en Descargas y se verificó con un lector PDF. La vista previa usa el mismo build estático que se publica. Las limitaciones comerciales y de dispositivos de la validación anterior siguen aplicando.
+
+- Vista móvil mediante iframe local de 390 × 844: ancho útil y scrollWidth de 375 px en portada, portafolio y las cuatro demos nuevas. Revisados formularios de cotización, paneles y selector móvil de módulos. Navegación desplegable muestra Inicio y las secciones principales.
+- Catálogo: categoría Finanzas devuelve una solución; búsqueda sin coincidencias devuelve cero y un mensaje útil.
+- Privacidad: diálogo de confirmación, borrado de ejemplos y regreso a las dos cotizaciones iniciales comprobados. La preferencia de pausa permanece al navegar; las animaciones se reactivaron después de la prueba.

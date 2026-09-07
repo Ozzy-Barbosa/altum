@@ -20,6 +20,7 @@
     "@fontsource-variable/space-grotesk": "5.3.0",
     "@supabase/supabase-js": "2.116.0",
     "astro": "7.3.1",
+    "jspdf": "4.2.1",
     "lucide-react": "1.42.0",
     "qrcode": "1.5.4",
     "react": "19.2.8",

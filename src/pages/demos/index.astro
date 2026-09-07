@@ -1,27 +1,34 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import SolutionCard from '../../components/SolutionCard.astro';
+import SolutionCatalog from '../../components/SolutionCatalog.astro';
 import { solutions } from '../../data/catalog';
 ---
 
 <Layout
   title="Demos interactivas de aplicaciones para negocios"
-  description="Prueba seis aplicaciones de ejemplo de Altum: menú digital, agenda, inventario, tienda, proyectos y búsqueda. Explora cómo pueden servir a tu negocio."
+  description="Prueba diez demos de Altum: menús, agenda, inventario, tienda, proyectos, búsqueda, finanzas, clientes, cotizaciones y órdenes de servicio."
   noindex
   ><section class="page-hero container">
     <p class="eyebrow">EL LABORATORIO DE ALTUM</p><h1>
       No solo lo imagines.<br /><span class="gradient">Pruébalo.</span>
     </h1><p class="lead">
-      Haz un pedido, reserva un horario u organiza un inventario. Seis demostraciones para descubrir
-      lo que podemos construir para tu negocio.
+      Haz un pedido, prepara una cotización o revisa tus finanzas. Diez demostraciones para
+      descubrir lo que podemos construir para tu negocio.
     </p><div class="note" style="margin-top:25px;max-width:700px">
       Acceso sin registro. Los datos son ficticios y tus cambios se guardan en este navegador.
       Puedes restablecer cada demo cuando quieras.
     </div>
   </section><section class="container compact-section">
-    <div class="solutions-grid">
-      {solutions.map((solution, index) => <SolutionCard {solution} {index} />)}
-    </div><p class="form-note">
+    <div class="new-projects">
+      <p class="eyebrow">CUATRO NUEVAS FORMAS DE ORGANIZAR TU NEGOCIO</p><h2>
+        Más claridad. Más control.
+      </h2><p>
+        Explora los nuevos paneles de finanzas, clientes, cotizaciones y servicio técnico.
+      </p><div class="new-project-links">
+        {solutions.slice(6).map((s) => <a href={`/demos/${s.slug}/`}>{s.label} ↗</a>)}
+      </div>
+    </div>
+    <SolutionCatalog /><p class="form-note">
       Las demostraciones muestran recorridos iniciales. Los pagos, mensajes y reservas no llegan a
       negocios reales. Cada implementación comercial requiere configurar su operación, accesos e
       integraciones.

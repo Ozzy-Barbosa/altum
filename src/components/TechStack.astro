@@ -1,0 +1,53 @@
+---
+const { compact = false } = Astro.props;
+const stack = [
+  ['A', 'Astro', 'Contenido rápido e indexable', '#ffb07a'],
+  ['⚛', 'React', 'Aplicaciones interactivas', '#72d9f6'],
+  ['TS', 'TypeScript', 'Tipos y contratos de interfaz', '#78b6ff'],
+  ['JS', 'JavaScript', 'Lógica, eventos y animación', '#f1d46a'],
+  ['5', 'HTML + CSS', 'Semántica y diseño adaptable', '#f49eaf'],
+  ['N', 'Node.js', 'Pruebas y construcción', '#98dba7'],
+  ['PG', 'PostgreSQL', 'Base de datos preparada', '#89b8e0'],
+  ['S', 'Supabase', 'Base para acceso privado', '#72deb4'],
+  ['Git', 'Git + GitHub', 'Versiones y publicación', '#d2b3ff'],
+];
+---
+
+<section
+  class:list={['section container tech-section', { 'tech-compact': compact }]}
+  id="tecnologias"
+>
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">EL CÓDIGO DETRÁS DE LA EXPERIENCIA</p><h2>
+        Tecnología con<br /><span class="gradient">un propósito claro.</span>
+      </h2>
+    </div><p>
+      Elegimos las herramientas por lo que tu proyecto necesita: velocidad, una buena experiencia y
+      una base que pueda crecer.
+    </p>
+  </div>
+  <div class="tech-grid">
+    {
+      stack.map(([symbol, name, description, color]) => (
+        <article class="tech-card reveal" style={`--tech:${color}`}>
+          <>
+            <span class="tech-monogram" aria-hidden="true">
+              {symbol}
+            </span>
+            <div>
+              <>
+                <h3>{name}</h3>
+                <p>{description}</p>
+              </>
+            </div>
+          </>
+        </article>
+      ))
+    }
+  </div>
+  <p class="form-note">
+    Las demos públicas guardan ejemplos en el navegador. La conexión a PostgreSQL y Supabase está
+    preparada para implementaciones privadas con sus propios accesos.
+  </p>
+</section>

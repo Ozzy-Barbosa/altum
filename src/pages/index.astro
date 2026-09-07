@@ -2,6 +2,8 @@
 import Layout from '../layouts/Layout.astro';
 import SolutionCard from '../components/SolutionCard.astro';
 import ProjectCard from '../components/ProjectCard.astro';
+import OrbitArt from '../components/OrbitArt.astro';
+import TechStack from '../components/TechStack.astro';
 import { solutions, projects } from '../data/catalog';
 ---
 
@@ -27,7 +29,7 @@ import { solutions, projects } from '../data/catalog';
         >
       </div>
     </div><div class="hero-system" aria-label="Vista ilustrativa de las soluciones de Altum">
-      <div class="orbit orbit-a"></div><div class="orbit orbit-b"></div><div class="system-core">
+      <OrbitArt /><div class="system-core">
         <img
           src="/assets/logo-altum-symbol-transparent.png"
           alt="Altum"
@@ -68,7 +70,22 @@ import { solutions, projects } from '../data/catalog';
         información de ejemplo.
       </p>
     </div><div class="solutions-grid">
-      {solutions.map((solution, index) => <SolutionCard {solution} {index} />)}
+      {solutions.slice(0, 6).map((solution, index) => <SolutionCard {solution} {index} />)}
+    </div>
+  </section>
+  <section class="container compact-section">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">NUEVAS DEMOS / MÁS ALLÁ DE UNA PÁGINA</p><h2>
+          La operación también<br /><span class="gradient">merece buen diseño.</span>
+        </h2>
+      </div><p>
+        Cuatro herramientas para explorar tus números, seguir ventas, presentar propuestas y
+        organizar servicios.
+      </p>
+    </div>
+    <div class="solutions-grid business-solutions">
+      {solutions.slice(6).map((solution, index) => <SolutionCard {solution} index={index + 6} />)}
     </div>
   </section>
   <section class="section work-section" id="proyectos">
@@ -100,6 +117,7 @@ import { solutions, projects } from '../data/catalog';
       </p><a class="text-link" href="/portafolio/">Conoce el trabajo detrás de Altum ↗</a>
     </div>
   </section>
+  <TechStack compact />
   <section class="section container" id="proceso">
     <div class="section-heading">
       <div>

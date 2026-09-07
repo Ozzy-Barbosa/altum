@@ -43,9 +43,13 @@ for (const file of ['CNAME', 'robots.txt', 'sitemap-index.xml', '404.html'])
   if (!fs.existsSync(path.join(root, file))) errors.push(`Missing ${file}`);
 const presentation = fs.readFileSync(path.join(root, 'presentacion/index.html'), 'utf8');
 const expectedQr = new Set(
-  ['', 'menu/', 'agenda/', 'inventario/', 'commerce/', 'proyectos/', 'search/'].map(
-    (route) => 'https://www.altumlapaz.com/demos/' + route,
-  ),
+  [
+    '',
+    ...fs
+      .readdirSync(path.join(root, 'demos'), { withFileTypes: true })
+      .filter((e) => e.isDirectory())
+      .map((e) => e.name + '/'),
+  ].map((route) => 'https://www.altumlapaz.com/demos/' + route),
 );
 for (const match of presentation.matchAll(/src="data:image\/png;base64,([^"]+)"/g)) {
   const png = PNG.sync.read(Buffer.from(match[1], 'base64'));
@@ -59,5 +63,5 @@ if (errors.length) {
   process.exit(1);
 }
 console.log(
-  `Verified ${files.length} pages: titles, headings, metadata, paths, structured data and 7 decoded QR codes.`,
+  `Verified ${files.length} pages: titles, headings, metadata, paths, structured data and ${[...presentation.matchAll(/src="data:image\/png;base64,/g)].length} decoded QR codes.`,
 );

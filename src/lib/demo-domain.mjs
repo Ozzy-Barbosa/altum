@@ -1,3 +1,4 @@
+import { businessModules, businessSeed, businessTransition } from './business-domain.mjs';
 export const money = (value) =>
   new Intl.NumberFormat('es-MX', {
     style: 'currency',
@@ -30,6 +31,7 @@ const product = (id, name, category, price, stock, min, description = '', symbol
   active: true,
 });
 export function seed(module) {
+  if (businessModules.includes(module)) return businessSeed(module, localDate());
   switch (module) {
     case 'menu':
       return {
@@ -380,6 +382,8 @@ export function searchDocuments(documents, query, category = 'Todas') {
     .sort((a, b) => b.score - a.score || a.title.localeCompare(b.title, 'es'));
 }
 export function transition(module, current, action) {
+  if (businessModules.includes(module))
+    return businessTransition(module, current, action, localDate());
   const state = structuredClone(current),
     a = action;
   if (a.type === 'reset') return seed(module);

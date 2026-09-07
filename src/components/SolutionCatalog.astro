@@ -1,0 +1,64 @@
+---
+import SolutionCard from './SolutionCard.astro';
+import { solutions } from '../data/catalog';
+---
+
+<div data-catalog>
+  <div class="catalog-controls">
+    <label
+      >¿Qué quieres mejorar?<input
+        type="search"
+        data-catalog-search
+        placeholder="Busca: ventas, citas, finanzas…"
+      /></label
+    ><label
+      >Tipo de solución<select data-catalog-category
+        ><option value="">Todas las categorías</option>{
+          [...new Set(solutions.map((s) => s.category))].map((category) => (
+            <option>{category}</option>
+          ))
+        }</select
+      ></label>
+  </div>
+  <p class="catalog-count" aria-live="polite" data-catalog-count>
+    {solutions.length} soluciones para explorar
+  </p>
+  <div class="solutions-grid">
+    {solutions.map((solution, index) => <SolutionCard {solution} {index} />)}
+  </div>
+  <p class="note" hidden data-catalog-empty>
+    No encontramos una solución con estos filtros. Prueba con otro término o selecciona todas las
+    categorías.
+  </p>
+</div>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-catalog]').forEach((catalog) => {
+    const search = catalog.querySelector<HTMLInputElement>('[data-catalog-search]')!;
+    const category = catalog.querySelector<HTMLSelectElement>('[data-catalog-category]')!;
+    const count = catalog.querySelector<HTMLElement>('[data-catalog-count]')!;
+    const empty = catalog.querySelector<HTMLElement>('[data-catalog-empty]')!;
+    const normalize = (s: string) =>
+      s
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+        .trim();
+    const filter = () => {
+      let visible = 0;
+      catalog.querySelectorAll<HTMLElement>('[data-solution]').forEach((card) => {
+        const match =
+          normalize(card.dataset.solution || '').includes(normalize(search.value)) &&
+          (!category.value || card.dataset.category === category.value);
+        card.hidden = !match;
+        if (match) {
+          visible++;
+          card.classList.add('seen');
+        }
+      });
+      count.textContent = `${visible} ${visible === 1 ? 'solución disponible' : 'soluciones disponibles'}`;
+      empty.hidden = visible > 0;
+    };
+    search.addEventListener('input', filter);
+    category.addEventListener('change', filter);
+  });
+</script>
