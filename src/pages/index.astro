@@ -1,0 +1,134 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SolutionCard from '../components/SolutionCard.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { solutions, projects } from '../data/catalog';
+---
+
+<Layout
+  title="Páginas web, aplicaciones y software en La Paz, BCS | Altum"
+  description="Diseño y desarrollo web en La Paz, BCS. Conoce nuestros proyectos y prueba menús digitales, agendas, tiendas y sistemas para potenciar tu negocio."
+>
+  <section class="hero container" id="inicio">
+    <div class="hero-copy">
+      <p class="eyebrow"><span class="status-dot"></span> ESTUDIO DIGITAL · LA PAZ, BCS</p><h1>
+        Tu negocio.<br />Su siguiente<br /><span class="gradient">gran versión.</span>
+      </h1><p class="lead">
+        Páginas web, tiendas y aplicaciones que convierten tus ideas en herramientas para vender,
+        organizar y crecer.
+      </p><div class="actions">
+        <a class="button" href="/demos/">Explora lo que podemos crear <span>↗</span></a><a
+          class="text-link"
+          href="/proyectos/">Ver trabajo real →</a
+        >
+      </div><div class="hero-proof">
+        <span>Diseño con identidad</span><span>Desarrollo a medida</span><span
+          >Atención cercana</span
+        >
+      </div>
+    </div><div class="hero-system" aria-label="Vista ilustrativa de las soluciones de Altum">
+      <div class="orbit orbit-a"></div><div class="orbit orbit-b"></div><div class="system-core">
+        <img
+          src="/assets/logo-altum-symbol-transparent.png"
+          alt="Altum"
+          width="360"
+          height="195"
+        /><span>IDEAS EN MOVIMIENTO</span>
+      </div><div class="floating-card fc-one">
+        <span class="mini-icon mint">▦</span><div>
+          <small>OPERACIÓN</small><strong>Todo en su lugar.</strong><div class="mini-bars">
+            <i></i><i></i><i></i><i></i><i></i><i></i>
+          </div>
+        </div>
+      </div><div class="floating-card fc-two">
+        <span class="mini-icon violet">◷</span><div>
+          <small>AGENDA DIGITAL</small><strong>Tu próximo espacio.</strong><span class="mini-days"
+            >L &nbsp; M &nbsp; M &nbsp; J &nbsp; V</span
+          >
+        </div>
+      </div><div class="floating-card fc-three">
+        <span class="status-dot"></span><span>De la idea a una experiencia real.</span>
+      </div><span class="system-caption">DISEÑO + TECNOLOGÍA + PROPÓSITO</span>
+    </div>
+  </section>
+  <div class="brand-strip">
+    <div class="container">
+      <span>HECHO PARA NEGOCIOS QUE AVANZAN</span><span>Restaurantes</span><span>Comercios</span
+      ><span>Profesionales</span><span>Equipos</span>
+    </div>
+  </div>
+  <section class="section container" id="servicios">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">01 / SOLUCIONES QUE PUEDES PROBAR</p><h2>
+          Más posibilidades.<br /><span class="muted">Menos trabajo manual.</span>
+        </h2>
+      </div><p>
+        Descubre cómo se vería una herramienta hecha para tu negocio. Prueba las demos con
+        información de ejemplo.
+      </p>
+    </div><div class="solutions-grid">
+      {solutions.map((solution, index) => <SolutionCard {solution} {index} />)}
+    </div>
+  </section>
+  <section class="section work-section" id="proyectos">
+    <div class="container">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">02 / DEL CONCEPTO A LA PANTALLA</p><h2>
+            Trabajo que<br /><span class="gradient">habla por sí mismo.</span>
+          </h2>
+        </div><a class="text-link" href="/proyectos/">Todos los proyectos ↗</a>
+      </div><div class="projects-grid">
+        {projects.slice(0, 2).map((project) => <ProjectCard {project} />)}
+      </div>
+    </div>
+  </section>
+  <section class="section container split" id="nosotros">
+    <div>
+      <p class="eyebrow">03 / TECNOLOGÍA CON ATENCIÓN LOCAL</p><h2>
+        Entendemos tu idea.<br />Construimos contigo.
+      </h2>
+    </div><div class="prose">
+      <p>
+        Altum es un estudio de diseño y desarrollo web en La Paz, Baja California Sur. Creamos
+        presencias digitales y aplicaciones alrededor de una pregunta: ¿qué necesita hacer mejor tu
+        negocio?
+      </p><p>
+        Desde una primera página hasta un sistema de operación, definimos contigo un alcance claro y
+        una solución que puedas usar.
+      </p><a class="text-link" href="/portafolio/">Conoce el trabajo detrás de Altum ↗</a>
+    </div>
+  </section>
+  <section class="section container" id="proceso">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">04 / UN PROCESO CLARO</p><h2>Del primer café<br />al siguiente paso.</h2>
+      </div>
+    </div><div class="process-grid">
+      {
+        [
+          ['01', 'Escuchamos', 'Conocemos tu negocio, el problema y lo que quieres conseguir.'],
+          ['02', 'Definimos', 'Acordamos funciones, contenido, inversión y entregables.'],
+          ['03', 'Construimos', 'Diseñamos, desarrollamos y probamos contigo.'],
+          ['04', 'Lanzamos', 'Publicamos y te guiamos para utilizar tu nueva herramienta.'],
+        ].map(([n, t, d]) => (
+          <article class="reveal">
+            <>
+              <span>{n}</span>
+              <h3>{t}</h3>
+              <p>{d}</p>
+            </>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+  <section class="container callout" id="contacto">
+    <div>
+      <p class="eyebrow">EMPIEZA POR LO QUE NECESITAS</p><h2>
+        ¿Más ventas, mejor atención<br />o una operación más clara?
+      </h2><p>Cuéntanos dónde estás y qué quieres mejorar.</p>
+    </div><a class="button light" href="/contacto/">Hablemos de tu negocio ↗</a>
+  </section>
+</Layout>

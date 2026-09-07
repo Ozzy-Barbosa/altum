@@ -1,0 +1,236 @@
+---
+import '../styles/global.css';
+import '@fontsource-variable/manrope';
+import '@fontsource-variable/space-grotesk';
+import { site, services } from '../data/catalog';
+interface Props {
+  title: string;
+  description: string;
+  noindex?: boolean;
+  wide?: boolean;
+  image?: string;
+  schema?: Record<string, unknown>;
+}
+const {
+  title,
+  description,
+  noindex = false,
+  wide = false,
+  image = '/assets/altum-banner.jpeg',
+  schema,
+} = Astro.props;
+const canonical = new URL(Astro.url.pathname, site.origin).href;
+const nav = [
+  ['Soluciones', '/soluciones/'],
+  ['Proyectos', '/proyectos/'],
+  ['Demos', '/demos/'],
+  ['Portafolio', '/portafolio/'],
+];
+const graph = [
+  {
+    '@type': 'ProfessionalService',
+    '@id': `${site.origin}/#business`,
+    name: 'Altum Soluciones Digitales',
+    url: site.origin,
+    telephone: site.phone,
+    image: site.origin + '/assets/altum-banner.jpeg',
+    logo: site.origin + '/assets/logo-altum-symbol-transparent.png',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'La Paz',
+      addressRegion: 'Baja California Sur',
+      addressCountry: 'MX',
+    },
+    areaServed: { '@type': 'City', name: 'La Paz, Baja California Sur' },
+    sameAs: [
+      'https://www.facebook.com/altumlapaz/',
+      'https://www.instagram.com/altumlapaz/',
+      'https://www.tiktok.com/@altumlpz',
+    ],
+  },
+  {
+    '@type': 'WebSite',
+    '@id': `${site.origin}/#website`,
+    name: 'Altum',
+    url: site.origin,
+    inLanguage: 'es-MX',
+  },
+  {
+    '@type': 'WebPage',
+    name: title,
+    description,
+    url: canonical,
+    inLanguage: 'es-MX',
+    isPartOf: { '@id': `${site.origin}/#website` },
+  },
+  ...(schema ? [schema] : []),
+];
+---
+
+<!doctype html>
+<html lang="es-MX">
+  <head>
+    <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title.includes('| Altum') ? title : `${title} | Altum`}</title>
+    <meta name="description" content={description} /><meta
+      name="robots"
+      content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'}
+    />
+    <link rel="canonical" href={canonical} /><meta name="theme-color" content="#060a12" />
+    <meta property="og:title" content={title} /><meta
+      property="og:description"
+      content={description}
+    /><meta property="og:type" content="website" /><meta
+      property="og:url"
+      content={canonical}
+    /><meta property="og:locale" content="es_MX" /><meta
+      property="og:site_name"
+      content="Altum"
+    /><meta property="og:image" content={new URL(image, site.origin).href} /><meta
+      name="twitter:card"
+      content="summary_large_image"
+    /><meta name="twitter:title" content={title} /><meta
+      name="twitter:description"
+      content={description}
+    /><meta name="twitter:image" content={new URL(image, site.origin).href} />
+    <link rel="icon" href="/assets/favicon-32.png" /><link
+      rel="apple-touch-icon"
+      href="/assets/apple-touch-icon.png"
+    /><link rel="manifest" href="/site.webmanifest" />
+    <script
+      is:inline
+      type="application/ld+json"
+      set:html={JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replace(
+        /</g,
+        '\\u003c',
+      )}
+    />
+  </head>
+  <body>
+    <a class="skip" href="#contenido">Saltar al contenido</a>
+    <header class="header">
+      <div class="header-inner">
+        <a class="brand" href="/" aria-label="Altum, inicio"
+          ><img
+            src="/assets/logo-altum-symbol-transparent.png"
+            width="48"
+            height="27"
+            alt=""
+          /><span>ALTUM<small>SOLUCIONES DIGITALES</small></span></a
+        >
+        <button
+          class="nav-toggle"
+          aria-label="Abrir menú"
+          aria-controls="main-nav"
+          aria-expanded="false"><span></span><span></span></button
+        >
+        <nav id="main-nav" aria-label="Navegación principal">
+          {
+            nav.map(([name, url]) => (
+              <a href={url} aria-current={Astro.url.pathname.startsWith(url) ? 'page' : undefined}>
+                {name}
+              </a>
+            ))
+          }<a class="button small" href="/contacto/">Hablemos <span aria-hidden="true">↗</span></a>
+        </nav>
+      </div>
+    </header>
+    <main id="contenido" class:list={{ wide }}><slot /></main>
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-top">
+          <div>
+            <p class="eyebrow">TU SIGUIENTE PASO</p><h2>
+              Una idea merece<br />una buena ejecución.
+            </h2>
+          </div><a class="button" href="/contacto/"
+            >Construyamos tu proyecto <span aria-hidden="true">↗</span></a
+          >
+        </div><div class="footer-grid">
+          <div>
+            <a class="brand" href="/"
+              ><img
+                src="/assets/logo-altum-symbol-transparent.png"
+                alt=""
+                width="48"
+                height="27"
+              /><span>ALTUM</span></a
+            ><p>
+              Diseño, desarrollo y herramientas digitales<br />desde La Paz, Baja California Sur.
+            </p>
+          </div><div>
+            <strong>Explora</strong>{nav.map(([name, url]) => <a href={url}>{name}</a>)}<a
+              href="/presentacion/">Presentación comercial</a
+            >
+          </div><div>
+            <strong>Servicios</strong>{
+              services.slice(0, 4).map((s) => <a href={`/servicios/${s.slug}/`}>{s.short}</a>)
+            }
+          </div><div>
+            <strong>Conversemos</strong><a
+              href={site.whatsapp}
+              target="_blank"
+              rel="noopener noreferrer">{site.phone} ↗</a
+            ><a
+              href="https://www.instagram.com/altumlapaz/"
+              target="_blank"
+              rel="noopener noreferrer">Instagram ↗</a
+            ><a
+              href="https://www.facebook.com/altumlapaz/"
+              target="_blank"
+              rel="noopener noreferrer">Facebook ↗</a
+            ><a href="https://www.tiktok.com/@altumlpz" target="_blank" rel="noopener noreferrer"
+              >TikTok ↗</a
+            >
+          </div>
+        </div><div class="footer-bottom">
+          <span>© {new Date().getFullYear()} Altum Soluciones Digitales</span><a href="/privacidad/"
+            >Privacidad</a
+          ><span>Hecho con intención, en La Paz.</span>
+        </div>
+      </div>
+    </footer>
+    <script>
+      const toggle = document.querySelector<HTMLButtonElement>('.nav-toggle');
+      const nav = document.getElementById('main-nav');
+      const close = () => {
+        toggle?.setAttribute('aria-expanded', 'false');
+        toggle?.setAttribute('aria-label', 'Abrir menú');
+        nav?.classList.remove('open');
+      };
+      toggle?.addEventListener('click', () => {
+        const open = toggle.getAttribute('aria-expanded') !== 'true';
+        toggle.setAttribute('aria-expanded', String(open));
+        toggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+        nav?.classList.toggle('open', open);
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && toggle?.getAttribute('aria-expanded') === 'true') {
+          close();
+          toggle.focus();
+        }
+      });
+      nav?.querySelectorAll('a').forEach((a) => a.addEventListener('click', close));
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!reduced && 'IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(
+          (entries) =>
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                e.target.classList.add('seen');
+                observer.unobserve(e.target);
+              }
+            }),
+          { threshold: 0.08 },
+        );
+        document.querySelectorAll('.reveal').forEach((el) => {
+          el.classList.add('will-reveal');
+          observer.observe(el);
+        });
+      }
+      document
+        .querySelectorAll<HTMLButtonElement>('[data-print]')
+        .forEach((b) => b.addEventListener('click', () => window.print()));
+    </script>
+  </body>
+</html>

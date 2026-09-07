@@ -1,0 +1,22 @@
+---
+import type { solutions } from '../data/catalog';
+interface Props {
+  solution: (typeof solutions)[number];
+  index?: number;
+}
+const { solution: s, index = 0 } = Astro.props;
+---
+
+<article class="solution-card reveal" style={`--accent:${s.color}`}>
+  <div class="card-top">
+    <span class="product-symbol" aria-hidden="true">{['≋', '◷', '▦', '◇', '▤', '⌕'][index]}</span
+    ><span class="tag">{s.category}</span>
+  </div><h3><a href={`/soluciones/${s.slug}/`}>{s.name}</a></h3><p>{s.description}</p><div
+    class="card-bottom"
+  >
+    <a class="text-link" href={`/soluciones/${s.slug}/`}>Conocer solución ↗</a><a
+      class="demo-link"
+      href={`/demos/${s.slug}/`}>Probar demo <span aria-hidden="true">→</span></a
+    >
+  </div>
+</article>

@@ -1,0 +1,44 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import SolutionCard from '../../components/SolutionCard.astro';
+import { solutions, services } from '../../data/catalog';
+---
+
+<Layout
+  title="Soluciones digitales para negocios en La Paz"
+  description="Menús digitales, agendas, tiendas, inventario y aplicaciones para negocios de La Paz. Explora soluciones y prueba sus demostraciones."
+  ><section class="page-hero container">
+    <p class="eyebrow">SOLUCIONES ALTUM</p><h1>
+      Una herramienta para<br /><span class="gradient">cada siguiente paso.</span>
+    </h1><p class="lead">
+      Empieza por lo que quieres mejorar. Estas bases se adaptan a la identidad, la información y la
+      operación de tu negocio.
+    </p>
+  </section><section class="container compact-section">
+    <div class="solutions-grid">
+      {solutions.map((solution, index) => <SolutionCard {solution} {index} />)}
+    </div>
+  </section><section class="section container">
+    <div class="section-heading">
+      <div><p class="eyebrow">DESARROLLO CON ATENCIÓN LOCAL</p><h2>Servicios en La Paz.</h2></div><p
+      >
+        Desde una presencia profesional hasta una aplicación a medida, definimos un alcance
+        alrededor de tu negocio.
+      </p>
+    </div><div class="service-grid">
+      {
+        services.map((s) => (
+          <article class="service-card">
+            <>
+              <h3>{s.name}</h3>
+              <p>{s.intro}</p>
+              <a class="text-link" href={`/servicios/${s.slug}/`}>
+                Qué incluye ↗
+              </a>
+            </>
+          </article>
+        ))
+      }
+    </div>
+  </section></Layout
+>

@@ -1,0 +1,59 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { solutions, site } from '../../data/catalog';
+export function getStaticPaths() {
+  return solutions.map((solution) => ({ params: { slug: solution.slug }, props: { solution } }));
+}
+const { solution: s } = Astro.props;
+---
+
+<Layout
+  title={`${s.label} para negocios | Altum`}
+  description={s.description}
+  schema={{
+    '@type': 'Service',
+    name: s.label,
+    description: s.description,
+    provider: { '@id': site.origin + '/#business' },
+    areaServed: 'La Paz, Baja California Sur',
+  }}
+  ><section class="page-hero container">
+    <div class="breadcrumb">
+      <a href="/soluciones/">Soluciones</a><span>/</span><span>{s.name}</span>
+    </div><p class="eyebrow">{s.name} / {s.category}</p><h1>{s.headline}</h1><p class="lead">
+      {s.description}
+    </p><div class="actions">
+      <a class="button" href={`/demos/${s.slug}/`}>Probar la demo ↗</a><a
+        class="text-link"
+        href={`/contacto/?solucion=${s.slug}`}>Quiero algo así para mi negocio →</a
+      >
+    </div>
+  </section><section class="container split compact-section">
+    <div>
+      <h2>Así comienza<br />tu solución.</h2><p style="margin-top:24px">{s.audience}</p><ul
+        class="check-list"
+      >
+        {s.features.map((f) => <li>{f}</li>)}
+      </ul>
+    </div><div>
+      <div class="contact-card">
+        <p class="eyebrow">PRUÉBALO ANTES DE IMAGINARLO</p><h2>Una demo, un recorrido real.</h2><p>
+          {s.demo}
+        </p><a class="button secondary" href={`/demos/${s.slug}/`}>Abrir {s.name} →</a>
+      </div><p class="note" style="margin-top:20px">{s.boundary}</p>
+    </div>
+  </section><section class="container section split">
+    <div><p class="eyebrow">DE EJEMPLO A TU NEGOCIO</p><h2>Tu marca.<br />Tus reglas.</h2></div><div
+      class="prose"
+    >
+      <p>
+        La demostración utiliza información ficticia. Para tu implementación configuramos identidad,
+        catálogo, usuarios y reglas de operación. Confirmamos contigo los servicios externos
+        necesarios y su costo antes de contratarlos.
+      </p><h3>Posibles siguientes etapas</h3><ul>{s.next.map((n) => <li>{n}</li>)}</ul><a
+        class="text-link"
+        href={`/contacto/?solucion=${s.slug}`}>Definamos tu alcance ↗</a
+      >
+    </div>
+  </section></Layout
+>

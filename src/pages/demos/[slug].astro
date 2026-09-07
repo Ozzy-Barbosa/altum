@@ -1,0 +1,27 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import DemoApp from '../../components/demos/DemoApp';
+import { solutions } from '../../data/catalog';
+export function getStaticPaths() {
+  return solutions.map((solution) => ({ params: { slug: solution.slug }, props: { solution } }));
+}
+const { solution: s } = Astro.props;
+---
+
+<Layout title={`${s.name} · Demo interactiva`} description={s.description} noindex wide
+  ><div class="demo-page-label">
+    <h1>{s.name}</h1><span>Demostración interactiva</span><a href={`/soluciones/${s.slug}/`}
+      >Conocer la solución ↗</a
+    >
+  </div><DemoApp module={s.slug} client:only="react"
+    ><div class="loading-demo" slot="fallback">
+      Preparando la demostración de {s.name}…
+    </div></DemoApp
+  ><noscript
+    ><div class="note container">
+      Esta demostración necesita JavaScript. Puedes <a href={`/soluciones/${s.slug}/`}
+        >consultar aquí sus características</a
+      >.
+    </div></noscript
+  ></Layout
+>

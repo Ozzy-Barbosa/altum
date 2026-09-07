@@ -1,0 +1,55 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { projects } from '../../data/catalog';
+---
+
+<Layout
+  title="Proyectos de diseño y desarrollo web"
+  description="Explora el trabajo de Altum para Orthomax, Conchalito Tours, Alexa Lara Fotografía y Proyectcons. Casos de diseño y desarrollo web en La Paz."
+  ><section class="page-hero container">
+    <p class="eyebrow">PORTAFOLIO DE CLIENTES</p><h1>
+      Cada negocio,<br /><span class="gradient">una historia propia.</span>
+    </h1><p class="lead">
+      Proyectos publicados y trabajo en desarrollo, con el contexto y el alcance de cada
+      experiencia.
+    </p>
+  </section><section class="container compact-section">
+    <div class="filter-bar" aria-label="Filtrar proyectos">
+      <button class="filter-button" data-filter="all" aria-pressed="true">Todos</button><button
+        class="filter-button"
+        data-filter="Publicado"
+        aria-pressed="false">Publicados</button
+      ><button class="filter-button" data-filter="En desarrollo" aria-pressed="false"
+        >En desarrollo</button
+      >
+    </div><div class="projects-grid">
+      {
+        projects.map((project) => (
+          <div data-status={project.status}>
+            <ProjectCard {project} />
+          </div>
+        ))
+      }
+    </div>
+  </section><section class="container callout">
+    <div>
+      <p class="eyebrow">DE LA WEB A LA OPERACIÓN</p><h2>También construimos herramientas.</h2><p>
+        Prueba las demos de menú, agenda, inventario y más.
+      </p>
+    </div><a class="button" href="/demos/">Explorar demos ↗</a>
+  </section><script>
+    document.querySelectorAll<HTMLButtonElement>('[data-filter]').forEach((b) =>
+      b.addEventListener('click', () => {
+        document
+          .querySelectorAll('[data-filter]')
+          .forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+        document
+          .querySelectorAll<HTMLElement>('[data-status]')
+          .forEach(
+            (x) => (x.hidden = b.dataset.filter !== 'all' && x.dataset.status !== b.dataset.filter),
+          );
+      }),
+    );
+  </script></Layout
+>

@@ -1,0 +1,30 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import SolutionCard from '../../components/SolutionCard.astro';
+import { solutions } from '../../data/catalog';
+---
+
+<Layout
+  title="Demos interactivas de aplicaciones para negocios"
+  description="Prueba seis aplicaciones de ejemplo de Altum: menú digital, agenda, inventario, tienda, proyectos y búsqueda. Explora cómo pueden servir a tu negocio."
+  noindex
+  ><section class="page-hero container">
+    <p class="eyebrow">EL LABORATORIO DE ALTUM</p><h1>
+      No solo lo imagines.<br /><span class="gradient">Pruébalo.</span>
+    </h1><p class="lead">
+      Haz un pedido, reserva un horario u organiza un inventario. Seis demostraciones para descubrir
+      lo que podemos construir para tu negocio.
+    </p><div class="note" style="margin-top:25px;max-width:700px">
+      Acceso sin registro. Los datos son ficticios y tus cambios se guardan en este navegador.
+      Puedes restablecer cada demo cuando quieras.
+    </div>
+  </section><section class="container compact-section">
+    <div class="solutions-grid">
+      {solutions.map((solution, index) => <SolutionCard {solution} {index} />)}
+    </div><p class="form-note">
+      Las demostraciones muestran recorridos iniciales. Los pagos, mensajes y reservas no llegan a
+      negocios reales. Cada implementación comercial requiere configurar su operación, accesos e
+      integraciones.
+    </p>
+  </section></Layout
+>

@@ -1,68 +1,65 @@
-# Altum — Soluciones Digitales
+# Altum · Plataforma y demostraciones
 
-Sitio corporativo y portafolio estático preparado para
-`https://www.altumlapaz.com/`, GitHub Pages y hosting tradicional.
+Sitio de servicios, casos de trabajo, portafolio profesional y seis aplicaciones de demostración para [Altum](https://www.altumlapaz.com), La Paz, BCS.
 
-## Características
+## Arquitectura
 
-- Sitio responsive sin dependencias ni proceso de compilación.
-- Portafolio con Orthomax, Conchalito Tours, Alexa Lara Fotografía y Proyectcons.
-- Formulario que organiza el brief y lo envía directamente por WhatsApp.
-- Enlaces oficiales de Facebook, Instagram y TikTok.
-- SEO técnico: URL canónica, Open Graph, Twitter Card, JSON-LD,
-  `robots.txt` y `sitemap.xml`.
-- Accesibilidad básica, navegación móvil por teclado y reducción de movimiento.
-- Animaciones optimizadas para detenerse fuera de pantalla.
-- Página 404 personalizada, manifest e iconos para dispositivos.
+- Astro genera las páginas públicas como HTML; React se carga únicamente en las demos. Las páginas comerciales muestran su contenido sin depender de JavaScript.
+- Catálogo central en `src/data/catalog.ts`; plantillas para soluciones, servicios y casos en `src/pages/`.
+- Cada demo tiene su interfaz independiente y comparte validaciones, almacenamiento, diálogos y componentes.
+- Demos públicas con datos ficticios guardados en el navegador. No procesan pagos, reservas ni pedidos reales.
+- Supabase está aprovisionado para la siguiente etapa privada. El conector exige una sesión autorizada; no se crean usuarios anónimos.
 
-## Probar localmente
+## Desarrollo
 
-No requiere instalación. Se recomienda servir la carpeta mediante Live Server o
-cualquier servidor HTTP local para comprobar rutas y recursos.
+Requiere Node.js 24 y npm. Instala las versiones del archivo de bloqueo:
 
-## Publicar en GitHub Pages
+```powershell
+$env:ASTRO_TELEMETRY_DISABLED='1'
+npm ci
+npm run dev
+```
 
-1. Sube el contenido completo de esta carpeta a la rama `main`.
-2. En GitHub abre **Settings → Pages**.
-3. Selecciona **Deploy from a branch**, rama `main` y carpeta `/ (root)`.
-4. Configura `www.altumlapaz.com` como dominio personalizado.
-5. En el proveedor DNS, crea el registro `CNAME` de `www` hacia el destino que
-   indique GitHub Pages.
-6. Activa **Enforce HTTPS** cuando el certificado esté disponible.
+Astro muestra la dirección local. Sus servidores pueden permanecer en segundo plano; consulta `npx astro dev --help` para los comandos disponibles de estado, registros y parada.
 
-El archivo `CNAME` ya contiene el dominio final y `.nojekyll` evita que GitHub
-Pages procese los archivos como un proyecto Jekyll.
+```powershell
+npm test
+npm run check
+npm run build
+npm run preview
+```
 
-## Publicar en hosting tradicional
+La compilación comprueba páginas, enlaces locales, títulos, descripciones, etiquetas canónicas, datos estructurados y exclusión de demos de la indexación. `dist/` es el único directorio que se publica. Los archivos HTML/CSS/JS antiguos en la raíz se conservan como referencia de la migración; ya no son la fuente del sitio.
 
-1. Sube todos los archivos, incluida la carpeta `assets`, a `public_html` o al
-   directorio público configurado para el dominio.
-2. Asegúrate de incluir los archivos ocultos `.htaccess` y `.nojekyll`.
-3. Apunta `www.altumlapaz.com` al hosting y configura el dominio raíz para redirigir
-   a `www`.
-4. Instala y activa el certificado SSL antes de anunciar el sitio.
+## Aplicaciones
 
-`.htaccess` añade redirección HTTPS/canónica, compresión, caché, cabeceras de
-seguridad y la página 404 en servidores Apache. En Nginx o en un hosting que no
-utilice Apache, esas reglas deben replicarse desde el panel del proveedor.
+| Ruta                 | Demostración funcional                                                     |
+| -------------------- | -------------------------------------------------------------------------- |
+| `/demos/menu/`       | Carta, filtros, carrito, administración y pedidos simulados                |
+| `/demos/agenda/`     | Servicios, duración, disponibilidad por profesional, reserva y cancelación |
+| `/demos/inventario/` | CRUD, movimientos, mínimos, indicadores y CSV                              |
+| `/demos/commerce/`   | Catálogo, carrito, envío de ejemplo y compra simulada                      |
+| `/demos/proyectos/`  | Tareas, responsables, fechas, estados, avance y exportación                |
+| `/demos/search/`     | Biblioteca editable y búsqueda de texto por relevancia y categoría         |
 
-## Archivos principales
+La lógica se encuentra en `src/lib/demo-domain.mjs`, y los ejemplos iniciales en `seed()`. `Restablecer demo` recupera esos ejemplos para el módulo abierto. El carrito sin confirmar es temporal. Los cambios confirmados permanecen en ese navegador. Abrir otra pestaña no ofrece edición colaborativa; recarga para ver su última copia guardada.
 
-- `index.html`: contenido, metadatos y datos estructurados.
-- `styles.css`: diseño responsive, animaciones y estados accesibles.
-- `script.js`: navegación, animaciones y envío del formulario.
-- `sitemap.xml` y `robots.txt`: descubrimiento por buscadores.
-- `CNAME`: dominio personalizado para GitHub Pages.
-- `.htaccess`: configuración recomendada para Apache.
-- `404.html`: página de error personalizada.
+## Publicación y reversión
 
-## Antes del lanzamiento público
+GitHub Pages debe utilizar **GitHub Actions**, conservando el dominio `www.altumlapaz.com`. El flujo `.github/workflows/deploy.yml` valida cada propuesta y publica `dist/` cuando cambia `main`. No requiere secretos de Supabase para esta versión. No subir `node_modules`, `.env` ni `dist` al repositorio.
 
-- Confirmar que DNS y HTTPS funcionen para `www.altumlapaz.com` y el dominio raíz.
-- Registrar el dominio en Google Search Console y enviar `sitemap.xml`.
-- Conectar una herramienta de analítica sólo si se define una política de
-  privacidad y consentimiento adecuada.
-- Publicar un aviso de privacidad antes de almacenar formularios, usar píxeles
-  publicitarios o instalar cookies no esenciales.
-- Sustituir las capturas y el estado “en desarrollo” cuando finalicen Alexa Lara
-  Fotografía y Proyectcons.
+Para volver a una versión anterior, revierte el commit en Git, publica la reversión y comprueba el resultado de Actions. Para restaurar la antigua landing, recupera el estado anterior a la migración y vuelve a configurar Pages desde la rama. Evita mezclar publicación desde rama y desde Actions.
+
+## Personalización y crecimiento
+
+Consulta [la guía de producto](docs/PRODUCTOS.md) y [la preparación de Supabase](database/README.md). Cambiar datos, logo, colores y contacto permite adaptar experiencias similares. Operaciones diferentes, pagos, facturación, roles, integraciones y colaboración requieren implementación y validación adicionales.
+
+El portafolio personal está en `/portafolio/`: añadir foto y datos profesionales confirmados cuando estén disponibles. Los casos reales mantienen su estado publicado o en desarrollo; no se incluyen métricas comerciales inventadas.
+
+## SEO y presentación
+
+Páginas específicas de servicios para La Paz, metadatos por ruta, contenido semántico, fuentes locales, imágenes con dimensiones, navegación accesible y movimiento reducido. Mapa del sitio: `/sitemap-index.xml`. Las demos y la presentación llevan `noindex` para que los negocios ficticios no compitan con las páginas comerciales.
+
+Registrar/verificar la propiedad en Google Search Console y Bing Webmaster Tools y enviar el mapa del sitio es una tarea de la cuenta del propietario. Tener SEO técnico correcto no garantiza indexación ni posiciones. Mantener casos reales y contenido útil es trabajo continuo.
+
+`/presentacion/` ofrece cuatro hojas imprimibles y códigos QR a las demos. La versión PDF descargable está en `/documentos/altum-presentacion-comercial.pdf`.

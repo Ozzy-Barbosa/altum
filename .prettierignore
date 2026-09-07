@@ -1,0 +1,9 @@
+node_modules
+dist
+.astro
+release
+assets
+public/assets
+index.html
+styles.css
+script.js

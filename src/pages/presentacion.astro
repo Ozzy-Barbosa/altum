@@ -1,0 +1,221 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { solutions, site } from '../data/catalog';
+import QRCode from 'qrcode';
+const qr = await QRCode.toDataURL(site.origin + '/demos/', {
+  width: 240,
+  margin: 2,
+  errorCorrectionLevel: 'M',
+});
+const codes = await Promise.all(
+  solutions.map((s) =>
+    QRCode.toDataURL(`${site.origin}/demos/${s.slug}/`, {
+      width: 200,
+      margin: 2,
+      errorCorrectionLevel: 'M',
+    }),
+  ),
+);
+const pairs = [
+  [0, 1],
+  [2, 3],
+  [4, 5],
+];
+---
+
+<Layout
+  title="Presentación comercial imprimible"
+  description="Presentación de soluciones digitales de Altum para negocios en La Paz. Imprime las fichas con códigos QR y explora las demostraciones."
+  noindex
+  ><section class="container page-hero print-intro">
+    <p class="eyebrow">TU CARPETA COMERCIAL</p><h1>
+      Una conversación.<br />Muchas posibilidades.
+    </h1><p class="lead">
+      Cuatro hojas A4 con soluciones y códigos QR. Imprime a escala 100 %, desactiva encabezados y
+      pies del navegador y activa gráficos de fondo.
+    </p>
+  </section><div class="container">
+    <div class="print-actions">
+      <a class="button" href="/documentos/altum-presentacion-comercial.pdf" download
+        >Descargar PDF · 4 hojas ↓</a
+      ><button class="button button-secondary" data-print>Imprimir esta página</button><a
+        class="text-link"
+        href="/demos/">Explorar las demostraciones ↗</a
+      >
+    </div><article class="print-sheet">
+      <a class="brand" href={site.origin}
+        ><img
+          src="/assets/logo-altum-symbol-transparent.png"
+          alt="Altum"
+          width="70"
+          height="38"
+        /><span>ALTUM</span></a
+      ><p class="eyebrow" style="margin-top:25px">SOLUCIONES DIGITALES / LA PAZ, BCS</p><h2>
+        Tu negocio.<br />Su siguiente gran versión.
+      </h2><p>
+        Diseñamos páginas web, tiendas y herramientas digitales para ayudarte a presentar tus
+        servicios, atender clientes y organizar tu operación.
+      </p><div class="print-grid" style="margin-top:30px">
+        {
+          solutions.map((s) => (
+            <div class="print-item">
+              <>
+                <h3>{s.label}</h3>
+                <p>{s.headline}</p>
+              </>
+            </div>
+          ))
+        }
+      </div><h3 style="margin-top:35px">Un proyecto claro, desde el inicio.</h3><p>
+        Conocemos tu negocio → Definimos el alcance → Diseñamos y desarrollamos → Publicamos y te
+        acompañamos.
+      </p><div class="print-footer">
+        <div>
+          <strong>Prueba las demos desde tu celular.</strong><p>
+            {site.phone}<br />www.altumlapaz.com<br />@altumlapaz
+          </p>
+        </div><img
+          class="qr"
+          src={qr}
+          alt="QR para abrir las demos de Altum"
+          width="115"
+          height="115"
+        />
+      </div>
+    </article>{
+      pairs.map((pair) => (
+        <article class="print-sheet">
+          <p class="eyebrow" style="margin-top:20px">
+            HERRAMIENTAS QUE PUEDES PROBAR
+          </p>
+          {pair.map((i) => {
+            const s = solutions[i];
+            return (
+              <section class="print-product">
+                <div>
+                  <h2>{s.label}</h2>
+                  <p>
+                    <strong>{s.headline}</strong>
+                  </p>
+                  <p>{s.description}</p>
+                  <p>
+                    <strong>Para:</strong> {s.audience}
+                  </p>
+                  <ul>
+                    {s.features.map((f) => (
+                      <li>{f}</li>
+                    ))}
+                  </ul>
+                  <p>
+                    <strong>Prueba:</strong> {s.demo}
+                  </p>
+                </div>
+                <div class="print-product-qr">
+                  <img class="qr" src={codes[i]} alt={`QR de ${s.name}`} width="100" height="100" />
+                  <small>
+                    {s.name}
+                    <br />
+                    Escanea y prueba
+                  </small>
+                </div>
+              </section>
+            );
+          })}
+          <div class="print-footer">
+            <div>
+              <>
+                <strong>Adaptamos esta base a tu negocio.</strong>
+                <p>Identidad, contenido, operación e integraciones según el alcance acordado.</p>
+                <p>{site.phone} · www.altumlapaz.com</p>
+              </>
+            </div>
+          </div>
+          <p class="print-disclaimer">
+            Las demos usan información ficticia y no realizan cobros, pedidos ni reservas reales.
+            Cotización personalizada; alojamiento, mantenimiento e integraciones se definen en la
+            propuesta.
+          </p>
+        </article>
+      ))
+    }
+  </div></Layout
+>
+<style>
+  .print-product {
+    display: grid;
+    grid-template-columns: 1fr 120px;
+    gap: 25px;
+    align-items: center;
+    border-bottom: 1px solid #dce5f0;
+    padding-bottom: 25px;
+    margin-bottom: 20px;
+  }
+  .print-product h2 {
+    font-size: 1.8rem;
+  }
+  .print-product p {
+    margin-bottom: 8px;
+    font-size: 0.88rem;
+  }
+  .print-product ul {
+    font-size: 0.85rem;
+  }
+  .print-product-qr {
+    text-align: center;
+  }
+  .print-product-qr img {
+    margin: auto;
+  }
+  .print-product-qr small {
+    display: block;
+    font-size: 0.7rem;
+    margin-top: 10px;
+    line-height: 1.6;
+  }
+  .print-disclaimer {
+    font-size: 0.65rem !important;
+    margin-top: 15px;
+  }
+  .print-product .qr {
+    width: 100px;
+  }
+  @media print {
+    .print-product {
+      grid-template-columns: 1fr 100px;
+      padding-bottom: 15px;
+      margin-bottom: 10px;
+    }
+    .print-product h2 {
+      font-size: 20pt;
+      margin-block: 15px;
+    }
+    .print-product p {
+      font-size: 9pt;
+      line-height: 1.65;
+    }
+    .print-product ul {
+      font-size: 9pt;
+      line-height: 1.7;
+    }
+    .print-product-qr small {
+      font-size: 8pt;
+    }
+    .print-product .qr {
+      width: 90px;
+    }
+    .print-footer {
+      margin-top: 20px !important;
+    }
+  }
+  @media (max-width: 600px) {
+    .print-product {
+      grid-template-columns: 1fr;
+    }
+    .print-product-qr {
+      text-align: left;
+    }
+    .print-product-qr img {
+      margin: 0;
+    }
+  }
+</style>

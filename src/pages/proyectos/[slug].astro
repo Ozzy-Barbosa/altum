@@ -1,0 +1,65 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { projects, site } from '../../data/catalog';
+export function getStaticPaths() {
+  return projects.map((project) => ({ params: { slug: project.slug }, props: { project } }));
+}
+const { project: p } = Astro.props;
+---
+
+<Layout
+  title={`${p.name} · Caso de estudio`}
+  description={p.intro}
+  image={`/assets/${p.image}`}
+  schema={{
+    '@type': 'CreativeWork',
+    name: p.name,
+    description: p.intro,
+    creator: { '@id': site.origin + '/#business' },
+    url: site.origin + `/proyectos/${p.slug}/`,
+  }}
+  ><section class="page-hero container">
+    <div class="breadcrumb">
+      <a href="/proyectos/">Proyectos</a><span>/</span><span>{p.name}</span>
+    </div><p class="eyebrow">{p.sector} / {p.status}</p><h1>{p.name}</h1><p class="lead">
+      {p.intro}
+    </p><div class="actions">
+      {
+        p.url ? (
+          <a class="button" href={p.url} target="_blank" rel="noopener noreferrer">
+            Visitar sitio ↗
+          </a>
+        ) : (
+          <span class="tag">Proyecto en desarrollo</span>
+        )
+      }<a class="text-link" href="/contacto/">Quiero una solución para mi negocio →</a>
+    </div>
+  </section><section class="container compact-section">
+    <img
+      class="detail-image"
+      src={`/assets/${p.image}`}
+      alt={`Vista del sitio de ${p.name}`}
+      width="1440"
+      height="900"
+    /><div class="detail-meta">
+      <div><small>Sector</small><strong>{p.sector}</strong></div><div>
+        <small>Participación de Altum</small><strong>{p.role}</strong>
+      </div><div><small>Estado</small><strong>{p.status}</strong></div>
+    </div><div class="split">
+      <div class="prose">
+        <p class="eyebrow">EL CONTEXTO</p><h2>El reto.</h2><p>{p.challenge}</p><h2>
+          La entrega.
+        </h2><p>{p.result}</p>
+      </div><div class="prose">
+        <p class="eyebrow">EL TRABAJO</p><h2>Decisiones y alcance.</h2><ul class="check-list">
+          {p.work.map((w) => <li>{w}</li>)}
+        </ul><div class="profile-skills">{p.tags.map((t) => <span class="tag">{t}</span>)}</div><p
+          class="form-note"
+        >
+          Este caso describe el trabajo presentado. No se atribuyen cifras de ventas o conversión
+          sin mediciones confirmadas.
+        </p>
+      </div>
+    </div>
+  </section></Layout
+>
