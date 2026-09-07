@@ -60,6 +60,6 @@ El portafolio personal está en `/portafolio/`: añadir foto y datos profesional
 
 Páginas específicas de servicios para La Paz, metadatos por ruta, contenido semántico, fuentes locales, imágenes con dimensiones, navegación accesible y movimiento reducido. Mapa del sitio: `/sitemap-index.xml`. Las demos y la presentación llevan `noindex` para que los negocios ficticios no compitan con las páginas comerciales.
 
-Registrar/verificar la propiedad en Google Search Console y Bing Webmaster Tools y enviar el mapa del sitio es una tarea de la cuenta del propietario. Tener SEO técnico correcto no garantiza indexación ni posiciones. Mantener casos reales y contenido útil es trabajo continuo.
+La propiedad de dominio de Altum está verificada en Google Search Console. El 7 de septiembre de 2026 se envió `/sitemap-index.xml` y Google lo aceptó con estado «Correcto». La portada ya figuraba como indexada; el mapa nuevo permite descubrir 22 páginas comerciales. Tener SEO técnico correcto y un sitemap aceptado no garantiza la indexación de todas las páginas ni posiciones. Bing Webmaster Tools queda pendiente. Mantener casos reales y contenido útil es trabajo continuo.
 
 `/presentacion/` ofrece cuatro hojas imprimibles y códigos QR a las demos. La versión PDF descargable está en `/documentos/altum-presentacion-comercial.pdf`.
