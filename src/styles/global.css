@@ -284,6 +284,7 @@ nav > a[aria-current]:not(.button) {
   display: grid;
   place-items: center;
   isolation: isolate;
+  overflow: clip;
 }
 .hero-system:before {
   content: '';

@@ -30,3 +30,4 @@ No se han habilitado pagos, mensajería, usuarios comerciales, sincronización p
 - Menú público: prueba de compra simulada de un latte por $65 y posterior restablecimiento de los ejemplos, sin escritura en Supabase.
 - Nuevo sitemap con 22 rutas indexables, excluyendo las demos ficticias. Conservada la URL antigua `/sitemap.xml` como índice compatible.
 - Google Search Console: propiedad de dominio existente, portada ya indexada y sitemap nuevo enviado con estado «Correcto». Esto no implica que las nuevas páginas ya estén indexadas. Bing no se ha configurado en esta entrega.
+- Se solicitó revisar la portada actualizada. Google confirmó «Se ha solicitado la indexación» y la incorporó a su cola de rastreo; no supone una mejora de posición inmediata.
