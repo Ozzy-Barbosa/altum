@@ -68,7 +68,7 @@ Páginas específicas de servicios para La Paz, metadatos por ruta, contenido se
 
 La propiedad de dominio de Altum está verificada en Google Search Console. El 7 de septiembre de 2026 se envió `/sitemap-index.xml` y Google lo aceptó con estado «Correcto». La portada ya figuraba como indexada; el mapa nuevo permite descubrir las páginas comerciales (44 en la versión actual; su indexación aún depende del rastreo). Tener SEO técnico correcto y un sitemap aceptado no garantiza la indexación de todas las páginas ni posiciones. Bing Webmaster Tools queda pendiente. Mantener casos reales y contenido útil es trabajo continuo.
 
-`/presentacion/` ofrece ocho hojas imprimibles y códigos QR a las demos. La versión PDF descargable está en `/documentos/altum-presentacion-comercial.pdf`.
+`/presentacion/` ofrece diez hojas imprimibles con servicios, demos, casos publicados, contacto y códigos QR. La versión PDF descargable está en `/documentos/altum-presentacion-comercial.pdf`.
 
 ## Evolución visual y referencias
 
@@ -80,7 +80,7 @@ Las 25 referencias de video y las siguientes ideas están en [REFERENCIAS-YOUTUB
 
 ## Guías y tarjeta
 
-`node --experimental-strip-types tools/export-catalog.mjs` exporta el catálogo. `python tools/create-guides.py` genera los tres PDF en `output/pdf/` (requiere ReportLab y las fuentes Arial de Windows). Solo copia la presentación comercial a `public/documentos/`; las guías de estudio y operación se entregan localmente. El script también crea el maestro vectorial temporal de la tarjeta; se renderiza a PNG a 600 dpi, de 90 × 55 mm. Los QR se deben decodificar después de renderizar.
+`node --experimental-strip-types tools/export-catalog.mjs` exporta el catálogo. `python tools/create-guides.py` genera los tres PDF en `output/pdf/`: presentación comercial (10 páginas), guía de arquitectura (12) y manual comercial y de entrega (10). Requiere ReportLab, Pillow y las fuentes Arial de Windows. Solo copia la presentación comercial a `public/documentos/`; las guías de estudio y operación se entregan localmente. La función `card()` conserva la generación opcional del maestro de tarjeta de 90 × 55 mm; no se ejecuta al renovar los documentos. Revisa la paginación y decodifica los QR después de renderizar los PDF.
 
 `/como-esta-hecho/` explica la arquitectura; `/tarjeta/` presenta el contacto y la tarjeta descargable. Las tecnologías del ecosistema se enlazan a su documentación oficial con iconos de [Simple Icons](https://simpleicons.org/). Sass compila `src/styles/evolution.scss`; Flutter y Tauri forman parte de las posibilidades de otros proyectos y no del runtime de esta web.
 

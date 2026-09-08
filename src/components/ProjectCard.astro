@@ -7,7 +7,11 @@ const { project: p } = Astro.props;
 ---
 
 <article class="project-card reveal">
-  <a class="project-image" href={`/proyectos/${p.slug}/`} tabindex="-1" aria-hidden="true"
+  <a
+    class:list={['project-image', { 'project-image-complete': p.slug === 'orthomax' }]}
+    href={`/proyectos/${p.slug}/`}
+    tabindex="-1"
+    aria-hidden="true"
     ><img
       src={`/assets/${p.image}`}
       alt=""
@@ -24,7 +28,8 @@ const { project: p } = Astro.props;
           class:list={[
             'project-status',
             { 'in-progress': p.status.toLowerCase().includes('desarrollo') },
-          ]}><i class="status-dot"></i>{p.status}</span>
+          ]}><i class="status-dot"></i>{p.status}</span
+        >
       </p><h3>
         <a href={`/proyectos/${p.slug}/`}>{p.name}</a>
       </h3>

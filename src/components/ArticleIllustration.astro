@@ -1,0 +1,207 @@
+---
+interface Props {
+  order: number;
+}
+const { order } = Astro.props;
+const labels = [
+  'DE LA IDEA AL PRIMER PASO',
+  'TU PRESENCIA, CONECTADA',
+  'UN FLUJO QUE AVANZA',
+  'DATOS PARA DECIDIR',
+  'DEL CATÁLOGO AL PEDIDO',
+  'UNA BASE PARA CRECER',
+];
+---
+
+<svg class="article-illustration" viewBox="0 0 400 210" fill="none" aria-hidden="true">
+  <path
+    d="M0 42H400M0 84H400M0 126H400M0 168H400M50 0V210M100 0V210M150 0V210M200 0V210M250 0V210M300 0V210M350 0V210"
+    stroke="currentColor"
+    opacity=".055"></path>
+  <circle cx="330" cy="55" r="98" stroke="currentColor" opacity=".11"></circle>
+  <g stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    {
+      order === 1 && (
+        <>
+          <path
+            class="art-route"
+            d="M58 130H116Q133 130 133 113V104Q133 85 152 85H225Q244 85 244 66V59Q244 43 262 43H344"
+            stroke-dasharray="4 6"
+            opacity=".5"
+          />
+          <>
+            <rect x="33" y="98" width="83" height="59" rx="12" fill="#142c43" />
+            <rect x="158" y="56" width="82" height="59" rx="12" fill="#163b4a" />
+            <rect x="278" y="19" width="83" height="59" rx="12" fill="#194350" />
+          </>
+          <path
+            d="M57 120H92M57 131H79M182 78L190 86L207 69M302 51L312 41L320 48L338 32M328 32H338V42"
+            stroke-width="2.5"
+          />
+          <>
+            <circle class="art-signal" cx="133" cy="104" r="4" fill="currentColor" />
+            <circle cx="244" cy="59" r="4" fill="currentColor" />
+          </>
+        </>
+      )
+    }
+    {
+      order === 2 && (
+        <>
+          <path
+            class="art-route"
+            d="M86 55L174 84M306 53L224 84M93 140L174 114M307 140L225 114"
+            opacity=".45"
+            stroke-dasharray="4 6"
+          />
+          <>
+            <rect x="133" y="50" width="134" height="91" rx="12" fill="#252b50" />
+            <path d="M134 72H266" opacity=".5" />
+            <circle cx="147" cy="61" r="2" fill="currentColor" />
+            <circle cx="156" cy="61" r="2" fill="currentColor" />
+            <path d="M159 91H205M159 103H239M159 115H218" opacity=".8" />
+          </>
+          <>
+            <circle cx="71" cy="48" r="21" fill="#212b47" />
+            <path d="M60 48H82M71 37V59M61 41Q71 47 81 41M61 55Q71 49 81 55" />
+          </>
+          <>
+            <rect x="295" y="26" width="31" height="47" rx="8" fill="#212b47" />
+            <path d="M305 64H315M303 36H318" />
+          </>
+          <>
+            <rect x="48" y="122" width="46" height="30" rx="8" fill="#212b47" />
+            <path d="M60 137L69 143L82 131" />
+          </>
+          <>
+            <circle class="art-signal" cx="309" cy="139" r="18" fill="#3d3c66" />
+            <path d="M302 139L307 144L317 133" />
+          </>
+        </>
+      )
+    }
+    {
+      order === 3 && (
+        <>
+          <path
+            class="art-route"
+            d="M88 80H169M231 80H312M201 112V153H116"
+            stroke-dasharray="5 7"
+            opacity=".5"
+          />
+          <>
+            <rect x="39" y="50" width="61" height="61" rx="16" fill="#123945" />
+            <path d="M57 69H81M57 80H76M57 91H71" stroke-width="2.5" />
+          </>
+          <>
+            <path d="M201 38L243 80L201 122L159 80Z" fill="#1a4553" />
+            <path d="M193 72L201 64L209 72L201 80L201 88M201 97V98" stroke-width="2.5" />
+          </>
+          <>
+            <rect x="301" y="50" width="61" height="61" rx="16" fill="#173f45" />
+            <path d="M319 80L328 89L345 71" stroke-width="3" />
+          </>
+          <>
+            <rect x="79" y="136" width="73" height="26" rx="13" fill="#172f42" />
+            <path d="M94 149H135" opacity=".6" />
+            <circle class="art-signal" cx="126" cy="80" r="4" fill="currentColor" />
+          </>
+        </>
+      )
+    }
+    {
+      order === 4 && (
+        <>
+          <>
+            <rect x="51" y="29" width="298" height="128" rx="13" fill="#142b43" />
+            <path d="M52 54H348" opacity=".35" />
+            <circle cx="66" cy="42" r="2" fill="currentColor" />
+            <path d="M78 42H129" opacity=".5" />
+          </>
+          <>
+            <path d="M75 135H210M75 80V135" opacity=".3" />
+            <path d="M77 122L99 114L123 121L149 98L171 104L207 74" stroke-width="2.5" />
+            <path
+              d="M77 122L99 114L123 121L149 98L171 104L207 74V135H77Z"
+              fill="currentColor"
+              opacity=".08"
+            />
+          </>
+          <>
+            <circle class="art-signal" cx="207" cy="74" r="4" fill="currentColor" />
+            <rect x="242" y="103" width="15" height="32" rx="3" fill="currentColor" opacity=".3" />
+            <rect x="267" y="90" width="15" height="45" rx="3" fill="currentColor" opacity=".55" />
+            <rect x="292" y="71" width="15" height="64" rx="3" fill="currentColor" opacity=".85" />
+          </>
+        </>
+      )
+    }
+    {
+      order === 5 && (
+        <>
+          <>
+            <rect x="48" y="34" width="188" height="119" rx="12" fill="#332d42" />
+            <path d="M48 60H236M64 47H117" opacity=".5" />
+          </>
+          {[68, 118, 168].map((x) => (
+            <>
+              <rect x={x} y="76" width="38" height="42" rx="6" fill="currentColor" opacity=".1" />
+              <path d={`M${x + 6} 129h26`} opacity=".7" />
+            </>
+          ))}
+          <>
+            <path class="art-route" d="M238 94H276" stroke-dasharray="3 5" />
+            <rect x="275" y="59" width="77" height="93" rx="14" fill="#443747" />
+            <path
+              d="M292 83H300L306 111H330L337 91H303M310 122H311M328 122H329"
+              stroke-width="2.5"
+            />
+          </>
+          <>
+            <circle class="art-signal" cx="346" cy="56" r="14" fill="#594148" />
+            <path d="M340 56L345 61L353 51" />
+          </>
+        </>
+      )
+    }
+    {
+      order === 6 && (
+        <>
+          <>
+            <rect x="37" y="48" width="98" height="81" rx="10" fill="#1c2f4b" />
+            <path d="M38 68H134M52 58H63M53 84H115M53 96H101M53 109H83" opacity=".7" />
+          </>
+          <path class="art-route" d="M138 89H173M229 89H267" stroke-dasharray="4 5" opacity=".6" />
+          <>
+            <path d="M199 51L224 61V85Q224 111 199 124Q174 111 174 85V61Z" fill="#234462" />
+            <path d="M188 85L197 94L212 76" stroke-width="2.5" />
+          </>
+          <>
+            <path d="M274 60V122C274 141 357 141 357 122V60" fill="#213b5b" />
+            <ellipse cx="315.5" cy="60" rx="41.5" ry="14" fill="#294c6d" />
+            <path d="M274 81C274 100 357 100 357 81M274 102C274 121 357 121 357 102" opacity=".6" />
+            <circle class="art-signal" cx="330" cy="120" r="3" fill="currentColor" />
+          </>
+        </>
+      )
+    }
+  </g>
+  <text
+    x="27"
+    y="193"
+    fill="currentColor"
+    font-size="9"
+    font-family="Manrope Variable, sans-serif"
+    letter-spacing="1.6"
+    opacity=".8">{labels[order - 1] || 'IDEAS PARA TU NEGOCIO'}</text
+  >
+  <text
+    x="373"
+    y="193"
+    fill="currentColor"
+    font-size="11"
+    font-family="Space Grotesk Variable, sans-serif"
+    text-anchor="end"
+    opacity=".55">{String(order).padStart(2, '0')}</text
+  >
+</svg>

@@ -9,11 +9,11 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.colors import HexColor, white
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, PageBreak, KeepTogether
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, PageBreak, KeepTogether, Image
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.graphics.barcode.qr import QrCodeWidget
-from reportlab.graphics.shapes import Drawing, Rect, String, Line, Polygon
+from reportlab.graphics.shapes import Drawing, Rect, String, Line, Polygon, Circle
 from reportlab.graphics import renderPDF
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -25,9 +25,9 @@ pdfmetrics.registerFontFamily('Body',normal='Body',bold='Bold',italic='Body',bol
 W,H=A4; NAVY=HexColor('#0c1930'); BLUE=HexColor('#167acb'); CYAN=HexColor('#16b8d6'); MUTED=HexColor('#526278'); LINE=HexColor('#dce5ef'); PALE=HexColor('#eef5fb')
 def P(s,size=10.5,bold=False,color=NAVY):
     return Paragraph(s,ParagraphStyle('p',fontName='Bold' if bold else 'Body',fontSize=size,leading=size*1.48,textColor=color,spaceAfter=9))
-def title(k,t,sub): return [P(k.upper(),9,True,BLUE),P(t,28,True),P(sub,12,False,MUTED),Spacer(1,14)]
+def title(k,t,sub): return [P(k.upper(),8.5,True,BLUE),P(t,27,True),P(sub,11.5,False,MUTED),Spacer(1,12)]
 def h(t):
-    heading=P(t,15,True);heading.style.spaceBefore=12;return heading
+    heading=P(t,15,True);heading.style.spaceBefore=12;heading.style.keepWithNext=True;return heading
 def bullets(items): return [P('• '+escape(x)) for x in items]
 def table(headers,rows,widths=None):
     cell=lambda s:P(escape(str(s)).replace('\n','<br/>'),9)
@@ -50,9 +50,13 @@ def page(c,doc):
     c.saveState();c.setFillColor(NAVY);c.rect(0,H-75,W,75,fill=1,stroke=0)
     c.drawImage(str(ROOT/'public/assets/logo-altum-symbol-transparent.png'),40,H-51,width=48,height=26,mask='auto')
     c.setFillColor(white);c.setFont('Bold',15);c.drawString(104,H-37,'ALTUM');c.setFont('Body',7);c.drawString(104,H-51,doc.title_label.upper())
-    c.setStrokeColor(LINE);c.line(42,44,W-42,44);c.setFillColor(MUTED);c.setFont('Body',8);c.drawString(42,28,'www.altumlapaz.com  |  La Paz, BCS  |  Septiembre 2026');c.drawRightString(W-42,28,f'{doc.page:02d}');c.restoreState()
+    c.setStrokeColor(CYAN);c.setLineWidth(2);c.line(42,H-75,125,H-75)
+    c.setStrokeColor(HexColor('#2c4568'));c.setLineWidth(.6)
+    c.ellipse(W-148,H-69,W-27,H-10,stroke=1,fill=0);c.ellipse(W-125,H-86,W-62,H+8,stroke=1,fill=0)
+    c.setFillColor(CYAN);c.circle(W-50,H-29,2,stroke=0,fill=1)
+    c.setStrokeColor(LINE);c.line(42,44,W-42,44);c.setFillColor(MUTED);c.setFont('Body',7.5);c.drawString(42,28,'www.altumlapaz.com  |  Edición 08.09.2026');c.drawRightString(W-42,28,f'{doc.page:02d} / {doc.expected_pages:02d}');c.restoreState()
 def build(name,label,pages):
-    doc=SimpleDocTemplate(str(OUT/name),pagesize=A4,leftMargin=42,rightMargin=42,topMargin=100,bottomMargin=65,title=label,author='Altum Soluciones Digitales');doc.title_label=label
+    doc=SimpleDocTemplate(str(OUT/name),pagesize=A4,leftMargin=42,rightMargin=42,topMargin=100,bottomMargin=65,title=label,author='Altum Soluciones Digitales');doc.title_label=label;doc.expected_pages=len(pages)
     story=[]
     for i,items in enumerate(pages):
         if i:story.append(PageBreak())
@@ -60,9 +64,31 @@ def build(name,label,pages):
     doc.build(story,onFirstPage=page,onLaterPages=page)
     print(name,len(pages),'planned pages')
 
+def website_image(filename, width=245):
+    from PIL import Image as Raster
+    path=ROOT/'public/assets'/filename
+    with Raster.open(path) as img: size=img.size
+    return Image(str(path),width=width,height=width*size[1]/size[0])
+
+def note(text):
+    box=Table([[P(text,10.5)]],colWidths=[511])
+    box.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,-1),PALE),('BOX',(0,0),(-1,-1),.6,LINE),('LEFTPADDING',(0,0),(-1,-1),16),('RIGHTPADDING',(0,0),(-1,-1),16),('TOPPADDING',(0,0),(-1,-1),13),('BOTTOMPADDING',(0,0),(-1,-1),7)]))
+    return box
+
+def site_map():
+    d=Drawing(511,190)
+    d.add(Rect(182,148,147,32,rx=8,fillColor=NAVY,strokeColor=NAVY));d.add(String(255,160,'ALTUM / INICIO',textAnchor='middle',fontName='Bold',fontSize=11,fillColor=white))
+    columns=[('CONTRATAR',['Servicios: 12 fichas','Proyectos: 4 casos','Contacto / tarjeta']),('APRENDER',['Soluciones: 6 guías','Especificaciones','Preguntas frecuentes']),('COMPROBAR',['Demos: 12 módulos','Portafolio personal','Cómo está hecho'])]
+    for i,(label,rows) in enumerate(columns):
+        x=i*176;mid=x+79.5
+        d.add(Line(255,148,255,132,strokeColor=BLUE));d.add(Line(79.5,132,431.5,132,strokeColor=BLUE));d.add(Line(mid,132,mid,118,strokeColor=BLUE))
+        d.add(Rect(x,15,159,103,rx=8,fillColor=PALE,strokeColor=LINE));d.add(String(x+12,96,label,fontName='Bold',fontSize=9,fillColor=BLUE))
+        for j,row in enumerate(rows):d.add(String(x+12,73-j*19,row,fontName='Body',fontSize=9,fillColor=NAVY))
+    return d
+
 def sales():
     pages=[]
-    pages.append(title('Presentación para negocios','Tu negocio.<br/>Su siguiente gran versión.','Diseño, tecnología y herramientas para presentar mejor tu negocio, atender clientes y organizar tu operación.')+[
+    pages.append(title('Presentación para negocios','Diseño que inspira.<br/>Tecnología que impulsa.','Una presencia que comunica tu valor. Herramientas que facilitan atender, vender y organizar tu negocio.')+[
       table(['Una necesidad','Una posibilidad'],[['Presentar y vender','Sitios web, identidad, campañas y comercio electrónico'],['Organizar y atender','Agendas, inventario, cotizaciones y seguimiento'],['Conectar y crecer','Redes Wi-Fi, datos y aplicaciones por etapas']],[150,361]),Spacer(1,19),
       h('Doce aplicaciones que puedes probar.'),P('Explora el catálogo desde tu celular. Sin registro, con información ficticia y recorridos interactivos.'),
       Table([[qr(DATA['site']['origin']+'/demos/',125),P('<b>Escanea y prueba.</b><br/><br/>www.altumlapaz.com<br/>+52 612 212 5198<br/>Instagram: @altumlapaz',12)]],colWidths=[160,351]),Spacer(1,15),
@@ -73,9 +99,19 @@ def sales():
       content=[]
       for s in DATA['solutions'][i:i+2]:
         content += [P(s['name'].upper(),8,True,BLUE),P(s['label'],22,True),P(s['description'],10.5),P('<b>Para:</b> '+escape(s['audience']),9.5),
-        Table([[Paragraph('<br/>'.join('• '+escape(f) for f in s['features']),ParagraphStyle('features',fontName='Body',fontSize=9,leading=14,textColor=MUTED)),qr(DATA['site']['origin']+'/demos/'+s['slug']+'/',88)]],colWidths=[410,101]),P('<b>Prueba:</b> '+escape(s['demo']),9),Spacer(1,18)]
+        Table([[Paragraph('<br/>'.join('• '+escape(f) for f in s['features']),ParagraphStyle('features',fontName='Body',fontSize=10,leading=15,textColor=MUTED)),qr(DATA['site']['origin']+'/demos/'+s['slug']+'/',88)]],colWidths=[410,101]),P('<b>En la práctica:</b> '+escape(DATA['specifications'][s['slug']][2]),9.5),P('<b>Prueba:</b> '+escape(s['demo']),9.5),Spacer(1,18)]
       content += [P('Adaptamos identidad, contenido y reglas al alcance acordado. Datos ficticios: las demos no realizan cobros, reservas, envíos ni solicitudes reales.',8,False,MUTED)]
       pages.append(content)
+    pages.append(title('Trabajo publicado / evidencia','De una necesidad real<br/>a una experiencia visible.','Dos proyectos que puedes visitar. Cada caso describe el contexto, la participación y la entrega de Altum.')+[
+      Table([[website_image('project-orthomax-202609.png'),website_image(next(p['image'] for p in DATA['projects'] if p['slug']=='conchalito-tours'))]],colWidths=[255.5,255.5]),Spacer(1,16),
+      table(['Orthomax / salud','Conchalito Tours / turismo'],[['Presentación de servicios odontológicos, información del consultorio y un recorrido para solicitar atención.','Presentación de experiencias, rutas, información de visita y un recorrido de contacto para reservar.'],['www.orthomaxlapaz.com','www.conchalitotours.com']],[255.5,255.5]),
+      h('Una buena página responde antes de que te pregunten.'),P('Qué ofreces, por qué elegirte, cómo funciona y cuál es el siguiente paso. Diseñamos el contenido y la navegación alrededor de esas decisiones.'),
+      note('<b>Explora los casos:</b> <link href="https://www.altumlapaz.com/proyectos/" color="#167acb">www.altumlapaz.com/proyectos/</link><br/>Las imágenes muestran trabajo publicado. No se atribuyen cifras de ventas ni resultados sin una medición confirmada.')])
+    pages.append(title('El siguiente paso','Conversemos sobre<br/>lo que quieres mejorar.','Puedes comenzar con un proceso concreto y una primera entrega que podamos comprobar juntos.')+[
+      diagram([('Comprender','Necesidad y|prioridades'),('Definir','Alcance e|inversión'),('Construir','Diseño, pruebas|y revisión'),('Acompañar','Entrega y|siguiente paso')]),
+      table(['Lo que acordamos','Lo que recibes'],[['Un objetivo prioritario','Una propuesta con funciones y entregables concretos.'],['Una forma de validar','Escenarios que deben funcionar antes de aceptar la entrega.'],['Una continuidad definida','Capacitación, mantenimiento y costos externos según la propuesta.']],[190,321]),Spacer(1,18),
+      Table([[website_image('oscar-altum-portrait.webp',97),[P('Hola, soy Oscar.',19,True),P('Detrás de Altum: diseño, desarrollo y atención directa desde La Paz, Baja California Sur.',11),P('<b>+52 612 212 5198</b><br/><link href="https://www.altumlapaz.com/contacto/" color="#167acb">www.altumlapaz.com/contacto/</link>',11)]]],colWidths=[122,389]),Spacer(1,18),
+      note('<b>Para nuestra primera conversación:</b> cuéntame cómo trabajas hoy, qué te quita tiempo y qué te gustaría lograr. Con eso elegimos una referencia y definimos el siguiente paso.')])
     build('altum-presentacion-comercial.pdf','Presentación comercial',pages)
     shutil.copy2(OUT/'altum-presentacion-comercial.pdf',PUBLIC/'altum-presentacion-comercial.pdf')
 
@@ -84,23 +120,23 @@ def study():
     pages.append(title('Guía de estudio / 01','Así está construido<br/>tu Altum.','Una guía para entenderlo, mantenerlo y explicarlo con tus propias palabras.')+[
       h('Qué construimos'),P('Altum reúne un sitio comercial, un portafolio profesional y un laboratorio de doce demos. El contenido público se genera con Astro. Las herramientas interactivas se construyen con React y guardan información ficticia en el navegador.'),
       diagram([('Contenido','Servicios|Proyectos|Fichas'),('Interacción','Demos|Formularios|Filtros'),('Presentación','Dominio|Documentos|Contacto')]),
-      h('Cómo estudiar esta guía'),table(['Recorrido','Objetivo'],[['1. Páginas 2-3','Entender el mapa y las tecnologías.'],['2. Páginas 4-6','Seguir un dato, un componente y una publicación.'],['3. Páginas 7-9','Conocer límites, mantenimiento y crecimiento.'],['4. Página 10','Practicar una explicación y comprobar lo aprendido.']],[155,356]),
+      h('Cómo estudiar esta guía'),table(['Recorrido','Objetivo'],[['1. Páginas 2-3','Entender el mapa y las tecnologías.'],['2. Páginas 4-6','Seguir un dato, un componente y una publicación.'],['3. Páginas 7-9','Conocer límites, mantenimiento y crecimiento.'],['4. Páginas 10-12','Explicarlo, publicar una guía y entender la recuperación local.']],[155,356]),
       P('Versión documentada: septiembre de 2026. Los números, dependencias y procesos corresponden al repositorio revisado para esta entrega.',9,False,MUTED)])
     pages.append(title('Guía de estudio / 02','El mapa de páginas.','Una ruta es la dirección que identifica una página. Las páginas se agrupan por la intención del visitante.')+[
-      diagram([('Conocer','Inicio|Servicios|Portafolio'),('Explorar','Soluciones|Especificaciones|Demos'),('Contactar','Preguntas|Tarjeta|Contacto')]),
-      table(['Ruta o grupo','Qué contiene','Quién lo usa'],[['/','Presentación, átomo, tecnologías y accesos','Cualquier visitante'],['/servicios/','Índice y doce fichas de servicios','Un negocio que define su necesidad'],['/soluciones/','Catálogo y doce fichas explicativas','Un prospecto que compara herramientas'],['/demos/','Catálogo y doce aplicaciones web','Quien desea probar un recorrido'],['/proyectos/','Cuatro casos con su estado real','Prospectos y reclutadores'],['/portafolio/','Enfoque, tecnologías y trabajo','Empresas de tecnología'],['/como-esta-hecho/','Arquitectura pública de Altum','Quien desea conocer el proceso'],['/contacto/','Formulario que prepara un mensaje','Prospectos'],['Otras páginas','Preguntas, privacidad, presentación y tarjeta','Apoyo comercial y transparencia']],[113,220,178]),
+      site_map(),
+      table(['Ruta o grupo','Qué contiene'],[['/','Presentación y tres demos destacadas.'],['/servicios/','Oferta comercial y doce fichas de servicios.'],['/soluciones/','Blog educativo con seis guías en /soluciones/guias/.'],['/soluciones/[producto]/','Doce fichas con las especificaciones de las demos.'],['/demos/','Catálogo y doce aplicaciones interactivas.'],['/proyectos/ y /portafolio/','Casos, foto personal, visión, método y tecnologías.'],['/como-esta-hecho/','Explicación pública de la arquitectura.'],['Páginas de apoyo','Contacto, preguntas, privacidad, presentación y tarjeta.']],[195,316]),
       P('El catálogo de código crea automáticamente una ficha y una ruta de demo por solución. Una ruta nueva necesita también su implementación interactiva, no solo un nombre.',9,False,MUTED)])
     pages.append(title('Guía de estudio / 03','Qué hace cada tecnología.','Una herramienta se elige por su función; agregar un logotipo no modifica la arquitectura.')+[
       table(['Tecnología','Papel en esta aplicación'],[['HTML y CSS','Estructura accesible, tamaños, color, distribución y adaptación a pantalla.'],['Astro','Genera las páginas y comparte plantillas. Entrega contenido HTML preparado.'],['React','Controla el estado y los recorridos de las demos. Cada módulo se carga bajo demanda.'],['TypeScript / JavaScript','Tipos, eventos, validaciones y reglas de funcionamiento.'],['Sass / SCSS','Preprocesa estilos reutilizables. El navegador recibe CSS, no ejecuta Sass.'],['SVG y Canvas','SVG dibuja iconos y órbitas; Canvas dibuja las constelaciones.'],['Node.js / npm','Instalan dependencias, ejecutan pruebas y construyen el sitio.'],['Git / GitHub / Actions','Historial de cambios, repositorio y publicación automatizada.'],['PostgreSQL / Supabase','Base preparada para módulos privados; el acceso público sigue siendo local.'],['Flutter / Tauri','Ecosistema previsto para proyectos móviles y de escritorio; no son el motor de esta web.']],[155,356]),
       P('Los iconos provienen de Simple Icons. Las fuentes y los recursos visuales se sirven desde Altum. La página de arquitectura distingue las tecnologías del sitio de las posibilidades de otros proyectos.',9,False,MUTED)])
     pages.append(title('Guía de estudio / 04','Sigue un cambio de principio a fin.','Ejemplo: registrar una aportación de ahorro en Altum Metas.')+[
       diagram([('Formulario','Capturas|importe y fecha'),('Regla','Valida y calcula|un nuevo estado'),('Interfaz','Actualiza el|progreso visible'),('Guardado','Conserva el dato|en el navegador')]),
-      table(['Paso','Qué sucede realmente'],[['1. Abrir la demo','Astro sirve la página y React activa el módulo PersonalDemo.'],['2. Capturar','El formulario recoge un importe, fecha y nota de ejemplo.'],['3. Validar','extended-domain comprueba importe positivo, fecha y pendiente de la meta.'],['4. Calcular','El dinero se convierte a centavos enteros para evitar errores decimales de cálculo.'],['5. Guardar','useDemo aplica la transición y demo-store guarda una versión local de los datos.'],['6. Volver','El mismo navegador recupera el ejemplo. Otro dispositivo no recibe esos cambios.']],[130,381]),
+      table(['Paso','Qué sucede realmente'],[['1. Abrir la demo','Astro sirve la página y React activa el módulo PersonalDemo.'],['2. Capturar','El formulario recoge un importe, fecha y nota de ejemplo.'],['3. Validar','extended-domain comprueba importe positivo, fecha y pendiente de la meta.'],['4. Calcular','El dinero se convierte a centavos enteros para evitar errores decimales de cálculo.'],['5. Guardar','useDemo calcula el estado; local-persistence compara la versión y guarda el resultado.'],['6. Volver','El mismo navegador recupera el ejemplo. Otro dispositivo no recibe esos cambios.']],[130,381]),
       h('Por qué hay varias capas'),P('La interfaz muestra y recoge información. Las reglas deciden qué es válido. El almacenamiento conserva el resultado. Separarlas facilita reutilizar el diseño y comprobar los cálculos sin depender de clicks.'),
       P('Ejercicio: agrega una aportación, recarga y observa el progreso. Después abre Privacidad y borra los datos de demostración. Al regresar se recuperan los ejemplos iniciales.',10,True)])
     pages.append(title('Guía de estudio / 05','Dónde vive cada pieza.','El código activo está en src/ y los recursos públicos en public/. Los archivos históricos de la landing no son la nueva aplicación.')+[
-      table(['Carpeta o archivo','Qué cambiar allí'],[['src/pages/','Páginas, rutas y plantillas de fichas.'],['src/layouts/Layout.astro','Cabecera, navegación, pie, metadatos y scripts compartidos.'],['src/data/catalog.ts','Nombres, servicios, funciones, enlaces y casos.'],['src/data/specifications.ts','Problema, recorrido y caso cotidiano de cada solución.'],['src/components/','Tarjetas, iconos, tecnologías, constelaciones y átomo.'],['src/components/demos/','Pantallas y formularios de cada aplicación.'],['src/lib/*-domain.mjs','Cálculos y reglas de las operaciones.'],['src/lib/demo-store.ts','Almacenamiento local y base del acceso privado.'],['src/styles/','CSS general y evolution.scss para los nuevos efectos.'],['public/','Logos, imágenes, documentos comerciales y archivos públicos.'],['tests/ y tools/','Pruebas, verificación de páginas y generación de documentos.'],['database/ y docs/','Preparación de datos, decisiones y guía de implementación.']],[210,301]),
-      P('La foto personal se puede sustituir en el bloque del portafolio cuando dispongas de ella. No se inventó una imagen ni una trayectoria profesional.',9,False,MUTED)])
+      table(['Carpeta o archivo','Qué cambiar allí'],[['src/pages/ y src/layouts/','Rutas, plantillas, navegación, pie y metadatos.'],['src/content/insights/','Guías del blog; el esquema está en content.config.ts.'],['src/data/catalog.ts','Servicios, funciones, enlaces y casos.'],['src/data/specifications.ts','Problema, recorrido y caso cotidiano de cada solución.'],['src/components/','Tarjetas, ilustraciones SVG, acordeón y constelaciones.'],['src/components/demos/','Pantallas y formularios de cada aplicación.'],['src/lib/*-domain.mjs','Cálculos y reglas de las operaciones.'],['src/lib/local-persistence.mjs','Guardado local, copia anterior y detección de conflictos.'],['src/lib/demo-store.ts','Adaptadores de acceso privado; no activa la nube por sí solo.'],['src/styles/','global.css, evolution.scss y editorial.scss.'],['public/','Logos, retrato, imágenes y presentación comercial.'],['tests/, tools/, database/, docs/','Pruebas, documentos, preparación de datos y decisiones.']],[210,301]),
+      P('El retrato original elegido fue me1.jpg. Se publica en WebP, con versiones de 480 y 960 px, sin metadatos personales del archivo. La guía y el manual se entregan localmente; solo la presentación comercial es pública.',9,False,MUTED)])
     pages.append(title('Guía de estudio / 06','Cómo llega el código al dominio.','Publicar es convertir el proyecto en archivos que el visitante puede abrir.')+[
       diagram([('Modificar','Cambios en el|repositorio'),('Comprobar','Pruebas, tipos|y construcción'),('Publicar','Actions despliega|GitHub Pages'),('Verificar','Se abre el|dominio real')]),
       h('El flujo de esta entrega'),bullets(['Las dependencias y sus versiones quedan registradas en package.json y package-lock.json.','Las pruebas de reglas detectan errores en importes, estados, límites y operaciones.','Astro revisa los tipos y genera el directorio dist/.','La verificación revisa títulos, descripciones, enlaces, datos estructurados y códigos QR.','Un cambio subido a main ejecuta el flujo de GitHub Actions y publica el resultado.','El dominio www.altumlapaz.com muestra esa publicación. El dominio sin www redirige allí.']),
@@ -108,7 +144,7 @@ def study():
       P('Para revertir: crear un cambio que revierta el commit problemático, revisar y publicar. Evita borrar el historial o editar archivos generados dentro de dist/.',10,True)])
     pages.append(title('Guía de estudio / 07','Qué es demo y qué es producción.','Esta diferencia es la base de una propuesta honesta y de una entrega segura.')+[
       table(['Demos públicas','Sistema para un cliente'],[['Datos ficticios y locales','Datos reales con autorización y política definida'],['Sin registro público','Acceso privado, usuarios y permisos'],['Sin sincronización','Servidor y base de datos compartida'],['Pedidos y reservas simulados','Operaciones confirmadas por reglas del servidor'],['Cotización PDF de ejemplo','Documento configurado; facturación requiere integración específica'],['Sin conexión bancaria','Cualquier integración bancaria exige análisis y permisos'],['Sin envíos automáticos','Canales y avisos configurados con consentimiento'],['Restablecer repone ejemplos','Respaldo, restauración y retención de datos reales']],[255.5,255.5]),
-      h('Supabase en esta base'),P('Existe una preparación privada con control por propietario para diez módulos. Metas y Soporte funcionan de forma local en esta entrega. Conectarlos requiere ampliar el esquema y validar permisos. El inicio de sesión anónimo sigue desactivado.'),
+      h('Supabase en esta base'),P('El repositorio incluye adaptadores y preparación de datos para módulos privados. Metas y Soporte son locales en esta entrega. Una conexión real requiere revisar el esquema, las credenciales, los permisos y la configuración actual del proyecto. Esta actualización no modifica la autenticación ni activa el acceso anónimo.'),
       P('Nunca colocar contraseñas o claves de administración en el navegador, repositorio público, PDFs o enlaces. Una variable marcada como pública debe considerarse visible para el visitante.',10,True)])
     pages.append(title('Guía de estudio / 08','Diseño, movimiento y SEO.','La presentación debe facilitar entender y utilizar la aplicación.')+[
       table(['Decisión','Por qué existe'],[['Tarjetas translúcidas','Permiten ver el fondo conservando contraste para leer.'],['Órbitas y respuesta al cursor','Refuerzan la identidad; se limitan a dispositivos con puntero fino.'],['Constelaciones','Cantidad de partículas y resolución limitadas para cuidar recursos.'],['Pausa de movimiento','Respeta el sistema y una preferencia guardada del visitante.'],['Navegación adaptable','El menú se pliega cuando el espacio disponible es menor.'],['HTML semántico','Encabezados, campos, enlaces y botones tienen funciones reconocibles.'],['Metadatos y rutas canónicas','Ayudan a describir e identificar cada página.'],['Mapa del sitio','Permite descubrir páginas comerciales y casos; excluye demos ficticias.'],['Datos estructurados','Describen el estudio, páginas y servicios a los buscadores.']],[170,341]),
@@ -124,6 +160,17 @@ def study():
       table(['Pregunta','Respuesta que debes poder explicar'],[['¿Qué hace Astro?','Prepara las páginas y comparte su estructura.'],['¿Qué hace React?','Gestiona las pantallas y cambios de las aplicaciones interactivas.'],['¿Dónde se guarda una prueba?','En este navegador; no se comparte automáticamente.'],['¿Qué falta para un cliente?','Alcance, datos autorizados, accesos, backend, pruebas y entrega.'],['¿Por qué usar centavos?','Para calcular dinero con enteros y evitar imprecisiones decimales.'],['¿Cuál es la ruta de publicación?','Cambio, revisión, construcción, despliegue y verificación del dominio.']],[185,326]),
       h('Lecturas y archivos de referencia'),P('Documentación oficial: docs.astro.build · react.dev · sass-lang.com · docs.github.com/pages · supabase.com/docs · docs.flutter.dev · v2.tauri.app.',9),
       P('En el repositorio: README.md, docs/PRODUCTOS.md, docs/VALIDACION.md, src/data/catalog.ts, src/lib/ y .github/workflows/deploy.yml. Esta guía describe la implementación del repositorio; las guías oficiales explican las herramientas.',9,False,MUTED)])
+    pages.append(title('Guía de estudio / 11','Del artículo al buscador.','Servicios explica lo que ofreces. Soluciones educa. Demos permite comprobar una experiencia.')+[
+      diagram([('Escribir','Markdown y|metadatos'),('Validar','Colección y|campos'),('Construir','HTML, RSS y|mapa del sitio'),('Descubrir','Enlaces y|buscadores')]),
+      table(['Pieza','Qué debes entender'],[['Colección insights','Cada archivo .md contiene título, descripción, categoría, fecha, orden y contenido.'],['Esquema','content.config.ts comprueba campos antes de construir. draft: true excluye la guía.'],['Página de artículo','Genera texto, índice de lectura, fecha, idea clave y enlaces a servicios y demos.'],['Banners','ArticleIllustration dibuja seis diseños SVG por tema. Son decorativos y ligeros.'],['SEO técnico','Títulos, descripción, canónica, BlogPosting, RSS y mapa con páginas indexables.'],['IndexNow','Notifica URLs publicadas; no garantiza indexación. Una respuesta 202 queda pendiente de validación.']],[144,367]),
+      note('<b>Publicar una nueva guía:</b> redacta para una duda real, usa fuentes cuando afirmes hechos, enlaza el servicio relacionado, revisa en móvil y comprueba la nueva URL después del despliegue.'),
+      P('Safari, Edge, Firefox y Brave son navegadores. La compatibilidad visual y el rastreo por buscadores son trabajos relacionados, pero distintos. Referencias: docs.astro.build/en/guides/content-collections/ · indexnow.org/documentation.',9,False,MUTED)])
+    pages.append(title('Guía de estudio / 12','Guardado y recuperación:<br/>qué protege cada capa.','La demo conserva ejemplos en el navegador. Esta protección no equivale a una base compartida ni a un respaldo externo.')+[
+      diagram([('Leer','Versión guardada|y módulo'),('Comparar','¿Cambió en|otra pestaña?'),('Conservar','Copia anterior|válida'),('Escribir','Nueva revisión|local')]),
+      table(['Situación','Comportamiento'],[['Una pestaña guarda primero','La otra detecta que su versión quedó atrás y evita sobrescribir el cambio.'],['El dato principal está dañado','Si existe una copia anterior válida, intenta recuperarla y muestra un aviso.'],['El navegador impide guardar','La demo informa la limitación; no debes asumir persistencia.'],['Se borran los datos de ejemplo','Se eliminan las claves de demostración y la copia anterior.'],['Otro teléfono abre Altum','Recibe sus propios ejemplos; no sincroniza las modificaciones.']],[202,309]),
+      h('Lo que falta para un piloto con usuarios reales'),P('Autenticación, permisos comprobados en servidor, modelo de datos, transacciones, respaldo externo y restauración probada. Definir también qué ocurre cuando dos personas editan lo mismo.'),
+      note('<b>Ejercicio de estudio:</b> abre Metas en dos pestañas. Guarda un cambio en la primera y otro en la segunda. Lee el aviso, recarga y comprueba el dato conservado. Después restaura los ejemplos.'),
+      P('Web Locks coordina escrituras cuando el navegador lo admite. La comparación de versiones sigue disponible como alternativa, pero no ofrece una transacción de base de datos. Referencia del proyecto: docs/PRODUCTOS.md.',9,False,MUTED)])
     # Flatten bullet groups for flowable compatibility.
     pages=[[x for item in items for x in (item if isinstance(item,list) else [item])] for items in pages]
     build('altum-guia-arquitectura.pdf','Guía de arquitectura y estudio',pages)
@@ -162,7 +209,13 @@ def operations():
       table(['Momento','Acción'],[['Antes de una visita','Restaurar ejemplos, probar QR, revisar contacto y preparar una demo.'],['Después de la visita','Anotar problema, responsable, prioridad y siguiente acuerdo.'],['Antes de cotizar','Validar datos, proveedores, alcance y riesgos concretos.'],['Antes de publicar','Pruebas, permisos, documento de entrega y aprobación del contenido.'],['Después de entregar','Comprobar funcionamiento, capacitar y registrar pendientes acordados.'],['En mantenimiento','Revisar enlaces, dependencias, respaldos, vencimientos y solicitudes.']],[164,347]),
       h('Registro mínimo de una oportunidad'),P('Negocio / contacto autorizado / problema / proceso actual / demo mostrada / decisión pendiente / próxima acción y fecha. Guarda esa información en un sistema privado, no en la demo pública.'),
       h('Qué estudiar después'),bullets(['Una implementación privada completa de un producto, con acceso y datos aislados.','Pruebas de concurrencia y recuperación de datos.','Una integración real con un proveedor y manejo de fallos.','Un caso de estudio con evidencia autorizada y resultados medidos.']),
-      P('La foto personal y cualquier acreditación se incorporan cuando sean reales y estén disponibles. Un portafolio sólido explica tu participación y permite comprobar lo que construiste.',9,False,MUTED)])
+      P('El portafolio ya incluye tu foto real y tu método de trabajo. Sigue ampliándolo con evidencia autorizada de cada entrega y con una explicación clara de tu participación.',9,False,MUTED)])
+    pages.append(title('Manual de campo / 09','Ficha de descubrimiento.','Imprime esta hoja para cada prospecto. Anota únicamente los datos necesarios y autorizados.')+[
+      table(['Dato','Notas de la conversación'],[['Negocio y fecha','\n'],['Persona y canal autorizado','\n'],['Proceso que quiere mejorar','\n\n'],['Cómo se realiza hoy','\n\n'],['Frecuencia y consecuencia del problema','\n\n'],['Personas que utilizarían la herramienta','\n'],['Demo y recorrido mostrado','\n'],['Resultado que permitiría aceptar el proyecto','\n\n'],['Quién decide y qué necesita revisar','\n'],['Siguiente acción y fecha acordada','\n']],[205,306]),
+      P('Al regresar, traslada la información a tu sistema privado. Esta ficha no autoriza mensajes promocionales ni compromete precio o fecha de entrega.',9,False,MUTED)])
+    pages.append(title('Manual de campo / 10','Registro de entrega y continuidad.','Una hoja de trabajo para comprobar lo acordado y documentar lo que sigue. No sustituye el contrato ni la aceptación formal.')+[
+      table(['Proyecto','Completar antes de entregar'],[['Negocio / responsable / fecha','\n'],['Versión y alcance revisados','\n'],['Escenarios de aceptación comprobados','\n\n'],['Contenido y datos aprobados por','\n'],['Titularidad y entrega de accesos','\n'],['Último respaldo y prueba de restauración','\n'],['Capacitación y material entregado','\n'],['Pendientes, responsable y fecha','\n\n'],['Soporte: canal, horario y condiciones','\n'],['Renovaciones y costos externos','\n'],['Próxima revisión acordada','\n']],[205,306]),
+      note('<b>Antes de cerrar:</b> comprueba el dominio real, un teléfono, los enlaces y el recorrido principal. Registra los pendientes explícitamente; un despliegue correcto no demuestra por sí solo que el negocio pueda operar.')])
     pages=[[x for item in items for x in (item if isinstance(item,list) else [item])] for items in pages]
     build('altum-manual-comercial-operativo.pdf','Manual comercial y de entrega',pages)
 
@@ -184,4 +237,4 @@ def card():
     c.setFillColor(HexColor('#b5cbe3'));c.setFont('Body',6);c.drawCentredString(w-53,22,'ESCANEA Y PRUEBA')
     c.save()
 
-if __name__=='__main__': sales();study();operations();card()
+if __name__=='__main__': sales();study();operations()

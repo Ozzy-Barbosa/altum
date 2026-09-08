@@ -1,4 +1,4 @@
-"""Compatibility entry point: regenerate the current eight-page sales folder."""
+"""Compatibility entry point: regenerate the current ten-page sales folder."""
 from pathlib import Path
 import runpy
 if __name__ == "__main__":

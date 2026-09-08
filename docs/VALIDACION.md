@@ -83,3 +83,15 @@ Las guías de arquitectura y operación se entregan como archivos locales. La pr
 - 59 páginas HTML generadas; 44 direcciones indexables. Verificación de metadatos, enlaces, canonical, sitemap, referencias del RSS y trece QR de presentación. El rastreo público sigue habilitado; IndexNow se ejecuta después de comprobar el despliegue, nunca durante una compilación local.
 
 Las comparaciones de versiones protegen frente a cambios desactualizados. Web Locks mejora la coordinación local donde está disponible; esto no convierte las demos en sistemas multiusuario ni elimina la necesidad de permisos y concurrencia en el servidor de un piloto privado.
+
+## Retrato, ilustraciones y documentos renovados
+
+8 de septiembre de 2026:
+
+- Retrato real elegido de las dos fotos del usuario, optimizado en WebP de 480 y 960 px. Revisado en el portafolio a tamaño de escritorio y teléfono. La captura actual de Orthomax se muestra con su ancho completo dentro de la tarjeta.
+- Seis ilustraciones SVG distintas para las guías, con movimiento discreto al pasar el cursor. Encabezado de Soluciones centrado (centro medido del título y de la página coinciden). Tarjetas de proceso y visión con elevación, borde y luz al pasar el cursor; no simulan ser botones.
+- CTA «Resolver mis dudas» comprobado con la flecha a la derecha en tablet. Portada, Portafolio, Soluciones, Servicios y Preguntas sin desbordamiento horizontal en anchos de 320 y 820 px. Revisión visual adicional del retrato a 390 px. Son pruebas con el navegador integrado, no dispositivos físicos.
+- FAQ: alturas animadas al abrir y cerrar, transición exclusiva entre respuestas, activación por teclado y cierre inmediato sin animación cuando se pausa el movimiento. La exclusividad nativa permanece disponible si JavaScript no se ejecuta.
+- Presentación comercial de 10 páginas, guía de arquitectura de 12 y manual comercial y de entrega de 10: 32 páginas renderizadas y revisadas; sin texto fuera de los márgenes comprobados. Los 13 QR del PDF se decodificaron desde su render y corresponden al catálogo y las 12 demos.
+- Presentación pública actualizada con casos y contacto. Guías internas actualizadas con mapa de páginas, blog, persistencia, ejercicios, ficha de descubrimiento y registro de entrega. Estos dos documentos siguen siendo locales.
+- 29 pruebas aprobadas. Comprobación de 74 archivos Astro/TypeScript sin errores, advertencias ni sugerencias. Compilación de 59 páginas y verificación de enlaces, metadatos, mapa del sitio y 13 QR del HTML.

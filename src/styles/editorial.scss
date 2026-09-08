@@ -1,4 +1,94 @@
 // Content hierarchy and touch layouts shared by the public site.
+.button-arrow {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+.callout > .button {
+  flex-shrink: 0;
+  max-width: 100%;
+}
+.project-image-complete {
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  background: radial-gradient(ellipse at 50% 30%, #23546166, transparent 80%), #122334;
+  img {
+    height: auto;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 12px 30px #0004;
+  }
+  &:hover img {
+    transform: translateY(-3px);
+  }
+}
+.profile-portrait {
+  position: relative;
+  margin: 0 0 0 auto;
+  width: min(100%, 440px);
+  overflow: hidden;
+  border-radius: 28px;
+  border: 1px solid #8cadc54d;
+  background: #a6aeb7;
+  box-shadow: 0 28px 70px #0004;
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  figcaption {
+    position: absolute;
+    inset: auto 0 0;
+    padding: 65px 27px 27px;
+    background: linear-gradient(transparent, #091528e8 62%);
+    color: white;
+    display: grid;
+    gap: 6px;
+  }
+  .eyebrow {
+    font-size: 0.6rem;
+    color: #a8e5ee;
+    margin: 0;
+  }
+  strong {
+    font:
+      600 1.7rem 'Space Grotesk Variable',
+      sans-serif;
+  }
+  figcaption > span:last-child {
+    color: #d9e5ee;
+    font-size: 0.8rem;
+  }
+}
+@media (hover: hover) and (pointer: fine) {
+  .process-grid article:hover,
+  .portfolio-pillars article:hover {
+    transform: translateY(-6px);
+    border-color: #60cee59c;
+    background-color: #1b3c553d;
+    box-shadow:
+      0 15px 40px #0004,
+      inset 0 1px #9eeaff1c;
+  }
+  .process-grid article > span {
+    transition:
+      transform 0.3s,
+      background-color 0.3s;
+  }
+  .process-grid article:hover > span {
+    transform: rotate(-8deg);
+    background: #2b708944;
+  }
+}
+@media (max-width: 760px) {
+  .profile-portrait {
+    margin-inline: auto;
+    width: min(100%, 370px);
+  }
+  .project-image-complete {
+    padding: 12px;
+  }
+}
 .featured-demos {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
@@ -133,6 +223,11 @@ h3 {
   border-radius: 20px;
   border: 1px solid #4e6f943b;
   position: relative;
+  transition:
+    transform 0.3s,
+    border-color 0.3s,
+    box-shadow 0.3s,
+    background-color 0.3s;
 }
 .process-grid article > span {
   width: 38px;
@@ -170,7 +265,7 @@ h3 {
     border-color: #63cbdd75;
     background-color: #14273d50;
   }
-  details[open] {
+  details[open]:not([data-expanded='false']) {
     border-color: #50b7d399;
     box-shadow: 0 8px 32px #0002;
   }
@@ -213,7 +308,7 @@ h3 {
       transform 0.25s,
       background 0.25s;
   }
-  details[open] .faq-plus {
+  details[open]:not([data-expanded='false']) .faq-plus {
     transform: rotate(45deg);
     background: #587fbb40;
   }
@@ -225,18 +320,17 @@ h3 {
     font-size: 0.94rem;
     line-height: 1.85;
   }
-  details[open] .faq-answer {
-    animation: answer-in 0.23s ease-out;
+  [data-animating] {
+    will-change: height;
   }
-}
-@keyframes answer-in {
-  from {
+  [data-expanded] .faq-answer {
+    transition:
+      opacity 0.22s,
+      transform 0.3s;
+  }
+  [data-expanded='false'] .faq-answer {
     opacity: 0;
-    transform: translateY(-7px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+    transform: translateY(-8px);
   }
 }
 .editorial-hero {
@@ -248,6 +342,7 @@ h3 {
   }
   h1 {
     font-size: clamp(2.5rem, 5.3vw, 4.8rem);
+    margin-inline: auto;
   }
 }
 .editorial-note {
@@ -280,62 +375,55 @@ h3 {
   border-color: #5eb2d694;
 }
 .article-art {
-  height: 165px;
+  aspect-ratio: 400 / 210;
   flex-shrink: 0;
   position: relative;
   overflow: hidden;
   border-bottom: 1px solid #5a8eaa30;
   background:
-    radial-gradient(ellipse at 85% 15%, #38769e66, transparent 65%),
-    linear-gradient(140deg, #152b48aa, #1721409c);
+    radial-gradient(ellipse at 85% 15%, #38769e44, transparent 65%),
+    linear-gradient(140deg, #152b48aa, #101b319c);
+  color: #72d7e1;
 }
-.article-art::before,
-.article-art::after {
-  content: '';
-  width: 200px;
-  height: 200px;
-  position: absolute;
-  right: -45px;
-  top: -68px;
-  border: 1px solid #57b8dc75;
-  border-radius: 50%;
-  transform: rotate(-25deg) scaleY(0.6);
+.article-art[data-art='2'] {
+  color: #b5a5ef;
 }
-.article-art::after {
-  transform: rotate(45deg) scaleY(0.6);
-  border-color: #a486d975;
+.article-art[data-art='3'] {
+  color: #6ae0bf;
 }
-.article-art-number {
-  position: absolute;
-  top: 21px;
-  left: 25px;
-  font:
-    500 3rem 'Space Grotesk Variable',
-    sans-serif;
-  color: #80cde14f;
-  letter-spacing: -0.06em;
+.article-art[data-art='4'] {
+  color: #83bbff;
 }
-.article-art-label {
-  position: absolute;
-  bottom: 22px;
-  left: 25px;
-  font-size: 0.58rem;
-  line-height: 1.8;
-  letter-spacing: 0.17em;
-  color: #b3cbe0;
+.article-art[data-art='5'] {
+  color: #efbc98;
 }
-.article-art-line {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #66e7df;
-  box-shadow: 0 0 15px #42deeb;
-  right: 55px;
-  bottom: 44px;
+.article-art[data-art='6'] {
+  color: #98c9f5;
 }
-.article-card:nth-child(2n) .article-art {
-  background: radial-gradient(ellipse at 85% 15%, #665cae55, transparent 65%), #151e3b99;
+.article-illustration {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.4s;
+}
+.article-card:hover .article-illustration,
+.article-card:focus-within .article-illustration {
+  transform: translateY(-2px);
+  .art-route {
+    animation: route-travel 1.6s linear infinite;
+  }
+  .art-signal {
+    animation: illustration-signal 1.5s ease-in-out infinite alternate;
+  }
+}
+@keyframes route-travel {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+@keyframes illustration-signal {
+  to {
+    opacity: 0.35;
+  }
 }
 .article-card-copy {
   display: flex;
@@ -534,6 +622,11 @@ h3 {
   border-radius: 22px;
   border: 1px solid #6483ad42;
   background: linear-gradient(140deg, #1d335377, #0e1a2940);
+  transition:
+    transform 0.3s,
+    border-color 0.3s,
+    box-shadow 0.3s,
+    background-color 0.3s;
   h3 {
     font-size: 1.4rem;
     margin: 23px 0 17px;

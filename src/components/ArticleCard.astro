@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import ArticleIllustration from './ArticleIllustration.astro';
 interface Props {
   article: CollectionEntry<'insights'>;
   featured?: boolean;
@@ -14,11 +15,12 @@ const minutes = Math.max(1, Math.ceil((article.body || '').split(/\s+/).length /
   data-filter-item={`${a.title} ${a.description} ${a.category}`}
   data-category={a.category}
 >
-  <a class="article-art" href={`/soluciones/guias/${article.id}/`} tabindex="-1" aria-hidden="true"
-    ><span class="article-art-number">{String(a.order).padStart(2, '0')}</span><span
-      class="article-art-line"></span><span class="article-art-label"
-      >IDEAS PARA<br />EL SIGUIENTE PASO</span
-    ></a
+  <a
+    class="article-art"
+    data-art={a.order}
+    href={`/soluciones/guias/${article.id}/`}
+    tabindex="-1"
+    aria-hidden="true"><ArticleIllustration order={a.order} /></a
   >
   <div class="article-card-copy">
     <div class="article-meta">
@@ -26,6 +28,7 @@ const minutes = Math.max(1, Math.ceil((article.body || '').split(/\s+/).length /
     </div><h2><a href={`/soluciones/guias/${article.id}/`}>{a.title}</a></h2><p>
       {a.description}
     </p><a class="text-link" href={`/soluciones/guias/${article.id}/`}
-      >Leer la guía <span aria-hidden="true">↗</span></a>
+      >Leer la guía <span aria-hidden="true">↗</span></a
+    >
   </div>
 </article>

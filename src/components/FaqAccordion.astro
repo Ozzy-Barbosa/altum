@@ -20,7 +20,7 @@ const { items, group } = Astro.props;
               </span>
             </>
           </summary>
-          <div class="faq-answer">
+          <div class="faq-answer" id={`${group}-answer-${i}`}>
             <p>{a}</p>
           </div>
         </>
@@ -29,15 +29,71 @@ const { items, group } = Astro.props;
   }
 </div>
 <script>
-  // Native named details provide exclusive expansion; this also covers older browsers.
+  // Keep native disclosure behavior without JS; enhance both directions with measured height.
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   document.querySelectorAll('[data-faq-group]').forEach((group) => {
-    group.querySelectorAll('details').forEach((current) => {
-      current.addEventListener('toggle', () => {
-        if (current.open)
-          group.querySelectorAll('details').forEach((other) => {
-            if (other !== current) other.open = false;
+    const entries = [...group.querySelectorAll('details')].map((details) => ({
+      details,
+      summary: details.querySelector('summary')!,
+      answer: details.querySelector<HTMLElement>('.faq-answer')!,
+      expanded: details.open,
+      animation: null as Animation | null,
+    }));
+    const settle = (entry: (typeof entries)[number]) => {
+      entry.animation?.cancel();
+      entry.animation = null;
+      entry.details.open = entry.expanded;
+      entry.details.style.height = '';
+      entry.details.removeAttribute('data-animating');
+    };
+    const change = (entry: (typeof entries)[number], expanded: boolean) => {
+      const start = entry.details.getBoundingClientRect().height;
+      entry.animation?.cancel();
+      entry.expanded = expanded;
+      entry.summary.setAttribute('aria-expanded', String(expanded));
+      entry.details.dataset.expanded = String(expanded);
+      entry.answer.inert = !expanded;
+      if (reducedMotion.matches || document.documentElement.dataset.motion === 'paused') {
+        settle(entry);
+        return;
+      }
+      entry.details.open = true;
+      entry.details.style.height = '';
+      const border = parseFloat(getComputedStyle(entry.details).borderTopWidth) * 2;
+      const end = expanded
+        ? entry.details.getBoundingClientRect().height
+        : entry.summary.getBoundingClientRect().height + border;
+      entry.details.dataset.animating = '';
+      const animation = entry.details.animate([{ height: `${start}px` }, { height: `${end}px` }], {
+        duration: 340,
+        easing: 'cubic-bezier(.22, 1, .36, 1)',
+        fill: 'both',
+      });
+      entry.animation = animation;
+      animation.onfinish = () => {
+        if (entry.animation === animation) settle(entry);
+      };
+    };
+    entries.forEach((entry) => {
+      // Named details close immediately. JS handles exclusivity so closing can animate too.
+      entry.details.removeAttribute('name');
+      entry.details.dataset.expanded = String(entry.expanded);
+      entry.summary.setAttribute('aria-controls', entry.answer.id);
+      entry.summary.setAttribute('aria-expanded', String(entry.expanded));
+      entry.answer.inert = !entry.expanded;
+      entry.summary.addEventListener('click', (event) => {
+        event.preventDefault();
+        const expand = !entry.expanded;
+        if (expand)
+          entries.forEach((other) => {
+            if (other !== entry && other.expanded) change(other, false);
           });
+        change(entry, expand);
       });
     });
+    const finishMotion = () => entries.forEach(settle);
+    document.addEventListener('altum:motion', finishMotion);
+    reducedMotion.addEventListener('change', finishMotion);
+    window.addEventListener('resize', finishMotion, { passive: true });
   });
 </script>
