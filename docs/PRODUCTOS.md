@@ -1,6 +1,6 @@
 # Bases de producto
 
-Las diez demos ejecutan operaciones sobre datos de ejemplo y se pueden restablecer. Son bases de interfaz y lógica con pruebas; todavía no son sistemas comerciales con usuarios, pagos o trabajo compartido.
+Las doce demos ejecutan operaciones sobre datos de ejemplo y se pueden restablecer. Son bases de interfaz y lógica con pruebas; todavía no son sistemas comerciales con usuarios, pagos o trabajo compartido.
 
 | Base       | Configuración para un cliente similar        | Desarrollo adicional habitual                                                        |
 | ---------- | -------------------------------------------- | ------------------------------------------------------------------------------------ |
@@ -46,3 +46,10 @@ Todos los paneles usan ejemplos locales. Los datos bancarios, ingresos reales, a
 ## Portfolio técnico
 
 Para una candidatura, explicar problema, arquitectura, reglas y pruebas. El siguiente incremento valioso es un producto con autenticación, permisos probados, datos persistentes y observabilidad. No atribuir a estas demos pagos reales, IA, colaboración ni resultados comerciales que no poseen.
+
+## Nuevas bases: Metas y Soporte
+
+- Metas: presupuesto mensual, objetivos, aportaciones, progreso y duración estimada sin rendimientos. No ofrece conexión bancaria ni recomendaciones de inversión. En producción requiere acceso privado, historial y reglas de corrección de movimientos.
+- Soporte: tickets con folio, categoría, prioridad, responsable, fecha objetivo e historial de respuestas. No envía mensajes ni monitorea routers. Portal del cliente, notificaciones, archivos y monitoreo son integraciones adicionales.
+
+Los doce servicios se presentan en `/servicios/`. Redes, identidad y marketing tienen entregables propios; los proyectos móviles y de escritorio comienzan por viabilidad, plataforma y alcance. Las fichas `/soluciones/[slug]/#especificaciones` explican problema, recorrido y caso cotidiano.

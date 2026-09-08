@@ -1,0 +1,36 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { faqs } from '../data/faq';
+---
+
+<Layout
+  title="Preguntas frecuentes sobre proyectos y servicios"
+  description="Resuelve dudas sobre páginas web, aplicaciones, redes, costos, datos, mantenimiento y el proceso de trabajo de Altum en La Paz."
+>
+  <section class="container page-hero">
+    <p class="eyebrow">RESPUESTAS CLARAS</p><h1>
+      Antes de dar<br /><span class="gradient">el siguiente paso.</span>
+    </h1><p class="lead">
+      Qué incluye un proyecto, cómo se adapta una demo y qué necesitamos para comenzar.
+    </p>
+  </section>
+  <section class="container compact-section">
+    <div class="faq-list">
+      {
+        faqs.map(([q, a]) => (
+          <details>
+            <>
+              <summary>{q}</summary>
+              <p>{a}</p>
+            </>
+          </details>
+        ))
+      }
+    </div>
+  </section>
+  <section class="container callout">
+    <div>
+      <h2>Hablemos de tu caso.</h2><p>Una buena propuesta comienza con una necesidad concreta.</p>
+    </div><a class="button" href="/contacto/">Ir a contacto ↗</a>
+  </section>
+</Layout>

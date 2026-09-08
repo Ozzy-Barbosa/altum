@@ -64,8 +64,8 @@
         () => ({
           x: Math.random() * width,
           y: Math.random() * height,
-          vx: (Math.random() - 0.5) * 0.22,
-          vy: (Math.random() - 0.5) * 0.22,
+          vx: (Math.random() < 0.5 ? -1 : 1) * (0.24 + Math.random() * 0.38),
+          vy: (Math.random() < 0.5 ? -1 : 1) * (0.16 + Math.random() * 0.34),
           r: Math.random() * 1.15 + 0.5,
         }),
       );

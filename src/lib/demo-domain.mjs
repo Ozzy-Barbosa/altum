@@ -1,3 +1,4 @@
+import { extendedSeed, extendedTransition } from './extended-domain.mjs';
 import { businessModules, businessSeed, businessTransition } from './business-domain.mjs';
 export const money = (value) =>
   new Intl.NumberFormat('es-MX', {
@@ -31,6 +32,7 @@ const product = (id, name, category, price, stock, min, description = '', symbol
   active: true,
 });
 export function seed(module) {
+  if (module === 'personal' || module === 'soporte') return extendedSeed(module, localDate());
   if (businessModules.includes(module)) return businessSeed(module, localDate());
   switch (module) {
     case 'menu':
@@ -382,6 +384,8 @@ export function searchDocuments(documents, query, category = 'Todas') {
     .sort((a, b) => b.score - a.score || a.title.localeCompare(b.title, 'es'));
 }
 export function transition(module, current, action) {
+  if (module === 'personal' || module === 'soporte')
+    return extendedTransition(module, current, action, localDate());
   if (businessModules.includes(module))
     return businessTransition(module, current, action, localDate());
   const state = structuredClone(current),

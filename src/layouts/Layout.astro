@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import '../styles/enhancements.css';
+import '../styles/evolution.scss';
 import '@fontsource-variable/manrope';
 import '@fontsource-variable/space-grotesk';
 import { site, services } from '../data/catalog';
@@ -25,10 +26,12 @@ const {
 const canonical = new URL(Astro.url.pathname, site.origin).href;
 const nav = [
   ['Inicio', '/'],
+  ['Servicios', '/servicios/'],
   ['Soluciones', '/soluciones/'],
   ['Proyectos', '/proyectos/'],
   ['Demos', '/demos/'],
   ['Portafolio', '/portafolio/'],
+  ['Preguntas', '/preguntas-frecuentes/'],
 ];
 const graph = [
   {
@@ -159,7 +162,12 @@ const graph = [
                 {name}
               </a>
             ))
-          }<a class="button small" href="/contacto/">Hablemos <span aria-hidden="true">↗</span></a>
+          }<a
+            class="button small"
+            href="/contacto/"
+            aria-current={Astro.url.pathname === '/contacto/' ? 'page' : undefined}
+            >Contacto <span aria-hidden="true">↗</span></a
+          >
         </nav>
       </div>
     </header>
@@ -193,7 +201,9 @@ const graph = [
           </div><div>
             <strong>Servicios</strong>{
               services.slice(0, 4).map((s) => <a href={`/servicios/${s.slug}/`}>{s.short}</a>)
-            }
+            }<a href="/servicios/">Todos los servicios ↗</a><a href="/como-esta-hecho/"
+              >Cómo está hecho Altum</a
+            ><a href="/tarjeta/">Tarjeta digital</a>
           </div><div>
             <strong>Conversemos</strong><a
               href={site.whatsapp}

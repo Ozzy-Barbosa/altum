@@ -10,6 +10,8 @@ const Search = lazy(() => import('./SearchDemo'));
 const Finance = lazy(() => import('./FinanceDemo'));
 const Crm = lazy(() => import('./CrmDemo'));
 const Quotes = lazy(() => import('./QuotesDemo'));
+const Personal = lazy(() => import('./PersonalDemo'));
+const Support = lazy(() => import('./SupportDemo'));
 const Services = lazy(() => import('./ServicesDemo'));
 class DemoErrorBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
   state = { failed: false };
@@ -85,7 +87,7 @@ function Workspace({ module }: { module: string }) {
                 key={s.slug}
               >
                 <span aria-hidden="true">
-                  {['≋', '◷', '▦', '◇', '▤', '⌕', '↗', '◎', '▧', '⚒'][i]}
+                  {['≋', '◷', '▦', '◇', '▤', '⌕', '↗', '◎', '▧', '⚒', '◉', '✧'][i]}
                 </span>
                 {s.name}
               </a>
@@ -142,6 +144,10 @@ function Workspace({ module }: { module: string }) {
                   <Crm {...props} />
                 ) : module === 'cotizaciones' ? (
                   <Quotes {...props} />
+                ) : module === 'personal' ? (
+                  <Personal {...props} />
+                ) : module === 'soporte' ? (
+                  <Support {...props} />
                 ) : module === 'servicios' ? (
                   <Services {...props} />
                 ) : (

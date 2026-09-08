@@ -1,0 +1,38 @@
+<script>
+  const hero = document.querySelector<HTMLElement>('.hero-system');
+  const fine = matchMedia('(hover: hover) and (pointer: fine)');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  if (hero) {
+    let frame = 0;
+    const reset = () => {
+      cancelAnimationFrame(frame);
+      frame = 0;
+      hero.style.setProperty('--pointer-x', '0');
+      hero.style.setProperty('--pointer-y', '0');
+    };
+    hero.addEventListener(
+      'pointermove',
+      (event) => {
+        if (
+          !fine.matches ||
+          reduced.matches ||
+          document.documentElement.dataset.motion === 'paused'
+        )
+          return;
+        const rect = hero.getBoundingClientRect();
+        const x = Math.max(-1, Math.min(1, ((event.clientX - rect.left) / rect.width) * 2 - 1));
+        const y = Math.max(-1, Math.min(1, ((event.clientY - rect.top) / rect.height) * 2 - 1));
+        cancelAnimationFrame(frame);
+        frame = requestAnimationFrame(() => {
+          hero.style.setProperty('--pointer-x', String(x));
+          hero.style.setProperty('--pointer-y', String(y));
+        });
+      },
+      { passive: true },
+    );
+    hero.addEventListener('pointerleave', reset);
+    document.addEventListener('altum:motion', reset);
+    document.addEventListener('visibilitychange', reset);
+    reduced.addEventListener('change', reset);
+  }
+</script>

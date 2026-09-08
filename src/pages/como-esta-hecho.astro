@@ -1,0 +1,133 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { solutions, services } from '../data/catalog';
+---
+
+<Layout
+  title="Cómo está construido Altum: diseño y arquitectura"
+  description="Explora cómo funciona Altum: páginas rápidas con Astro, demos interactivas con React, estilos con Sass y una estructura preparada para crecer."
+>
+  <section class="container page-hero">
+    <div class="breadcrumb">
+      <a href="/portafolio/">Portafolio</a><span>/</span><span>Cómo está hecho</span>
+    </div><p class="eyebrow">ALTUM POR DENTRO</p><h1>
+      Del diseño al código.<br /><span class="gradient">Del código a la experiencia.</span>
+    </h1><p class="lead">
+      Una plataforma que reúne la presentación del estudio, proyectos reales y doce aplicaciones de
+      demostración. Cada parte tiene una función.
+    </p>
+  </section>
+  <section class="container compact-section">
+    <h2>Qué sucede cuando abres Altum.</h2><div class="architecture-flow">
+      {
+        [
+          [
+            '01',
+            'Abres una dirección',
+            'El dominio conecta con la publicación de Altum en GitHub Pages.',
+          ],
+          [
+            '02',
+            'Recibes la página',
+            'Astro prepara el contenido como HTML, con estilos y recursos optimizados.',
+          ],
+          [
+            '03',
+            'Interactúas',
+            'React activa las herramientas de la demo elegida. Las animaciones usan CSS, SVG y Canvas.',
+          ],
+          [
+            '04',
+            'Guardas una prueba',
+            'Los cambios de ejemplo se conservan en este navegador mediante almacenamiento local.',
+          ],
+        ].map(([n, t, d]) => (
+          <article class="spec-card">
+            <>
+              <p class="eyebrow">{n}</p>
+              <h3>{t}</h3>
+              <p>{d}</p>
+            </>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+  <section class="container section split">
+    <div>
+      <p class="eyebrow">DECISIONES DE CONSTRUCCIÓN</p><h2>
+        Una base clara.<br />Piezas reutilizables.
+      </h2>
+    </div><div class="prose">
+      <h3>Contenido y aplicaciones</h3><p>
+        Astro genera las páginas comerciales y React aporta la interacción donde hace falta. Un
+        catálogo central alimenta las tarjetas, las fichas, las rutas y la presentación comercial.
+      </p><h3>Diseño y movimiento</h3><p>
+        HTML semántico, CSS y Sass organizan la interfaz. Los iconos son SVG. Las constelaciones se
+        dibujan en Canvas y el átomo combina órbitas con una respuesta suave al cursor. El
+        movimiento se puede pausar.
+      </p><h3>Datos y acceso</h3><p>
+        Las demos públicas utilizan datos ficticios guardados localmente. Una implementación privada
+        requiere autenticación, permisos y una base de datos. La estructura PostgreSQL/Supabase es
+        parte de esa preparación; el sitio público no ofrece sincronización entre usuarios.
+      </p>
+    </div>
+  </section>
+  <section class="container compact-section">
+    <div class="section-heading">
+      <div><p class="eyebrow">MAPA DEL SITIO</p><h2>Una dirección.<br />Tres recorridos.</h2></div>
+    </div><div class="sitemap-tree">
+      <article class="spec-card">
+        <h3>Conocer el estudio</h3><ul>
+          <li><a href="/">Inicio</a></li><li>
+            <a href="/servicios/">Servicios ({services.length})</a>
+          </li><li><a href="/portafolio/">Portafolio</a></li><li>
+            <a href="/proyectos/">Proyectos reales</a>
+          </li>
+        </ul>
+      </article><article class="spec-card">
+        <h3>Explorar una solución</h3><ul>
+          {
+            solutions.map((s) => (
+              <li>
+                <a href={`/soluciones/${s.slug}/`}>{s.name}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </article><article class="spec-card">
+        <h3>Dar el siguiente paso</h3><ul>
+          <li><a href="/demos/">Demos interactivas</a></li><li>
+            <a href="/presentacion/">Presentación comercial</a>
+          </li><li><a href="/preguntas-frecuentes/">Preguntas frecuentes</a></li><li>
+            <a href="/contacto/">Contacto</a>
+          </li><li><a href="/tarjeta/">Tarjeta digital</a></li><li>
+            <a href="/privacidad/">Privacidad</a>
+          </li>
+        </ul>
+      </article>
+    </div>
+  </section>
+  <section class="container section">
+    <h2>Cómo se publica un cambio.</h2><div class="architecture-flow">
+      {
+        [
+          ['Código', 'Se modifica una pieza en el repositorio.'],
+          ['Comprobación', 'Se revisan tipos, cálculos, enlaces y la construcción.'],
+          ['Publicación', 'GitHub Actions prepara y publica los archivos.'],
+          ['Verificación', 'Se abre el dominio para comprobar contenido y funciones.'],
+        ].map(([t, d]) => (
+          <article class="spec-card">
+            <>
+              <h3>{t}</h3>
+              <p>{d}</p>
+            </>
+          </article>
+        ))
+      }
+    </div><p class="form-note">
+      La calidad se comprueba por recorrido. Una demo no acredita por sí sola una integración de
+      pagos, una app de tienda o un sistema multiusuario en producción.
+    </p>
+  </section>
+</Layout>

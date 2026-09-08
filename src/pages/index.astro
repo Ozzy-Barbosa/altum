@@ -4,6 +4,7 @@ import SolutionCard from '../components/SolutionCard.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import OrbitArt from '../components/OrbitArt.astro';
 import TechStack from '../components/TechStack.astro';
+import HeroMotion from '../components/HeroMotion.astro';
 import { solutions, projects } from '../data/catalog';
 ---
 
@@ -40,12 +41,14 @@ import { solutions, projects } from '../data/catalog';
         <span class="mini-icon mint">▦</span><div>
           <small>OPERACIÓN</small><strong>Todo en su lugar.</strong><div class="mini-bars">
             <i></i><i></i><i></i><i></i><i></i><i></i>
-          </div>
+          </div><span class="mini-foot"><i class="status-dot"></i> Tu operación, conectada</span>
         </div>
       </div><div class="floating-card fc-two">
         <span class="mini-icon violet">◷</span><div>
-          <small>AGENDA DIGITAL</small><strong>Tu próximo espacio.</strong><span class="mini-days"
-            >L &nbsp; M &nbsp; M &nbsp; J &nbsp; V</span
+          <small>AGENDA DIGITAL</small><strong>Tu próximo espacio.</strong><span
+            class="calendar-days"><i>L</i><i>M</i><i class="selected">M</i><i>J</i><i>V</i></span
+          ><span class="mini-foot"
+            ><i class="status-dot violet-dot"></i> Cada cita, en su lugar</span
           >
         </div>
       </div><div class="floating-card fc-three">
@@ -55,8 +58,9 @@ import { solutions, projects } from '../data/catalog';
   </section>
   <div class="brand-strip">
     <div class="container">
-      <span>HECHO PARA NEGOCIOS QUE AVANZAN</span><span>Restaurantes</span><span>Comercios</span
-      ><span>Profesionales</span><span>Equipos</span>
+      <span>HECHO PARA NEGOCIOS<br />QUE AVANZAN</span><span>Comercio y consumo</span><span
+        >Servicios y bienestar</span
+      ><span>Turismo y experiencias</span><span>Equipos y operaciones</span>
     </div>
   </div>
   <section class="section container" id="servicios">
@@ -80,8 +84,8 @@ import { solutions, projects } from '../data/catalog';
           La operación también<br /><span class="gradient">merece buen diseño.</span>
         </h2>
       </div><p>
-        Cuatro herramientas para explorar tus números, seguir ventas, presentar propuestas y
-        organizar servicios.
+        Seis herramientas para explorar tus números, seguir ventas, presentar propuestas, organizar
+        servicios y dar continuidad a cada solicitud.
       </p>
     </div>
     <div class="solutions-grid business-solutions">
@@ -149,4 +153,5 @@ import { solutions, projects } from '../data/catalog';
       </h2><p>Cuéntanos dónde estás y qué quieres mejorar.</p>
     </div><a class="button light" href="/contacto/">Hablemos de tu negocio ↗</a>
   </section>
+  <HeroMotion />
 </Layout>

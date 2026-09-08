@@ -52,3 +52,19 @@ La señal de descarga de la herramienta del navegador integrado agotó su espera
 - Vista móvil mediante iframe local de 390 × 844: ancho útil y scrollWidth de 375 px en portada, portafolio y las cuatro demos nuevas. Revisados formularios de cotización, paneles y selector móvil de módulos. Navegación desplegable muestra Inicio y las secciones principales.
 - Catálogo: categoría Finanzas devuelve una solución; búsqueda sin coincidencias devuelve cero y un mensaje útil.
 - Privacidad: diálogo de confirmación, borrado de ejemplos y regreso a las dos cotizaciones iniciales comprobados. La preferencia de pausa permanece al navegar; las animaciones se reactivaron después de la prueba.
+
+## Validación local de la ampliación a doce demos
+
+7 de septiembre de 2026:
+
+- 23 pruebas de dominio aprobadas. Las nuevas pruebas cubren presupuesto en centavos, aportaciones y límites de metas, fechas, folios e historial de tickets, inmutabilidad y rechazo de respuestas inválidas.
+- 53 páginas compiladas y 38 entradas indexables en el sitemap. Revisión final de 62 archivos de Astro/TypeScript sin errores, advertencias ni sugerencias.
+- Metas: ingreso mensual de $19,000.50 actualiza disponible y margen; se muestra alerta cuando las aportaciones planeadas exceden el disponible. Aportación de $500.50 actualiza ahorro, porcentaje e historial y persiste tras recarga. Alta de meta desde el formulario móvil comprobada.
+- Soporte: cambio a Resuelto con respuesta conserva el historial; el filtro muestra los tickets correspondientes. Creación del folio TK-0004 y búsqueda por router comprobadas.
+- Átomo: respuesta al cursor comprobada mediante sus valores de desplazamiento. Pausar movimiento restaura la posición y detiene animaciones; después se reactivó. Iconos de doce tecnologías y foco visible de sus enlaces revisados.
+- Vista de 390 × 844 px: portada, Metas, Soporte, servicios, arquitectura y tarjeta sin desbordamiento horizontal (ancho útil y scrollWidth de 375 px). Revisados menú desplegable, tarjetas orbitales y formularios. La validación no sustituye pruebas en todos los dispositivos físicos.
+- Presentación comercial de ocho páginas, guía de arquitectura de diez y manual comercial de ocho: 26 páginas renderizadas e inspeccionadas. Comprobados márgenes y ausencia de texto fuera de página.
+- Trece códigos QR de la presentación PDF decodificados y trece QR de su versión HTML verificados en la compilación. El QR de la tarjeta PNG de 90 × 55 mm apunta al catálogo público de demos y también se decodificó.
+- Metas y Soporte conservan datos de ejemplo únicamente en el navegador. No se modificaron los ajustes de autenticación, permisos ni base de datos de Supabase. No se enviaron mensajes, reservas ni cobros reales.
+
+Las guías de arquitectura y operación se entregan como archivos locales. La presentación comercial y la tarjeta son los documentos publicados con el sitio.

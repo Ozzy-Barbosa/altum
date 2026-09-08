@@ -227,7 +227,56 @@ export const solutions = [
       'La demo no envía avisos ni ofrece un portal público de seguimiento. Los equipos y clientes son ficticios.',
     next: ['Evidencias fotográficas', 'Seguimiento por cliente', 'Mantenimiento recurrente'],
   },
-] as const;
+  {
+    slug: 'personal',
+    name: 'Altum Metas',
+    label: 'Finanzas personales',
+    category: 'Finanzas',
+    icon: 'target',
+    color: '#80dcc3',
+    headline: 'Tus metas, con un plan.',
+    description:
+      'Organiza un presupuesto mensual y visualiza el avance de tus metas de ahorro con aportaciones de ejemplo.',
+    audience:
+      'Personas, profesionales independientes y hogares que quieren ordenar su presupuesto.',
+    features: [
+      'Plan mensual de ingresos y gastos',
+      'Metas con fecha e importe objetivo',
+      'Registro de aportaciones y avance',
+      'Proyección simple y exportación',
+    ],
+    demo: 'Ajusta el presupuesto, crea una meta y registra una aportación para ver cómo cambia el avance.',
+    boundary:
+      'Es una herramienta de organización con datos ficticios. No conecta bancos, invierte ni recomienda productos financieros.',
+    next: ['Historial mensual', 'Categorías personalizadas', 'Acceso privado por persona'],
+  },
+  {
+    slug: 'soporte',
+    name: 'Altum Soporte',
+    label: 'Mesa de ayuda',
+    category: 'Servicios',
+    icon: 'headset',
+    color: '#9cb8ff',
+    headline: 'Cada solicitud, con seguimiento.',
+    description:
+      'Centraliza incidencias, asigna responsables y registra respuestas para que cada solicitud tenga continuidad.',
+    audience: 'Negocios con soporte técnico, oficinas, proveedores de redes y equipos de atención.',
+    features: [
+      'Tickets por categoría y prioridad',
+      'Asignación y fecha objetivo',
+      'Historial de respuestas',
+      'Panel de pendientes y exportación',
+    ],
+    demo: 'Registra una incidencia de Wi-Fi, asigna a un responsable y añade una respuesta hasta resolverla.',
+    boundary:
+      'La demo no envía correos, monitorea routers ni abre solicitudes reales. Los tiempos objetivo son datos del ejemplo, no un compromiso de atención.',
+    next: [
+      'Portal privado del cliente',
+      'Notificaciones autorizadas',
+      'Integración con monitoreo de red',
+    ],
+  },
+];
 export const projects = [
   {
     slug: 'orthomax',
@@ -495,6 +544,168 @@ export const services = [
       [
         '¿Los números de la demo son reales?',
         'No. Se calculan sobre registros ficticios para mostrar cómo funciona la herramienta.',
+      ],
+    ],
+  },
+  {
+    slug: 'redes-wifi-la-paz',
+    name: 'Redes y Wi-Fi para negocios en La Paz',
+    short: 'Redes y Wi-Fi',
+    intro: 'Conecta mejor cada espacio.',
+    text: 'Diagnóstico de cobertura, diseño de red y configuración de routers y puntos de acceso para negocios y oficinas.',
+    problem:
+      'Una señal débil o una red sin organización interrumpe cobros, trabajo y atención. Revisamos el espacio, los equipos y la conexión antes de proponer mejoras.',
+    deliverables: [
+      'Diagnóstico de cobertura y necesidades',
+      'Propuesta de distribución y equipos',
+      'Configuración de routers y puntos de acceso',
+      'Separación de red de invitados cuando el equipo lo permite',
+      'Pruebas de cobertura y documentación',
+    ],
+    demo: 'soporte',
+    faq: [
+      [
+        '¿Incluye equipos y cableado?',
+        'Equipos, materiales, cableado y obra se presupuestan por separado después del diagnóstico. El rendimiento también depende del proveedor de internet.',
+      ],
+      [
+        '¿Cómo comienza el proyecto?',
+        'Con una conversación y un diagnóstico. Después recibes un alcance, entregables, calendario y costos externos por escrito.',
+      ],
+    ],
+  },
+  {
+    slug: 'marketing-digital-la-paz',
+    name: 'Marketing digital para negocios en La Paz',
+    short: 'Marketing digital',
+    intro: 'Una presencia que sabe qué comunicar.',
+    text: 'Planeación de contenido, páginas para campañas y medición de contactos para conectar tu oferta con las personas adecuadas.',
+    problem:
+      'Publicar sin un objetivo hace difícil evaluar qué funciona. Definimos público, mensaje, canales y una forma de medir consultas o conversiones.',
+    deliverables: [
+      'Diagnóstico de presencia digital',
+      'Calendario y líneas de contenido',
+      'Diseño de piezas según alcance',
+      'Página de campaña y contacto',
+      'Medición y reporte de resultados',
+    ],
+    demo: 'crm',
+    faq: [
+      [
+        '¿Incluye inversión en anuncios?',
+        'La pauta, la producción audiovisual y las herramientas de terceros se acuerdan por separado. No prometemos cantidades de ventas o seguidores.',
+      ],
+      [
+        '¿Cómo comienza el proyecto?',
+        'Con una conversación y un diagnóstico. Después recibes un alcance, entregables, calendario y costos externos por escrito.',
+      ],
+    ],
+  },
+  {
+    slug: 'identidad-visual-la-paz',
+    name: 'Identidad visual para negocios en La Paz',
+    short: 'Identidad de negocio',
+    intro: 'Que cada punto de contacto hable de ti.',
+    text: 'Diseño de identidad visual y materiales digitales para presentar tu negocio de forma consistente.',
+    problem:
+      'Un logotipo aislado no define toda la experiencia. Acordamos cómo se verá tu marca en redes, documentos, tarjetas y sitio web.',
+    deliverables: [
+      'Exploración de objetivos y referencias',
+      'Propuesta de logotipo según alcance',
+      'Paleta, tipografías y usos básicos',
+      'Plantillas para redes y documentos',
+      'Archivos finales y guía de aplicación',
+    ],
+    demo: 'menu',
+    faq: [
+      [
+        '¿Incluye registro de marca?',
+        'La investigación y el registro legal de marca no están incluidos. Se define el número de propuestas y revisiones en la cotización.',
+      ],
+      [
+        '¿Cómo comienza el proyecto?',
+        'Con una conversación y un diagnóstico. Después recibes un alcance, entregables, calendario y costos externos por escrito.',
+      ],
+    ],
+  },
+  {
+    slug: 'bases-de-datos-la-paz',
+    name: 'Bases de datos y automatización en La Paz',
+    short: 'Bases de datos',
+    intro: 'Información que tu equipo puede utilizar.',
+    text: 'Diseño de datos, paneles de administración e integraciones para ordenar registros y reducir captura repetida.',
+    problem:
+      'Cuando existen varias versiones de un archivo, aparecen duplicados y errores. Definimos una estructura, reglas de validación y quién puede ver o modificar cada dato.',
+    deliverables: [
+      'Modelado de entidades y relaciones',
+      'Validación y permisos por rol',
+      'Importación de archivos acordados',
+      'Consultas, reportes y exportaciones',
+      'Plan de respaldos y recuperación',
+    ],
+    demo: 'inventario',
+    faq: [
+      [
+        '¿Pueden migrar mis datos?',
+        'Primero se revisan formato, calidad, cantidad y autorización de uso. La limpieza, conciliación y migración se estiman con una muestra.',
+      ],
+      [
+        '¿Cómo comienza el proyecto?',
+        'Con una conversación y un diagnóstico. Después recibes un alcance, entregables, calendario y costos externos por escrito.',
+      ],
+    ],
+  },
+  {
+    slug: 'aplicaciones-moviles-la-paz',
+    name: 'Diseño de aplicaciones móviles en La Paz',
+    short: 'Aplicaciones móviles',
+    intro: 'Tu proceso, al alcance de la mano.',
+    text: 'Diseño y planificación de aplicaciones móviles para servicios, equipos de campo y experiencias de clientes.',
+    problem:
+      'Antes de elegir una app, comprobamos qué capacidades necesita: cámara, uso sin conexión, notificaciones o distribución en tiendas. Un prototipo ayuda a validar el recorrido.',
+    deliverables: [
+      'Descubrimiento del caso de uso',
+      'Diseño y prototipo de pantallas',
+      'Definición de funciones y permisos',
+      'Plan de conexión y sincronización',
+      'Desarrollo por etapas según viabilidad',
+    ],
+    demo: 'agenda',
+    faq: [
+      [
+        '¿La demo ya es una app publicada en tiendas?',
+        'La referencia es una aplicación web. Una app móvil tiene su propio alcance de desarrollo, pruebas, cuentas de publicación y revisión de las tiendas.',
+      ],
+      [
+        '¿Cómo comienza el proyecto?',
+        'Con una conversación y un diagnóstico. Después recibes un alcance, entregables, calendario y costos externos por escrito.',
+      ],
+    ],
+  },
+  {
+    slug: 'aplicaciones-escritorio-la-paz',
+    name: 'Aplicaciones de escritorio en La Paz',
+    short: 'Aplicaciones de escritorio',
+    intro: 'Herramientas para tu estación de trabajo.',
+    text: 'Diseño y desarrollo por etapas de herramientas de escritorio para procesos internos, archivos y operación local.',
+    problem:
+      'Algunos procesos necesitan trabajar con archivos o dispositivos del equipo. Revisamos el sistema operativo, permisos y mantenimiento antes de definir una aplicación instalable.',
+    deliverables: [
+      'Análisis del proceso y sistemas compatibles',
+      'Diseño de interfaz de operación',
+      'Prototipo y desarrollo por etapas',
+      'Integraciones locales según alcance',
+      'Distribución, actualización y soporte definidos',
+    ],
+    demo: 'servicios',
+    faq: [
+      [
+        '¿Funciona en cualquier equipo?',
+        'La compatibilidad se acuerda y prueba por sistema operativo y periféricos. Instalación, firma y actualizaciones forman parte del alcance.',
+      ],
+      [
+        '¿Cómo comienza el proyecto?',
+        'Con una conversación y un diagnóstico. Después recibes un alcance, entregables, calendario y costos externos por escrito.',
       ],
     ],
   },

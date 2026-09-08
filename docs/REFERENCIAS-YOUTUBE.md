@@ -40,3 +40,4 @@ Estos siguientes proyectos son una propuesta propia a partir de los temas de los
 23. [CÓMO GANAR DINERO CON IA EN 2026](https://www.youtube.com/watch?v=6NKW73VyDhQ) — MARCOSYTANIA. Revisión completa pendiente.
 24. [Así Gano Dinero con ChatGPT 5.1 Sin Wordpres y Sin Ser Programador - Curso Gratis](https://www.youtube.com/watch?v=cLM7btwxjOg) — Nacho Auge. Revisión completa pendiente.
 25. [Cómo Ganar Dinero Con Cualquier Ordenador](https://www.youtube.com/watch?v=_qUE-DR0jqM) — Adrián Sáenz. Revisión completa pendiente.
+Actualización: el planificador personal se implementó como Altum Metas (presupuesto, metas y aportaciones de ejemplo). No reproduce estrategias financieras de los videos; la revisión de su contenido completo continúa pendiente.

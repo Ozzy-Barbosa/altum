@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { solutions, site } from '../data/catalog';
+import { solutions, site, services } from '../data/catalog';
 import QRCode from 'qrcode';
 const qr = await QRCode.toDataURL(site.origin + '/demos/', {
   width: 240,
@@ -29,13 +29,13 @@ const pairs = Array.from({ length: Math.ceil(solutions.length / 2) }, (_, i) =>
     <p class="eyebrow">TU CARPETA COMERCIAL</p><h1>
       Una conversación.<br />Muchas posibilidades.
     </h1><p class="lead">
-      Seis hojas A4 con soluciones y códigos QR. Imprime a escala 100 %, desactiva encabezados y
+      Ocho hojas A4 con soluciones y códigos QR. Imprime a escala 100 %, desactiva encabezados y
       pies del navegador y activa gráficos de fondo.
     </p>
   </section><div class="container">
     <div class="print-actions">
       <a class="button" href="/documentos/altum-presentacion-comercial.pdf" download
-        >Descargar PDF · 6 hojas ↓</a
+        >Descargar PDF · 8 hojas ↓</a
       ><button class="button button-secondary" data-print>Imprimir esta página</button><a
         class="text-link"
         href="/demos/">Explorar las demostraciones ↗</a
@@ -80,6 +80,26 @@ const pairs = Array.from({ length: Math.ceil(solutions.length / 2) }, (_, i) =>
           height="115"
         />
       </div>
+    </article><article class="print-sheet">
+      <p class="eyebrow">SERVICIOS / UNA VISIÓN INTEGRAL</p><h2>
+        Más puntos de contacto.<br />Una misma dirección.
+      </h2><p>Cada servicio tiene su propio alcance. Comenzamos por una necesidad concreta.</p><div
+        class="print-grid"
+      >
+        {
+          services.map((s) => (
+            <div class="print-item">
+              <>
+                <h3>{s.short}</h3>
+                <p>{s.intro}</p>
+              </>
+            </div>
+          ))
+        }
+      </div><p class="print-disclaimer">
+        Equipos, materiales, pauta, cuentas y licencias se acuerdan por separado. La viabilidad y el
+        alcance de aplicaciones móviles y de escritorio se revisan por proyecto.
+      </p><div class="print-footer"><p>{site.phone} · www.altumlapaz.com/servicios/</p></div>
     </article>{
       pairs.map((pair) => (
         <article class="print-sheet">

@@ -1,6 +1,6 @@
 # Altum · Plataforma y demostraciones
 
-Sitio de servicios, casos de trabajo, portafolio profesional y diez aplicaciones de demostración para [Altum](https://www.altumlapaz.com), La Paz, BCS.
+Sitio de servicios, casos de trabajo, portafolio profesional y doce aplicaciones de demostración para [Altum](https://www.altumlapaz.com), La Paz, BCS.
 
 ## Arquitectura
 
@@ -45,8 +45,10 @@ La compilación comprueba páginas, enlaces locales, títulos, descripciones, et
 | `/demos/crm/`          | Oportunidades, etapas de venta, notas y seguimiento                        |
 | `/demos/cotizaciones/` | Conceptos, descuentos, folios, documento y estados                         |
 | `/demos/servicios/`    | Órdenes, responsable, prioridad e historial por estado                     |
+| `/demos/personal/` | Presupuesto mensual, metas, aportaciones y proyección simple |
+| `/demos/soporte/` | Tickets, responsables, respuestas, historial y filtros |
 
-La lógica se encuentra en `src/lib/demo-domain.mjs` y `src/lib/business-domain.mjs`, y los ejemplos iniciales en `seed()`. `Restablecer demo` recupera esos ejemplos para el módulo abierto. El carrito sin confirmar es temporal. Los cambios confirmados permanecen en ese navegador. Abrir otra pestaña no ofrece edición colaborativa; recarga para ver su última copia guardada.
+La lógica se encuentra en `src/lib/demo-domain.mjs`, `src/lib/business-domain.mjs` y `src/lib/extended-domain.mjs`, y los ejemplos iniciales en `seed()`. `Restablecer demo` recupera esos ejemplos para el módulo abierto. El carrito sin confirmar es temporal. Los cambios confirmados permanecen en ese navegador. Abrir otra pestaña no ofrece edición colaborativa; recarga para ver su última copia guardada.
 
 ## Publicación y reversión
 
@@ -64,12 +66,20 @@ El portafolio personal está en `/portafolio/`: añadir foto y datos profesional
 
 Páginas específicas de servicios para La Paz, metadatos por ruta, contenido semántico, fuentes locales, imágenes con dimensiones, navegación accesible y movimiento reducido. Mapa del sitio: `/sitemap-index.xml`. Las demos y la presentación llevan `noindex` para que los negocios ficticios no compitan con las páginas comerciales.
 
-La propiedad de dominio de Altum está verificada en Google Search Console. El 7 de septiembre de 2026 se envió `/sitemap-index.xml` y Google lo aceptó con estado «Correcto». La portada ya figuraba como indexada; el mapa nuevo permite descubrir las páginas comerciales (26 en la versión ampliada). Tener SEO técnico correcto y un sitemap aceptado no garantiza la indexación de todas las páginas ni posiciones. Bing Webmaster Tools queda pendiente. Mantener casos reales y contenido útil es trabajo continuo.
+La propiedad de dominio de Altum está verificada en Google Search Console. El 7 de septiembre de 2026 se envió `/sitemap-index.xml` y Google lo aceptó con estado «Correcto». La portada ya figuraba como indexada; el mapa nuevo permite descubrir las páginas comerciales (38 en la versión actual; su indexación aún depende del rastreo). Tener SEO técnico correcto y un sitemap aceptado no garantiza la indexación de todas las páginas ni posiciones. Bing Webmaster Tools queda pendiente. Mantener casos reales y contenido útil es trabajo continuo.
 
-`/presentacion/` ofrece seis hojas imprimibles y códigos QR a las demos. La versión PDF descargable está en `/documentos/altum-presentacion-comercial.pdf`.
+`/presentacion/` ofrece ocho hojas imprimibles y códigos QR a las demos. La versión PDF descargable está en `/documentos/altum-presentacion-comercial.pdf`.
 
 ## Evolución visual y referencias
 
 Constelaciones animadas, órbitas y partículas decorativas, pausa de movimiento persistente y respeto de la preferencia del sistema. El lienzo pausa su animación en pestañas ocultas y limita la densidad y resolución. Navegación con Inicio, iconos sociales, búsqueda y categorías de soluciones, tecnologías y herramientas para borrar datos locales de las demos.
 
 Las 25 referencias de video y las siguientes ideas están en [REFERENCIAS-YOUTUBE.md](docs/REFERENCIAS-YOUTUBE.md). Sus títulos fueron verificados; la revisión completa de los videos sigue pendiente.
+
+## Guías y tarjeta
+
+`node --experimental-strip-types tools/export-catalog.mjs` exporta el catálogo. `python tools/create-guides.py` genera los tres PDF en `output/pdf/` (requiere ReportLab y las fuentes Arial de Windows). Solo copia la presentación comercial a `public/documentos/`; las guías de estudio y operación se entregan localmente. El script también crea el maestro vectorial temporal de la tarjeta; se renderiza a PNG a 600 dpi, de 90 × 55 mm. Los QR se deben decodificar después de renderizar.
+
+`/como-esta-hecho/` explica la arquitectura; `/tarjeta/` presenta el contacto y la tarjeta descargable. Las tecnologías del ecosistema se enlazan a su documentación oficial con iconos de [Simple Icons](https://simpleicons.org/). Sass compila `src/styles/evolution.scss`; Flutter y Tauri forman parte de las posibilidades de otros proyectos y no del runtime de esta web.
+
+Metas y Soporte son módulos locales. Su conexión privada requiere ampliar la preparación de base de datos y validar los permisos antes de habilitarla. No se modificó el inicio de sesión ni se habilitó acceso público a Supabase en esta ampliación.

@@ -32,7 +32,12 @@ export function useDemo(module: string) {
         state.current = local;
         setData(local);
       }
-      if (import.meta.env.PUBLIC_DEMO_CLOUD === 'true' && (await currentSession())) {
+      if (
+        module !== 'personal' &&
+        module !== 'soporte' &&
+        import.meta.env.PUBLIC_DEMO_CLOUD === 'true' &&
+        (await currentSession())
+      ) {
         try {
           const remote = await loadCloud(module);
           if (live) {

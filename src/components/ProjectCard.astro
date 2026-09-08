@@ -18,7 +18,14 @@ const { project: p } = Astro.props;
     /></a
   ><div class="project-info">
     <div>
-      <p class="eyebrow">{p.sector} <span> / {p.status}</span></p><h3>
+      <p class="eyebrow">
+        {p.sector}
+        <span
+          class:list={[
+            'project-status',
+            { 'in-progress': p.status.toLowerCase().includes('desarrollo') },
+          ]}><i class="status-dot"></i>{p.status}</span>
+      </p><h3>
         <a href={`/proyectos/${p.slug}/`}>{p.name}</a>
       </h3>
     </div><a class="circle-link" href={`/proyectos/${p.slug}/`} aria-label={`Ver caso de ${p.name}`}

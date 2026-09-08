@@ -1,5 +1,47 @@
 ---
+import {
+  siAstro,
+  siReact,
+  siTypescript,
+  siJavascript,
+  siHtml5,
+  siNodedotjs,
+  siPostgresql,
+  siSupabase,
+  siGit,
+  siSass,
+  siFlutter,
+  siTauri,
+} from 'simple-icons';
 const { compact = false } = Astro.props;
+const icons = [
+  siAstro,
+  siReact,
+  siTypescript,
+  siJavascript,
+  siHtml5,
+  siNodedotjs,
+  siPostgresql,
+  siSupabase,
+  siGit,
+  siSass,
+  siFlutter,
+  siTauri,
+];
+const links = [
+  'https://astro.build/',
+  'https://react.dev/',
+  'https://www.typescriptlang.org/',
+  'https://developer.mozilla.org/es/docs/Web/JavaScript',
+  'https://developer.mozilla.org/es/docs/Web',
+  'https://nodejs.org/',
+  'https://www.postgresql.org/',
+  'https://supabase.com/',
+  'https://git-scm.com/',
+  'https://sass-lang.com/',
+  'https://flutter.dev/',
+  'https://v2.tauri.app/',
+];
 const stack = [
   ['A', 'Astro', 'Contenido rápido e indexable', '#ffb07a'],
   ['⚛', 'React', 'Aplicaciones interactivas', '#72d9f6'],
@@ -10,6 +52,9 @@ const stack = [
   ['PG', 'PostgreSQL', 'Base de datos preparada', '#89b8e0'],
   ['S', 'Supabase', 'Base para acceso privado', '#72deb4'],
   ['Git', 'Git + GitHub', 'Versiones y publicación', '#d2b3ff'],
+  ['Sass', 'Sass / SCSS', 'Estilos organizados y reutilizables', '#e5a1c5'],
+  ['Flutter', 'Flutter', 'Experiencias móviles multiplataforma', '#6dc8ed'],
+  ['Tauri', 'Tauri', 'Aplicaciones de escritorio', '#efd580'],
 ];
 ---
 
@@ -19,7 +64,7 @@ const stack = [
 >
   <div class="section-heading">
     <div>
-      <p class="eyebrow">EL CÓDIGO DETRÁS DE LA EXPERIENCIA</p><h2>
+      <p class="eyebrow">ECOSISTEMA DE DESARROLLO</p><h2>
         Tecnología con<br /><span class="gradient">un propósito claro.</span>
       </h2>
     </div><p>
@@ -29,11 +74,20 @@ const stack = [
   </div>
   <div class="tech-grid">
     {
-      stack.map(([symbol, name, description, color]) => (
-        <article class="tech-card reveal" style={`--tech:${color}`}>
+      stack.map(([, name, description, color], index) => (
+        <a
+          class="tech-card reveal"
+          style={`--tech:${color}`}
+          href={links[index]}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`${name}: ${description}. Documentación en otra pestaña`}
+        >
           <>
             <span class="tech-monogram" aria-hidden="true">
-              {symbol}
+              <svg viewBox="0 0 24 24">
+                <path d={icons[index].path} />
+              </svg>
             </span>
             <div>
               <>
@@ -42,7 +96,7 @@ const stack = [
               </>
             </div>
           </>
-        </article>
+        </a>
       ))
     }
   </div>

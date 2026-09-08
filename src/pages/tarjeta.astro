@@ -1,0 +1,51 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SocialLinks from '../components/SocialLinks.astro';
+import { site } from '../data/catalog';
+import QRCode from 'qrcode';
+const qr = await QRCode.toDataURL(site.origin + '/demos/', {
+  width: 340,
+  margin: 4,
+  errorCorrectionLevel: 'M',
+});
+---
+
+<Layout
+  title="Tarjeta digital de Altum"
+  description="Conecta con Altum en La Paz: diseño web, aplicaciones, redes e identidad digital. Escanea el QR y explora nuestras demos."
+>
+  <section class="container page-hero">
+    <p class="eyebrow">LLEVEMOS TU IDEA AL SIGUIENTE NIVEL</p><h1>
+      Mucho gusto.<br /><span class="gradient">Somos Altum.</span>
+    </h1>
+  </section><section class="container compact-section">
+    <div class="qr-card">
+      <div>
+        <img
+          src="/assets/logo-altum-symbol-transparent.png"
+          alt="Altum"
+          width="110"
+          height="60"
+        /><h2 style="margin-top:20px">Ideas.<br />Tecnología.<br />Posibilidades.</h2><p
+          style="margin-top:20px"
+        >
+          Web · Aplicaciones · Redes<br />Identidad y presencia digital
+        </p><SocialLinks />
+      </div><div>
+        <img
+          class="qr"
+          src={qr}
+          alt="QR para explorar las demos de Altum"
+          width="170"
+          height="170"
+        /><p class="form-note" style="margin-top:12px">Escanea y descubre qué podemos crear.</p>
+      </div>
+    </div><div class="actions" style="justify-content:center;margin:30px 0">
+      <a class="button" href={site.whatsapp} target="_blank" rel="noopener noreferrer"
+        >Escribir por WhatsApp ↗</a
+      ><a class="button secondary" href="/documentos/altum-tarjeta-qr.png" download
+        >Descargar tarjeta ↓</a
+      ><a class="text-link" href="/contacto/">Contacto y proyecto →</a>
+    </div>
+  </section>
+</Layout>

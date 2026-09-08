@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { solutions, site } from '../data/catalog';
+import { solutions, site, services } from '../data/catalog';
 ---
 
 <Layout
@@ -44,9 +44,9 @@ import { solutions, site } from '../data/catalog';
           >¿Qué necesitas? *<select name="solution" id="solution" required
             ><option value="">Selecciona una opción</option><option value="web"
               >Página web profesional</option
-            >{solutions.map((s) => <option value={s.slug}>{s.label}</option>)}<option value="other"
-              >Otro proyecto / necesito orientación</option
-            ></select
+            >{solutions.map((s) => <option value={s.slug}>{s.label}</option>)}{
+              services.slice(6).map((s) => <option value={s.slug}>{s.short}</option>)
+            }<option value="other">Otro proyecto / necesito orientación</option></select
           ></label
         ><label class="field full"
           >¿Qué quieres mejorar? *<textarea

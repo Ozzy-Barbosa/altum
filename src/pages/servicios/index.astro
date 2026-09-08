@@ -1,0 +1,48 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { services } from '../../data/catalog';
+---
+
+<Layout
+  title="Servicios digitales, redes y tecnología en La Paz"
+  description="Diseño web, software, redes Wi-Fi, identidad visual, marketing y bases de datos para negocios de La Paz, BCS. Explora servicios y define tu proyecto."
+>
+  <section class="container page-hero">
+    <p class="eyebrow">ALTUM / SERVICIOS</p><h1>
+      Conecta tu negocio.<br /><span class="gradient">En todos sus puntos.</span>
+    </h1><p class="lead">
+      Tu marca, tus herramientas y tu conexión forman parte de la misma experiencia. Empezamos por
+      lo que necesitas mejorar.
+    </p><div class="actions">
+      <a class="button" href="/contacto/">Cuéntanos qué necesitas ↗</a><a
+        class="text-link"
+        href="/demos/">Explorar aplicaciones →</a>
+    </div>
+  </section>
+  <section class="container compact-section">
+    <div class="service-grid">
+      {
+        services.map((s, i) => (
+          <article class="service-card reveal">
+            <>
+              <p class="eyebrow">{String(i + 1).padStart(2, '0')} / ALTUM</p>
+              <h2 style="font-size:1.5rem">{s.short}</h2>
+              <p>{s.intro}</p>
+              <a class="text-link" href={`/servicios/${s.slug}/`}>
+                Ver alcance y preguntas ↗
+              </a>
+            </>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+  <section class="container callout">
+    <div>
+      <h2>El primer paso es entenderlo.</h2><p>
+        Definimos prioridades, entregables y costos externos antes de comenzar. Cada servicio puede
+        contratarse con su propio alcance.
+      </p>
+    </div><a class="button" href="/preguntas-frecuentes/">Resolver mis dudas ↗</a>
+  </section>
+</Layout>
