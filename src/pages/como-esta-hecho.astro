@@ -62,6 +62,8 @@ import { solutions, services } from '../data/catalog';
       <h3>Contenido y aplicaciones</h3><p>
         Astro genera las páginas comerciales y React aporta la interacción donde hace falta. Un
         catálogo central alimenta las tarjetas, las fichas, las rutas y la presentación comercial.
+        Las guías de Soluciones se escriben en Markdown y utilizan una colección de contenido con
+        campos validados. Una plantilla genera los artículos, su índice y su canal RSS.
       </p><h3>Diseño y movimiento</h3><p>
         HTML semántico, CSS y Sass organizan la interfaz. Los iconos son SVG. Las constelaciones se
         dibujan en Canvas y el átomo combina órbitas con una respuesta suave al cursor. El
@@ -69,7 +71,9 @@ import { solutions, services } from '../data/catalog';
       </p><h3>Datos y acceso</h3><p>
         Las demos públicas utilizan datos ficticios guardados localmente. Una implementación privada
         requiere autenticación, permisos y una base de datos. La estructura PostgreSQL/Supabase es
-        parte de esa preparación; el sitio público no ofrece sincronización entre usuarios.
+        parte de esa preparación; el sitio público no ofrece sincronización entre usuarios. El
+        guardado local comprueba versiones, detecta cambios de otras pestañas y conserva una copia
+        anterior de recuperación. Esto no sustituye una base de datos ni respaldos del servidor.
       </p>
     </div>
   </section>
@@ -83,7 +87,7 @@ import { solutions, services } from '../data/catalog';
             <a href="/servicios/">Servicios ({services.length})</a>
           </li><li><a href="/portafolio/">Portafolio</a></li><li>
             <a href="/proyectos/">Proyectos reales</a>
-          </li>
+          </li><li><a href="/soluciones/">Soluciones: guías para negocios</a></li>
         </ul>
       </article><article class="spec-card">
         <h3>Explorar una solución</h3><ul>

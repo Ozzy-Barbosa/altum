@@ -74,7 +74,7 @@ const stack = [
   </div>
   <div class="tech-grid">
     {
-      stack.map(([, name, description, color], index) => (
+      (compact ? stack.slice(0, 6) : stack).map(([, name, description, color], index) => (
         <a
           class="tech-card reveal"
           style={`--tech:${color}`}
@@ -100,6 +100,13 @@ const stack = [
       ))
     }
   </div>
+  {
+    compact && (
+      <a class="text-link tech-more" href="/portafolio/#tecnologias">
+        Conocer el ecosistema completo ↗
+      </a>
+    )
+  }
   <p class="form-note">
     Las demos públicas guardan ejemplos en el navegador. La conexión a PostgreSQL y Supabase está
     preparada para implementaciones privadas con sus propios accesos.

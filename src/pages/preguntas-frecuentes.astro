@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { faqs } from '../data/faq';
+import FaqAccordion from '../components/FaqAccordion.astro';
 ---
 
 <Layout
@@ -15,18 +16,7 @@ import { faqs } from '../data/faq';
     </p>
   </section>
   <section class="container compact-section">
-    <div class="faq-list">
-      {
-        faqs.map(([q, a]) => (
-          <details>
-            <>
-              <summary>{q}</summary>
-              <p>{a}</p>
-            </>
-          </details>
-        ))
-      }
-    </div>
+    <FaqAccordion items={faqs} group="preguntas-altum" />
   </section>
   <section class="container callout">
     <div>

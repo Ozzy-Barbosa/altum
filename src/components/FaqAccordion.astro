@@ -1,0 +1,43 @@
+---
+interface Props {
+  items: readonly (readonly string[])[];
+  group: string;
+}
+const { items, group } = Astro.props;
+---
+
+<div class="faq-list" data-faq-group>
+  {
+    items.map(([q, a], i) => (
+      <details name={group}>
+        <>
+          <summary>
+            <>
+              <span class="faq-number">{String(i + 1).padStart(2, '0')}</span>
+              <span>{q}</span>
+              <span class="faq-plus" aria-hidden="true">
+                +
+              </span>
+            </>
+          </summary>
+          <div class="faq-answer">
+            <p>{a}</p>
+          </div>
+        </>
+      </details>
+    ))
+  }
+</div>
+<script>
+  // Native named details provide exclusive expansion; this also covers older browsers.
+  document.querySelectorAll('[data-faq-group]').forEach((group) => {
+    group.querySelectorAll('details').forEach((current) => {
+      current.addEventListener('toggle', () => {
+        if (current.open)
+          group.querySelectorAll('details').forEach((other) => {
+            if (other !== current) other.open = false;
+          });
+      });
+    });
+  });
+</script>

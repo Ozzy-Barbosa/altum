@@ -48,7 +48,7 @@ La compilación comprueba páginas, enlaces locales, títulos, descripciones, et
 | `/demos/personal/` | Presupuesto mensual, metas, aportaciones y proyección simple |
 | `/demos/soporte/` | Tickets, responsables, respuestas, historial y filtros |
 
-La lógica se encuentra en `src/lib/demo-domain.mjs`, `src/lib/business-domain.mjs` y `src/lib/extended-domain.mjs`, y los ejemplos iniciales en `seed()`. `Restablecer demo` recupera esos ejemplos para el módulo abierto. El carrito sin confirmar es temporal. Los cambios confirmados permanecen en ese navegador. Abrir otra pestaña no ofrece edición colaborativa; recarga para ver su última copia guardada.
+La lógica se encuentra en `src/lib/demo-domain.mjs`, `src/lib/business-domain.mjs` y `src/lib/extended-domain.mjs`, y los ejemplos iniciales en `seed()`. `Restablecer demo` recupera esos ejemplos para el módulo abierto. El carrito sin confirmar es temporal. Los cambios confirmados permanecen en ese navegador. `local-persistence.mjs` comprueba el formato de guardado, conserva una copia anterior y detecta escrituras con una versión desactualizada. Web Locks coordina las escrituras entre pestañas compatibles; en otros navegadores se compara la copia antes de escribir. Esto no es edición colaborativa ni un respaldo remoto.
 
 ## Publicación y reversión
 
@@ -66,11 +66,13 @@ El portafolio personal está en `/portafolio/`: añadir foto y datos profesional
 
 Páginas específicas de servicios para La Paz, metadatos por ruta, contenido semántico, fuentes locales, imágenes con dimensiones, navegación accesible y movimiento reducido. Mapa del sitio: `/sitemap-index.xml`. Las demos y la presentación llevan `noindex` para que los negocios ficticios no compitan con las páginas comerciales.
 
-La propiedad de dominio de Altum está verificada en Google Search Console. El 7 de septiembre de 2026 se envió `/sitemap-index.xml` y Google lo aceptó con estado «Correcto». La portada ya figuraba como indexada; el mapa nuevo permite descubrir las páginas comerciales (38 en la versión actual; su indexación aún depende del rastreo). Tener SEO técnico correcto y un sitemap aceptado no garantiza la indexación de todas las páginas ni posiciones. Bing Webmaster Tools queda pendiente. Mantener casos reales y contenido útil es trabajo continuo.
+La propiedad de dominio de Altum está verificada en Google Search Console. El 7 de septiembre de 2026 se envió `/sitemap-index.xml` y Google lo aceptó con estado «Correcto». La portada ya figuraba como indexada; el mapa nuevo permite descubrir las páginas comerciales (44 en la versión actual; su indexación aún depende del rastreo). Tener SEO técnico correcto y un sitemap aceptado no garantiza la indexación de todas las páginas ni posiciones. Bing Webmaster Tools queda pendiente. Mantener casos reales y contenido útil es trabajo continuo.
 
 `/presentacion/` ofrece ocho hojas imprimibles y códigos QR a las demos. La versión PDF descargable está en `/documentos/altum-presentacion-comercial.pdf`.
 
 ## Evolución visual y referencias
+
+Servicios, Soluciones y Demos tienen propósitos distintos: oferta comercial, guías educativas y aplicaciones de ejemplo. La portada muestra tres demos y una selección de tecnologías. Los artículos se editan en `src/content/insights/` y se validan con Content Collections; su índice, rutas y RSS se generan desde esos archivos. Consulta [SEO y contenido](docs/SEO-Y-CONTENIDO.md) para publicar artículos y notificar cambios a IndexNow.
 
 Constelaciones animadas, órbitas y partículas decorativas, pausa de movimiento persistente y respeto de la preferencia del sistema. El lienzo pausa su animación en pestañas ocultas y limita la densidad y resolución. Navegación con Inicio, iconos sociales, búsqueda y categorías de soluciones, tecnologías y herramientas para borrar datos locales de las demos.
 

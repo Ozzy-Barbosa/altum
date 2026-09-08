@@ -1,0 +1,68 @@
+---
+interface Props {
+  categories: string[];
+  label: string;
+  placeholder: string;
+  total: number;
+  noun: string;
+}
+const { categories, label, placeholder, total, noun } = Astro.props;
+---
+
+<div data-filter-catalog data-noun={noun}>
+  <div class="catalog-controls">
+    <label>{label}<input type="search" data-filter-search {placeholder} autocomplete="off" /></label
+    >
+    <label
+      >Explorar por tema<select data-filter-category
+        ><option value="">Todos los temas</option>{
+          categories.map((c) => <option>{c}</option>)
+        }</select
+      ></label
+    >
+  </div>
+  <p class="catalog-count" aria-live="polite" data-filter-count>{total} {noun} para explorar</p>
+  <slot />
+  <div class="catalog-empty" data-filter-empty hidden>
+    <h3>Probemos con otra búsqueda.</h3><p>
+      No hay coincidencias. Cambia el término o selecciona todos los temas.
+    </p><button class="button secondary" type="button" data-filter-reset>Mostrar todo</button>
+  </div>
+</div>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-filter-catalog]').forEach((catalog) => {
+    const search = catalog.querySelector<HTMLInputElement>('[data-filter-search]')!;
+    const category = catalog.querySelector<HTMLSelectElement>('[data-filter-category]')!;
+    const normalize = (s: string) =>
+      s
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+        .trim();
+    const filter = () => {
+      let visible = 0;
+      catalog.querySelectorAll<HTMLElement>('[data-filter-item]').forEach((item) => {
+        const terms = normalize(search.value).split(/\s+/).filter(Boolean);
+        const match =
+          terms.every((term) => normalize(item.dataset.filterItem || '').includes(term)) &&
+          (!category.value || category.value === item.dataset.category);
+        item.hidden = !match;
+        if (match) {
+          visible++;
+          item.classList.add('seen');
+        }
+      });
+      catalog.querySelector<HTMLElement>('[data-filter-count]')!.textContent =
+        `${visible} ${visible === 1 ? 'resultado' : 'resultados'} · ${catalog.dataset.noun}`;
+      catalog.querySelector<HTMLElement>('[data-filter-empty]')!.hidden = visible > 0;
+    };
+    search.addEventListener('input', filter);
+    category.addEventListener('change', filter);
+    catalog.querySelector('[data-filter-reset]')?.addEventListener('click', () => {
+      search.value = '';
+      category.value = '';
+      filter();
+      search.focus();
+    });
+  });
+</script>

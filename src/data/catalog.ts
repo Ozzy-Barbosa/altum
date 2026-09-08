@@ -283,8 +283,8 @@ export const projects = [
     name: 'Orthomax',
     sector: 'Salud',
     status: 'Publicado',
-    image: 'project-ortomax.jpg',
-    url: 'https://orthomaxlapaz.com/',
+    image: 'project-orthomax-202609.png',
+    url: 'https://www.orthomaxlapaz.com/',
     intro: 'Información clara para acercar un centro odontológico a sus pacientes.',
     challenge:
       'Organizar la información del consultorio y facilitar el contacto desde cualquier pantalla.',

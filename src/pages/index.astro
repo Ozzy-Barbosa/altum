@@ -15,12 +15,14 @@ import { solutions, projects } from '../data/catalog';
   <section class="hero container" id="inicio">
     <div class="hero-copy">
       <p class="eyebrow"><span class="status-dot"></span> ESTUDIO DIGITAL · LA PAZ, BCS</p><h1>
-        Tu negocio.<br />Su siguiente<br /><span class="gradient">gran versión.</span>
+        Diseño que inspira.<br /><span class="gradient"
+          >Tecnología que<br />impulsa tu negocio.</span
+        >
       </h1><p class="lead">
-        Páginas web, tiendas y aplicaciones que convierten tus ideas en herramientas para vender,
-        organizar y crecer.
+        Creamos páginas web y aplicaciones que comunican el valor de tu negocio, simplifican tu
+        operación y abren nuevas oportunidades. Desde La Paz, con una visión a largo plazo.
       </p><div class="actions">
-        <a class="button" href="/demos/">Explora lo que podemos crear <span>↗</span></a><a
+        <a class="button" href="/servicios/">Encuentra tu próximo paso <span>↗</span></a><a
           class="text-link"
           href="/proyectos/">Ver trabajo real →</a
         >
@@ -66,30 +68,24 @@ import { solutions, projects } from '../data/catalog';
   <section class="section container" id="servicios">
     <div class="section-heading">
       <div>
-        <p class="eyebrow">01 / SOLUCIONES QUE PUEDES PROBAR</p><h2>
-          Más posibilidades.<br /><span class="muted">Menos trabajo manual.</span>
+        <p class="eyebrow">01 / UNA MUESTRA DE LO POSIBLE</p><h2>
+          Herramientas que hacen<br /><span class="gradient">avanzar tu día a día.</span>
         </h2>
       </div><p>
-        Descubre cómo se vería una herramienta hecha para tu negocio. Prueba las demos con
-        información de ejemplo.
+        Tres experiencias para explorar cómo puedes presentar tu oferta, organizar citas y entender
+        tu operación. El catálogo completo está a un paso.
       </p>
-    </div><div class="solutions-grid">
-      {solutions.slice(0, 6).map((solution, index) => <SolutionCard {solution} {index} />)}
+    </div><div class="solutions-grid featured-demos">
+      {
+        solutions
+          .filter((s) => ['menu', 'agenda', 'finanzas'].includes(s.slug))
+          .map((solution, index) => <SolutionCard {solution} {index} />)
+      }
     </div>
-  </section>
-  <section class="container compact-section">
-    <div class="section-heading">
-      <div>
-        <p class="eyebrow">NUEVAS DEMOS / MÁS ALLÁ DE UNA PÁGINA</p><h2>
-          La operación también<br /><span class="gradient">merece buen diseño.</span>
-        </h2>
-      </div><p>
-        Seis herramientas para explorar tus números, seguir ventas, presentar propuestas, organizar
-        servicios y dar continuidad a cada solicitud.
-      </p>
-    </div>
-    <div class="solutions-grid business-solutions">
-      {solutions.slice(6).map((solution, index) => <SolutionCard {solution} index={index + 6} />)}
+    <div class="catalog-footer">
+      <p>Ventas, inventario, clientes, cotizaciones y más.</p><a
+        class="button secondary"
+        href="/demos/">Explorar las 12 demos ↗</a>
     </div>
   </section>
   <section class="section work-section" id="proyectos">
@@ -125,15 +121,21 @@ import { solutions, projects } from '../data/catalog';
   <section class="section container" id="proceso">
     <div class="section-heading">
       <div>
-        <p class="eyebrow">04 / UN PROCESO CLARO</p><h2>Del primer café<br />al siguiente paso.</h2>
+        <p class="eyebrow">04 / UN PROCESO CLARO</p><h2>
+          De tu visión<br />a una solución que funciona.
+        </h2>
       </div>
     </div><div class="process-grid">
       {
         [
-          ['01', 'Escuchamos', 'Conocemos tu negocio, el problema y lo que quieres conseguir.'],
-          ['02', 'Definimos', 'Acordamos funciones, contenido, inversión y entregables.'],
-          ['03', 'Construimos', 'Diseñamos, desarrollamos y probamos contigo.'],
-          ['04', 'Lanzamos', 'Publicamos y te guiamos para utilizar tu nueva herramienta.'],
+          [
+            '01',
+            'Comprendemos',
+            'Identificamos tus prioridades y el recorrido que necesitas mejorar.',
+          ],
+          ['02', 'Definimos', 'Acordamos alcance, entregables y una forma clara de comprobarlos.'],
+          ['03', 'Construimos', 'Diseñamos, desarrollamos y revisamos cada avance contigo.'],
+          ['04', 'Acompañamos', 'Publicamos, explicamos el uso y definimos los siguientes pasos.'],
         ].map(([n, t, d]) => (
           <article class="reveal">
             <>

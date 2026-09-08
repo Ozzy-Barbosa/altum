@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { services, site } from '../../data/catalog';
+import FaqAccordion from '../../components/FaqAccordion.astro';
 export function getStaticPaths() {
   return services.map((service) => ({ params: { slug: service.slug }, props: { service } }));
 }
@@ -123,16 +124,7 @@ const { service: s } = Astro.props;
   }
   <section class="container section split">
     <div><p class="eyebrow">ANTES DE EMPEZAR</p><h2>Preguntas frecuentes.</h2></div><div>
-      {
-        s.faq.map(([q, a]) => (
-          <details>
-            <>
-              <summary>{q}</summary>
-              <p>{a}</p>
-            </>
-          </details>
-        ))
-      }
+      <FaqAccordion items={s.faq} group={`preguntas-${s.slug}`} />
     </div>
   </section><section class="container callout">
     <div>

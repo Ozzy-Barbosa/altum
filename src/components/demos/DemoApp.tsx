@@ -32,6 +32,7 @@ class DemoErrorBoundary extends Component<{ children: ReactNode }, { failed: boo
             const module = location.pathname.split('/').filter(Boolean).at(-1);
             try {
               localStorage.removeItem(`altum-demo-v2:${module}`);
+              localStorage.removeItem(`altum-demo-v2:${module}:previous`);
             } catch {}
             location.reload();
           }}

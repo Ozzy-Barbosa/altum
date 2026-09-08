@@ -39,28 +39,6 @@ export async function currentSession() {
   return Boolean(data.session);
 }
 export type DemoState = ReturnType<typeof seed>;
-export const localKey = (module: string) => `altum-demo-v2:${module}`;
-export function loadLocal(module: string) {
-  try {
-    const raw = localStorage.getItem(localKey(module));
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      if (parsed.version === 2 && parsed.data && typeof parsed.data === 'object')
-        return parsed.data;
-    }
-  } catch {
-    /* Storage can be disabled. The demo remains usable in memory. */
-  }
-  return seed(module);
-}
-export function saveLocal(module: string, data: unknown) {
-  try {
-    localStorage.setItem(localKey(module), JSON.stringify({ version: 2, data }));
-    return true;
-  } catch {
-    return false;
-  }
-}
 export async function loadCloud(module: string) {
   const db = await connect();
   const { data, error } = await db

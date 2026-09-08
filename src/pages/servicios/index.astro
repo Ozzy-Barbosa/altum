@@ -1,6 +1,9 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { services } from '../../data/catalog';
+import FilterCatalog from '../../components/FilterCatalog.astro';
+import ServiceIcon from '../../components/ServiceIcon.astro';
+import { servicePresentation } from '../../data/service-presentation';
 ---
 
 <Layout
@@ -16,26 +19,52 @@ import { services } from '../../data/catalog';
     </p><div class="actions">
       <a class="button" href="/contacto/">Cuéntanos qué necesitas ↗</a><a
         class="text-link"
-        href="/demos/">Explorar aplicaciones →</a>
+        href="/demos/">Explorar aplicaciones →</a
+      >
     </div>
   </section>
   <section class="container compact-section">
-    <div class="service-grid">
-      {
-        services.map((s, i) => (
-          <article class="service-card reveal">
-            <>
-              <p class="eyebrow">{String(i + 1).padStart(2, '0')} / ALTUM</p>
-              <h2 style="font-size:1.5rem">{s.short}</h2>
-              <p>{s.intro}</p>
-              <a class="text-link" href={`/servicios/${s.slug}/`}>
-                Ver alcance y preguntas ↗
-              </a>
-            </>
-          </article>
-        ))
-      }
-    </div>
+    <FilterCatalog
+      categories={[...new Set(Object.values(servicePresentation).map((s) => s.category))]}
+      label="Encuentra el servicio que necesitas"
+      placeholder="Busca: página, redes, identidad, datos…"
+      total={services.length}
+      noun="servicios"
+    >
+      <div class="service-grid friendly-services">
+        {
+          services.map((s) => (
+            <article
+              class="service-card reveal"
+              data-filter-item={`${s.short} ${s.name} ${s.intro} ${servicePresentation[s.slug].result} ${servicePresentation[s.slug].category}`}
+              data-category={servicePresentation[s.slug].category}
+            >
+              <>
+                <div class="service-card-top">
+                  <>
+                    <span class="service-icon">
+                      <ServiceIcon name={servicePresentation[s.slug].icon} />
+                    </span>
+                    <span class="tag">{servicePresentation[s.slug].category}</span>
+                  </>
+                </div>
+                <h2>
+                  <a href={`/servicios/${s.slug}/`}>{s.short}</a>
+                </h2>
+                <p>{servicePresentation[s.slug].result}</p>
+                <p class="service-includes">
+                  <strong>Podemos ayudarte con</strong>
+                  {s.deliverables.slice(0, 2).join(' · ')}
+                </p>
+                <a class="text-link" href={`/servicios/${s.slug}/`}>
+                  Conocer el servicio ↗
+                </a>
+              </>
+            </article>
+          ))
+        }
+      </div></FilterCatalog
+    >
   </section>
   <section class="container callout">
     <div>

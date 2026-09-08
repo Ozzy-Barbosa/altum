@@ -1,13 +1,6 @@
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from 'react';
-import {
-  seed,
-  transition,
-  loadLocal,
-  saveLocal,
-  loadCloud,
-  saveCloud,
-  currentSession,
-} from '../../lib/demo-store';
+import { seed, transition, loadCloud, saveCloud, currentSession } from '../../lib/demo-store';
+import { readBrowserSnapshot, saveBrowserSnapshot } from '../../lib/local-persistence.mjs';
 export type Data = Record<string, any>;
 export type Dispatch = (action: Record<string, any>) => Promise<boolean>;
 export type DemoProps = { data: Data; send: Dispatch; busy: boolean };
@@ -23,14 +16,22 @@ export function useDemo(module: string) {
   const [cloud, setCloud] = useState(false);
   const version = useRef(0);
   const state = useRef(data);
+  const localSnapshot = useRef<string | null>(null);
   const locked = useRef(false);
   useEffect(() => {
     let live = true;
     const init = async () => {
-      const local = loadLocal(module);
+      const local = readBrowserSnapshot(module, seed(module));
       if (live) {
-        state.current = local;
-        setData(local);
+        localSnapshot.current = local.raw;
+        state.current = local.data;
+        setData(local.data);
+        if (local.recovered)
+          setNotice('Recuperamos la copia local anterior porque la última no se pudo leer.');
+        if (local.invalid)
+          setError(
+            'No pudimos leer los datos guardados. Se muestran ejemplos; revisa antes de guardar nuevos cambios.',
+          );
       }
       if (
         module !== 'personal' &&
@@ -66,7 +67,14 @@ export function useDemo(module: string) {
     try {
       const next = transition(module, state.current, action);
       if (cloud) version.current = await saveCloud(module, next, version.current);
-      const saved = saveLocal(module, next);
+      const result = await saveBrowserSnapshot(
+        module,
+        next,
+        cloud ? undefined : localSnapshot.current,
+        seed(module),
+      );
+      localSnapshot.current = result.raw;
+      const saved = result.saved;
       state.current = next;
       setData(next);
       setNotice(

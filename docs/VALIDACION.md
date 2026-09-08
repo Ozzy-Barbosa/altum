@@ -68,3 +68,18 @@ La señal de descarga de la herramienta del navegador integrado agotó su espera
 - Metas y Soporte conservan datos de ejemplo únicamente en el navegador. No se modificaron los ajustes de autenticación, permisos ni base de datos de Supabase. No se enviaron mensajes, reservas ni cobros reales.
 
 Las guías de arquitectura y operación se entregan como archivos locales. La presentación comercial y la tarjeta son los documentos publicados con el sitio.
+
+## Separación editorial, experiencia adaptable y persistencia
+
+7 de septiembre de 2026:
+
+- Servicios conserva la oferta comercial y añade categorías, iconos, búsqueda, entregables breves y acceso al alcance. Soluciones se convierte en un índice de seis guías educativas con páginas propias, tabla de contenido, metadatos BlogPosting y RSS. Demos conserva las doce aplicaciones; las fichas existentes siguen disponibles para conservar enlaces y QR.
+- Portada reducida a tres demos y seis tecnologías, con acceso a los catálogos completos. Texto principal y proceso revisados; tarjetas de proceso con espacio interior y una columna en teléfonos pequeños. Portafolio ampliado con propósito, objetivos, método de trabajo y habilidades de colaboración, sin añadir credenciales o experiencia laboral inventadas.
+- Captura de Orthomax tomada desde `https://www.orthomaxlapaz.com/` y utilizada como imagen del caso.
+- 29 pruebas de dominio y persistencia aprobadas. Las seis nuevas comprueban compatibilidad con datos anteriores, rechazo de guardado desactualizado, recuperación desde copia anterior, separación de módulos, estructura y disponibilidad del almacenamiento.
+- Prueba interactiva de dos pestañas: la primera guardó el ingreso mensual de $25,000; la segunda intentó guardar $26,000 y recibió un aviso de conflicto sin aplicar el cambio. Se restablecieron los ejemplos al terminar.
+- FAQ: abrir la primera respuesta y luego la segunda deja exactamente un panel abierto. Filtros de Servicios: búsqueda, categoría Conectividad, estado sin coincidencias y restablecimiento comprobados. Búsqueda de dashboard en las guías devuelve un artículo y permite abrirlo.
+- Portada, Servicios, Soluciones, Portafolio, Preguntas y una guía comprobados en 320, 768 y 1024 px: ancho de documento igual al ancho útil de la vista. Revisiones visuales adicionales en 390 y 820 px, incluido menú desplegable, tablas de artículos y portafolio. Estas pruebas utilizan el navegador integrado; no son pruebas físicas en Safari/iPhone/iPad.
+- 59 páginas HTML generadas; 44 direcciones indexables. Verificación de metadatos, enlaces, canonical, sitemap, referencias del RSS y trece QR de presentación. El rastreo público sigue habilitado; IndexNow se ejecuta después de comprobar el despliegue, nunca durante una compilación local.
+
+Las comparaciones de versiones protegen frente a cambios desactualizados. Web Locks mejora la coordinación local donde está disponible; esto no convierte las demos en sistemas multiusuario ni elimina la necesidad de permisos y concurrencia en el servidor de un piloto privado.

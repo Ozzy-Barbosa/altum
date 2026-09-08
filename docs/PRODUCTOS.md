@@ -53,3 +53,11 @@ Para una candidatura, explicar problema, arquitectura, reglas y pruebas. El sigu
 - Soporte: tickets con folio, categoría, prioridad, responsable, fecha objetivo e historial de respuestas. No envía mensajes ni monitorea routers. Portal del cliente, notificaciones, archivos y monitoreo son integraciones adicionales.
 
 Los doce servicios se presentan en `/servicios/`. Redes, identidad y marketing tienen entregables propios; los proyectos móviles y de escritorio comienzan por viabilidad, plataforma y alcance. Las fichas `/soluciones/[slug]/#especificaciones` explican problema, recorrido y caso cotidiano.
+
+## Guardado local y crecimiento del producto
+
+`src/lib/local-persistence.mjs` separa el guardado de las reglas y de la interfaz. Lee el formato anterior sin descartar datos, comprueba la envoltura y los campos principales, añade módulo y revisión, y conserva una copia válida anterior. Si el almacenamiento no está disponible, la interfaz avisa que el cambio queda en memoria. La copia local no sustituye un respaldo del servidor.
+
+Cada edición compara la copia que abrió la pestaña con la última guardada. Una edición desactualizada se rechaza para pedir recarga. Web Locks serializa las escrituras en navegadores compatibles; sin esa API se mantiene la comparación previa, que no garantiza atomicidad entre procesos. Esto no implementa colaboración ni sincronización entre dispositivos. No se han cambiado accesos, tablas ni reglas de la preparación privada.
+
+Antes de un piloto real, elegir un producto y acordar un recorrido completo. Extraer la configuración de marca, moneda, zona horaria y funciones según el cliente; modelar sus entidades y permisos en el servidor; probar migraciones, concurrencia, recuperación y exportación; medir el recorrido con usuarios autorizados. El almacenamiento por documento de la demo es una base para explicar el proceso, no el esquema definitivo de una aplicación de negocio.

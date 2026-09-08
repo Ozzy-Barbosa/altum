@@ -41,6 +41,28 @@ for (const relative of files) {
 }
 for (const file of ['CNAME', 'robots.txt', 'sitemap-index.xml', '404.html'])
   if (!fs.existsSync(path.join(root, file))) errors.push(`Missing ${file}`);
+const sitemap = fs.readFileSync(path.join(root, 'sitemap-0.xml'), 'utf8');
+const indexable = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+if (new Set(indexable).size !== indexable.length) errors.push('Duplicate sitemap entries');
+if (indexable.some((url) => /\/(demos|presentacion)\//.test(url)))
+  errors.push('Demo or presentation in sitemap');
+for (const url of indexable) {
+  const route = new URL(url).pathname;
+  const htmlPath = path.join(root, route, 'index.html');
+  if (!fs.existsSync(htmlPath)) {
+    errors.push('Sitemap route missing: ' + route);
+    continue;
+  }
+  if (fs.readFileSync(htmlPath, 'utf8').includes('noindex, follow'))
+    errors.push('Noindex route in sitemap: ' + route);
+}
+const feed = fs.readFileSync(path.join(root, 'soluciones/rss.xml'), 'utf8');
+for (const m of feed.matchAll(/<guid isPermaLink="true">([^<]+)<\/guid>/g)) {
+  if (!indexable.includes(m[1])) errors.push('RSS article absent from sitemap: ' + m[1]);
+  const article = fs.readFileSync(path.join(root, new URL(m[1]).pathname, 'index.html'), 'utf8');
+  if (!article.includes('BlogPosting') || !article.includes('article:published_time'))
+    errors.push('Article metadata missing: ' + m[1]);
+}
 const presentation = fs.readFileSync(path.join(root, 'presentacion/index.html'), 'utf8');
 const expectedQr = new Set(
   [
