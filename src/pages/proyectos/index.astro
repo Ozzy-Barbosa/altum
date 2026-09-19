@@ -6,27 +6,32 @@ import { projects, solutions } from '../../data/catalog';
 
 <Layout
   title="Proyectos de diseño y desarrollo web"
-  description="Explora el trabajo de Altum para Orthomax, Conchalito Tours, Alexa Lara Fotografía y Proyectcons. Casos de diseño y desarrollo web en La Paz."
+  description="Explora el trabajo de Altum para Orthomax, Conchalito Tours, A&M Personalizados, Alexa Lara Fotografía y Proyectcons. Diseño y desarrollo web en La Paz."
   ><section class="page-hero container">
     <p class="eyebrow">PORTAFOLIO DE CLIENTES</p><h1>
       Cada negocio,<br /><span class="gradient">una historia propia.</span>
     </h1><p class="lead">
-      Proyectos publicados y trabajo en desarrollo, con el contexto y el alcance de cada
-      experiencia.
+      Sitios que ya puedes visitar y proyectos en desarrollo. Conoce el contexto, el alcance y el
+      estado actual de cada experiencia.
     </p>
   </section><section class="container compact-section">
     <div class="filter-bar" aria-label="Filtrar proyectos">
       <button class="filter-button" data-filter="all" aria-pressed="true">Todos</button><button
         class="filter-button"
         data-filter="Publicado"
-        aria-pressed="false">Publicados</button
+        aria-pressed="false">En línea</button
+      ><button class="filter-button" data-filter="En revisión" aria-pressed="false"
+        >En revisión</button
       ><button class="filter-button" data-filter="En desarrollo" aria-pressed="false"
         >En desarrollo</button
       >
     </div><div class="projects-grid">
       {
         projects.map((project) => (
-          <div data-status={project.status}>
+          <div
+            data-status={project.url ? 'Publicado' : project.status}
+            data-review={project.status.includes('revisión') ? 'true' : 'false'}
+          >
             <ProjectCard {project} />
           </div>
         ))
@@ -59,11 +64,13 @@ import { projects, solutions } from '../../data/catalog';
         document
           .querySelectorAll('[data-filter]')
           .forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
-        document
-          .querySelectorAll<HTMLElement>('[data-status]')
-          .forEach(
-            (x) => (x.hidden = b.dataset.filter !== 'all' && x.dataset.status !== b.dataset.filter),
-          );
+        document.querySelectorAll<HTMLElement>('[data-status]').forEach((x) => {
+          const filter = b.dataset.filter;
+          x.hidden =
+            filter === 'En revisión'
+              ? x.dataset.review !== 'true'
+              : filter !== 'all' && x.dataset.status !== filter;
+        });
       }),
     );
   </script></Layout

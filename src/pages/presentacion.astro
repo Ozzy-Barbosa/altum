@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { solutions, site, services, projects } from '../data/catalog';
+import { CONTACT } from '../data/contact';
 import QRCode from 'qrcode';
 const qr = await QRCode.toDataURL(site.origin + '/demos/', {
   width: 240,
@@ -70,7 +71,8 @@ const pairs = Array.from({ length: Math.ceil(solutions.length / 2) }, (_, i) =>
       </p><div class="print-footer">
         <div>
           <strong>Prueba las demos desde tu celular.</strong><p>
-            {site.phone}<br />www.altumlapaz.com<br />@altumlapaz
+            {site.phone}<br /><a href={CONTACT.emailHref}>{CONTACT.email}</a><br
+            />www.altumlapaz.com<br />@altumlapaz
           </p>
         </div><img
           class="qr"
@@ -219,7 +221,10 @@ const pairs = Array.from({ length: Math.ceil(solutions.length / 2) }, (_, i) =>
         /><div>
           <h3>Hola, soy Oscar.</h3><p>
             Diseño, desarrollo y atención directa desde La Paz, Baja California Sur.
-          </p><p><strong>{site.phone}</strong><br />www.altumlapaz.com/contacto/</p>
+          </p><p>
+            <strong>{site.phone}</strong><br /><a href={CONTACT.emailHref}>{CONTACT.email}</a><br
+            />www.altumlapaz.com/contacto/
+          </p>
         </div>
       </div>
       <h3>Para nuestra primera conversación.</h3><p>

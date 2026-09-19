@@ -8,7 +8,10 @@ export default defineConfig({
     react(),
     sitemap({
       filter: (page) =>
-        !page.includes('/demos/') && !page.includes('/presentacion/') && !page.includes('/404'),
+        !page.includes('/demos/') &&
+        !page.includes('/presentacion/') &&
+        !page.includes('/gracias/') &&
+        !page.includes('/404'),
     }),
   ],
   output: 'static',

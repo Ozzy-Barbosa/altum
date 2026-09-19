@@ -95,3 +95,16 @@ Las comparaciones de versiones protegen frente a cambios desactualizados. Web Lo
 - Presentación comercial de 10 páginas, guía de arquitectura de 12 y manual comercial y de entrega de 10: 32 páginas renderizadas y revisadas; sin texto fuera de los márgenes comprobados. Los 13 QR del PDF se decodificaron desde su render y corresponden al catálogo y las 12 demos.
 - Presentación pública actualizada con casos y contacto. Guías internas actualizadas con mapa de páginas, blog, persistencia, ejercicios, ficha de descubrimiento y registro de entrega. Estos dos documentos siguen siendo locales.
 - 29 pruebas aprobadas. Comprobación de 74 archivos Astro/TypeScript sin errores, advertencias ni sugerencias. Compilación de 59 páginas y verificación de enlaces, metadatos, mapa del sitio y 13 QR del HTML.
+
+## Contacto por correo, newsletter y A&M Personalizados
+
+18 de septiembre de 2026:
+
+- Contacto centralizado: `altumlapaz@gmail.com` y TikTok `@altumlapaz` en las páginas, tarjeta, presentación, redes y datos estructurados. Al revisar TikTok sin iniciar sesión, su interfaz mostró «No se pudo encontrar esta cuenta»; la dirección está actualizada según lo solicitado, pero la disponibilidad del perfil queda pendiente de revisión por el titular.
+- Formularios nativos HTTPS de propuesta y suscripción mediante FormSubmit, con consentimiento independiente, campos validados, protección antispam, páginas de retorno no indexables y alternativa por correo. Solicitar una propuesta no suscribe a marketing. La newsletter recibe solicitudes para gestionar una lista manual: no activa campañas ni envíos masivos.
+- El titular confirmó la activación del destinatario. FormSubmit aceptó dos mensajes internos de prueba con `success: true`; no se afirma recepción en la bandeja hasta confirmarla por separado. Las pruebas de interfaz interceptaron las peticiones y no enviaron correos reales.
+- A&M Personalizados agregado con captura real de su portada, enlace público y estado «En línea · en revisión», aclarando que falta el dominio propio. Tres proyectos publicados en la portada, con imágenes completas y filtros de disponibilidad en el catálogo.
+- 29 pruebas aprobadas, 100 archivos comprobados sin errores, advertencias ni sugerencias; 62 páginas compiladas. Verificados enlaces locales, metadatos, canonical, datos estructurados, sitemap y trece QR.
+- Once comprobaciones de navegador de producción aprobadas, sin errores de consola: validación de correo, campos y consentimiento; espacios exteriores y longitud mínima; selección por URL; campos múltiples y metadatos del POST; recuperación del botón al volver; formularios con JavaScript deshabilitado; movimiento reducido y pausa global.
+- Portada, contacto y proyectos sin desbordamiento horizontal ni identificadores duplicados en 320, 390, 768 y 1440 px. Revisión visual de newsletter, contacto y proyectos a 390 y 1440 px. Son pruebas de navegador, no pruebas físicas de todos los dispositivos.
+- Informe local: `output/qa/email-production-20260918-report.json`. Operación y límites del servicio documentados en `docs/FORMULARIOS-Y-NEWSLETTER.md`.

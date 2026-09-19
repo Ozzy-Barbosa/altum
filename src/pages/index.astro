@@ -5,6 +5,7 @@ import ProjectCard from '../components/ProjectCard.astro';
 import OrbitArt from '../components/OrbitArt.astro';
 import TechStack from '../components/TechStack.astro';
 import HeroMotion from '../components/HeroMotion.astro';
+import Newsletter from '../components/Newsletter.astro';
 import { solutions, projects } from '../data/catalog';
 ---
 
@@ -85,7 +86,8 @@ import { solutions, projects } from '../data/catalog';
     <div class="catalog-footer">
       <p>Ventas, inventario, clientes, cotizaciones y más.</p><a
         class="button secondary"
-        href="/demos/">Explorar las 12 demos ↗</a>
+        href="/demos/">Explorar las 12 demos ↗</a
+      >
     </div>
   </section>
   <section class="section work-section" id="proyectos">
@@ -96,8 +98,8 @@ import { solutions, projects } from '../data/catalog';
             Trabajo que<br /><span class="gradient">habla por sí mismo.</span>
           </h2>
         </div><a class="text-link" href="/proyectos/">Todos los proyectos ↗</a>
-      </div><div class="projects-grid">
-        {projects.slice(0, 2).map((project) => <ProjectCard {project} />)}
+      </div><div class="projects-grid home-projects">
+        {projects.filter((project) => project.url).map((project) => <ProjectCard {project} />)}
       </div>
     </div>
   </section>
@@ -155,5 +157,21 @@ import { solutions, projects } from '../data/catalog';
       </h2><p>Cuéntanos dónde estás y qué quieres mejorar.</p>
     </div><a class="button light" href="/contacto/">Hablemos de tu negocio ↗</a>
   </section>
+  <Newsletter />
   <HeroMotion />
 </Layout>
+
+<style>
+  .home-projects {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 28px;
+  }
+  @media (max-width: 1000px) {
+    .home-projects {
+      grid-template-columns: 1fr;
+      max-width: 760px;
+      margin-inline: auto;
+      gap: 45px;
+    }
+  }
+</style>

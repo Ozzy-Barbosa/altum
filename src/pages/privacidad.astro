@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { CONTACT } from '../data/contact';
 ---
 
 <Layout
@@ -10,10 +11,49 @@ import Layout from '../layouts/Layout.astro';
       Qué sucede con la información que utilizas en este sitio.
     </p>
   </section><section class="container compact-section prose">
-    <h2>Contacto</h2><p>
-      El formulario prepara un mensaje que se abre en WhatsApp. Altum no almacena las respuestas de
-      ese formulario en la base de datos del sitio. El envío se completa cuando decides enviarlo
-      dentro de WhatsApp, donde se aplican las condiciones de ese servicio.
+    <p>Información actualizada el 18 de septiembre de 2026.</p>
+    <h2 id="contacto">Solicitudes de proyecto</h2><p>
+      Altum Soluciones Digitales, en La Paz, Baja California Sur, utiliza los datos que compartes
+      para responder consultas, preparar propuestas y dar seguimiento a tu proyecto. Puedes
+      contactarnos en <a class="text-link" href={CONTACT.emailHref}>{CONTACT.email}</a>.
+    </p><p>
+      El formulario solicita nombre, correo, tipo de proyecto y una descripción de tu objetivo. El
+      negocio, teléfono, referencias, funciones, presupuesto y fecha son opcionales. No envíes
+      contraseñas, datos bancarios ni documentos sensibles. Pedir una propuesta no te suscribe a
+      comunicaciones de marketing.
+    </p><p>
+      Al enviar, los datos pasan por FormSubmit, que realiza la verificación de seguridad y los
+      remite al correo de Altum alojado en Gmail. Las respuestas se conservan en esa bandeja para su
+      revisión y seguimiento; no se guardan en las bases de datos de las demos. FormSubmit puede
+      conservar un archivo de los envíos durante 30 días, según su documentación. Consulta su
+      <a
+        class="text-link"
+        href="https://formsubmit.co/privacy.pdf"
+        target="_blank"
+        rel="noopener noreferrer">política de privacidad</a
+      >.
+    </p><h2 id="newsletter">Newsletter y comunicaciones de Altum</h2><p>
+      Solicitamos tu correo y consentimiento explícito para enviarte guías, noticias, novedades y
+      comunicaciones de marketing de Altum. El nombre y los intereses son opcionales. La casilla de
+      suscripción no está marcada de antemano y esta autorización es independiente de la solicitud
+      de un proyecto. La petición, intereses, texto de consentimiento y referencia de este aviso
+      llegan a nuestro correo para gestionar la lista de manera manual.
+    </p><p>
+      Puedes retirar tu consentimiento, solicitar tu baja o modificar tus intereses escribiendo a
+      <a class="text-link" href={`${CONTACT.emailHref}?subject=Baja%20de%20newsletter`}
+        >{CONTACT.email}</a
+      >
+      con el asunto «Baja de newsletter». Usa el correo con el que te suscribiste para identificar tu
+      registro. Atenderemos las bajas antes de un nuevo envío de marketing.
+    </p><h2 id="tus-datos">Consultas y control de tus datos</h2><p>
+      Puedes pedir acceso, corrección o eliminación de los datos que hayas enviado, así como dejar
+      de recibir comunicaciones, en <a class="text-link" href={CONTACT.emailHref}>{CONTACT.email}</a
+      >. Conservamos las consultas mientras sean necesarias para atenderlas y dar seguimiento al
+      proyecto; revisamos la lista de suscripciones y sus bajas antes de cada campaña. No publicamos
+      los correos de las personas suscritas ni los datos de sus proyectos.
+    </p><p>
+      Si eliges WhatsApp, completarás la conversación en ese servicio, donde se aplican sus propias
+      condiciones. El sitio no guarda borradores de los formularios en tu navegador.
     </p><h2>Información de demostración</h2><p>
       Los negocios, productos, personas, citas, movimientos financieros, cotizaciones y órdenes de
       servicio de las demos son ficticios. Utiliza únicamente información de ejemplo. No ingreses
@@ -58,8 +98,9 @@ import Layout from '../layouts/Layout.astro';
       propias políticas. Las fuentes e imágenes de la interfaz se sirven desde este sitio. Esta
       versión no incorpora publicidad, píxeles publicitarios ni analítica de terceros.
     </p><h2>Consultas</h2><p>
-      Para consultar sobre el uso de información en Altum, comunícate por el medio de contacto
-      publicado: <a class="text-link" href="https://wa.me/526122125198">+52 612 212 5198</a>.
+      Para consultar sobre el uso de información en Altum, escribe a
+      <a class="text-link" href={CONTACT.emailHref}>{CONTACT.email}</a> o comunícate por
+      <a class="text-link" href="https://wa.me/526122125198">+52 612 212 5198</a>.
     </p>
   </section><script>
     const dialog = document.querySelector<HTMLDialogElement>('#clear-dialog')!;

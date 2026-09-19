@@ -1,8 +1,11 @@
+import { CONTACT } from './contact.ts';
+
 export const site = {
   name: 'Altum',
   origin: 'https://www.altumlapaz.com',
-  phone: '+52 612 212 5198',
-  whatsapp: 'https://wa.me/526122125198',
+  email: CONTACT.email,
+  phone: CONTACT.phone,
+  whatsapp: CONTACT.whatsapp,
   github: 'https://github.com/Ozzy-Barbosa',
   location: 'La Paz, Baja California Sur',
 };
@@ -317,6 +320,30 @@ export const projects = [
     result:
       'Una presentación visual de la oferta turística con acceso directo al sitio de la marca.',
     tags: ['Turismo', 'Diseño web', 'Responsive'],
+  },
+  {
+    slug: 'am-personalizados',
+    name: 'A&M Personalizados',
+    sector: 'Productos personalizados',
+    status: 'En línea · en revisión',
+    statusNote: 'Sitio publicado en GitHub Pages. En revisión final; dominio propio pendiente.',
+    image: 'project-am-personalizados.webp',
+    imageWidth: 1440,
+    imageHeight: 1000,
+    url: 'https://ozzy-barbosa.github.io/ampersonalizados/',
+    intro: 'Una vitrina digital para tazas, camisas y termos personalizados en La Paz.',
+    challenge:
+      'Presentar productos, precios y trabajos reales para que cada visitante pueda explicar su idea y solicitar una cotización.',
+    work: [
+      'Catálogo visual de productos y galería de trabajos',
+      'Presentación de camisas, materiales y precios por volumen',
+      'Formulario que prepara una consulta de cotización por WhatsApp',
+      'Diseño adaptable y tarjeta digital del negocio',
+    ],
+    role: 'Diseño de experiencia y desarrollo web',
+    result:
+      'Sitio realizado y disponible para visitar, con productos, trabajos reales, preguntas frecuentes y contacto. Continúa en revisión final antes de conectar su dominio propio.',
+    tags: ['Catálogo', 'Personalizados', 'Diseño web'],
   },
   {
     slug: 'alexa-lara',

@@ -22,7 +22,7 @@ const urlList = [...new Set(urls)].map((value) => {
     url.origin !== origin ||
     url.search ||
     url.hash ||
-    /\/(demos|presentacion)\//.test(url.pathname)
+    /\/(demos|presentacion|gracias)\//.test(url.pathname)
   )
     throw Error('Only canonical indexable Altum URLs may be submitted.');
   return url.href;

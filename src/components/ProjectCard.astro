@@ -8,15 +8,15 @@ const { project: p } = Astro.props;
 
 <article class="project-card reveal">
   <a
-    class:list={['project-image', { 'project-image-complete': p.slug === 'orthomax' }]}
+    class="project-image project-image-complete"
     href={`/proyectos/${p.slug}/`}
     tabindex="-1"
     aria-hidden="true"
     ><img
       src={`/assets/${p.image}`}
       alt=""
-      width="1440"
-      height="900"
+      width={p.imageWidth ?? 1440}
+      height={p.imageHeight ?? 900}
       loading="lazy"
       decoding="async"
     /></a
@@ -27,7 +27,10 @@ const { project: p } = Astro.props;
         <span
           class:list={[
             'project-status',
-            { 'in-progress': p.status.toLowerCase().includes('desarrollo') },
+            {
+              'in-progress': p.status.toLowerCase().includes('desarrollo'),
+              'in-review': p.status.toLowerCase().includes('revisión'),
+            },
           ]}><i class="status-dot"></i>{p.status}</span
         >
       </p><h3>
@@ -37,4 +40,52 @@ const { project: p } = Astro.props;
       >↗</a
     >
   </div><p>{p.intro}</p>
+  {p.statusNote && <p class="project-note">{p.statusNote}</p>}
+  {
+    p.url && (
+      <a
+        class="text-link project-public-link"
+        href={p.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`Visitar el sitio de ${p.name} (abre otra pestaña)`}
+      >
+        Visitar sitio <span aria-hidden="true">↗</span>
+      </a>
+    )
+  }
 </article>
+
+<style>
+  .project-image-complete img {
+    height: 100%;
+    object-fit: contain;
+  }
+  .project-info .eyebrow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+  }
+  .project-status {
+    margin-left: 0;
+  }
+  .in-review .status-dot {
+    background: #e6bc75;
+    color: #e6bc75;
+    box-shadow: 0 0 12px #e6bc7540;
+  }
+  .project-card > .project-note {
+    color: #c4cfe0;
+    font-size: 0.8rem;
+    line-height: 1.7;
+    padding-left: 12px;
+    border-left: 2px solid #e6bc7570;
+  }
+  .project-public-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 18px;
+  }
+</style>

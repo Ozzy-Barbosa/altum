@@ -9,6 +9,7 @@ Sitio de servicios, casos de trabajo, portafolio profesional y doce aplicaciones
 - Cada demo tiene su interfaz independiente y comparte validaciones, almacenamiento, diálogos y componentes.
 - Demos públicas con datos ficticios guardados en el navegador. No procesan pagos, reservas ni pedidos reales.
 - Supabase está aprovisionado para la siguiente etapa privada. El conector exige una sesión autorizada; no se crean usuarios anónimos.
+- Formularios reales de propuesta y suscripción por correo a `altumlapaz@gmail.com`, mediante FormSubmit. Newsletter en Inicio y Contacto, consentimiento separado, CAPTCHA y gestión inicial de la lista desde el correo. Consulta [operación de formularios y newsletter](docs/FORMULARIOS-Y-NEWSLETTER.md).
 
 ## Desarrollo
 

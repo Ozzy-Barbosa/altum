@@ -6,6 +6,7 @@ import '../styles/editorial.scss';
 import '@fontsource-variable/manrope';
 import '@fontsource-variable/space-grotesk';
 import { site, services } from '../data/catalog';
+import { CONTACT } from '../data/contact';
 import Constellation from '../components/Constellation.astro';
 import SocialLinks from '../components/SocialLinks.astro';
 interface Props {
@@ -48,6 +49,14 @@ const graph = [
     name: 'Altum Soluciones Digitales',
     url: site.origin,
     telephone: site.phone,
+    email: CONTACT.email,
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'customer service',
+      email: CONTACT.email,
+      telephone: CONTACT.phone,
+      availableLanguage: 'Spanish',
+    },
     image: site.origin + '/assets/altum-banner.jpeg',
     logo: site.origin + '/assets/logo-altum-symbol-transparent.png',
     address: {
@@ -57,11 +66,7 @@ const graph = [
       addressCountry: 'MX',
     },
     areaServed: { '@type': 'City', name: 'La Paz, Baja California Sur' },
-    sameAs: [
-      'https://www.facebook.com/altumlapaz/',
-      'https://www.instagram.com/altumlapaz/',
-      'https://www.tiktok.com/@altumlpz',
-    ],
+    sameAs: Object.values(CONTACT.socials),
   },
   {
     '@type': 'WebSite',
@@ -218,7 +223,7 @@ const graph = [
           </div><div>
             <strong>Explora</strong>{nav.map(([name, url]) => <a href={url}>{name}</a>)}<a
               href="/presentacion/">Presentación comercial</a
-            >
+            ><a href="/#newsletter">Newsletter de Altum</a>
           </div><div>
             <strong>Servicios</strong>{
               services.slice(0, 4).map((s) => <a href={`/servicios/${s.slug}/`}>{s.short}</a>)
@@ -227,19 +232,17 @@ const graph = [
             ><a href="/tarjeta/">Tarjeta digital</a>
           </div><div>
             <strong>Conversemos</strong><a
-              href={site.whatsapp}
-              target="_blank"
-              rel="noopener noreferrer">{site.phone} ↗</a
-            ><a
-              href="https://www.instagram.com/altumlapaz/"
+              class="footer-email"
+              href={CONTACT.emailHref}
+              aria-label={`Escribir un correo a ${CONTACT.email}`}>{CONTACT.email}</a
+            ><a href={site.whatsapp} target="_blank" rel="noopener noreferrer">{site.phone} ↗</a><a
+              href={CONTACT.socials.instagram}
               target="_blank"
               rel="noopener noreferrer">Instagram ↗</a
-            ><a
-              href="https://www.facebook.com/altumlapaz/"
-              target="_blank"
-              rel="noopener noreferrer">Facebook ↗</a
-            ><a href="https://www.tiktok.com/@altumlpz" target="_blank" rel="noopener noreferrer"
-              >TikTok ↗</a
+            ><a href={CONTACT.socials.facebook} target="_blank" rel="noopener noreferrer"
+              >Facebook ↗</a
+            ><a href={CONTACT.socials.tiktok} target="_blank" rel="noopener noreferrer"
+              >TikTok · @altumlapaz ↗</a
             >
           </div>
         </div><div class="footer-bottom">
@@ -324,3 +327,11 @@ const graph = [
     </script>
   </body>
 </html>
+
+<style>
+  .footer-grid > div > .footer-email {
+    color: var(--text, #f1f5fb);
+    font-weight: 600;
+    overflow-wrap: anywhere;
+  }
+</style>
