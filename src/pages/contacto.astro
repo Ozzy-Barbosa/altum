@@ -2,15 +2,10 @@
 import Layout from '../layouts/Layout.astro';
 import Newsletter from '../components/Newsletter.astro';
 import SocialLinks from '../components/SocialLinks.astro';
-import { solutions, services } from '../data/catalog';
+import WhatsAppBrief from '../components/WhatsAppBrief.astro';
+import { projectTypes } from '../data/project-types';
 import { CONTACT } from '../data/contact';
 import '../styles/contact.css';
-const projectTypes = [
-  { value: 'web', label: 'Página web profesional' },
-  ...solutions.map((s) => ({ value: s.slug, label: s.label })),
-  ...services.slice(6).map((s) => ({ value: s.slug, label: s.short })),
-  { value: 'other', label: 'Otro proyecto / necesito orientación' },
-];
 ---
 
 <Layout
@@ -26,10 +21,12 @@ const projectTypes = [
         paso claro.
       </p>
       <div class="contact-jump-links">
-        <a href="#brief" class="text-link"
-          >Solicitar una propuesta <span aria-hidden="true">↓</span></a
+        <a href="#brief" class="text-link">Propuesta por correo <span aria-hidden="true">↓</span></a
+        ><a href="#whatsapp" class="text-link"
+          >Consulta por WhatsApp <span aria-hidden="true">↓</span></a
         ><a href="#newsletter-contacto" class="text-link"
-          >Recibir ideas y novedades <span aria-hidden="true">↓</span></a>
+          >Recibir ideas y novedades <span aria-hidden="true">↓</span></a
+        >
       </div>
     </div>
     <div class="contact-signal" aria-hidden="true">
@@ -38,7 +35,8 @@ const projectTypes = [
       >
         <svg viewBox="0 0 80 60" fill="none"
           ><rect x="4" y="6" width="72" height="48" rx="10"></rect><path
-            d="m5 12 35 25 35-25M6 49l23-21m45 21L51 28"></path></svg>
+            d="m5 12 35 25 35-25M6 49l23-21m45 21L51 28"></path></svg
+        >
       </div><span class="signal-label">DE TU IDEA AL SIGUIENTE PASO</span>
     </div>
   </section>
@@ -114,7 +112,8 @@ const projectTypes = [
             name="_honey"
             tabindex="-1"
             autocomplete="off"
-          /></label>
+          /></label
+        >
       </div>
       <div class="proposal-heading">
         <span class="proposal-mark" aria-hidden="true">↗</span><p class="eyebrow">
@@ -273,6 +272,7 @@ const projectTypes = [
       >
     </form>
   </section>
+  <WhatsAppBrief />
   <Newsletter id="newsletter-contacto" />
   <script>
     import { enhanceEmailForms } from '../lib/email-forms';

@@ -108,3 +108,14 @@ Las comparaciones de versiones protegen frente a cambios desactualizados. Web Lo
 - Once comprobaciones de navegador de producción aprobadas, sin errores de consola: validación de correo, campos y consentimiento; espacios exteriores y longitud mínima; selección por URL; campos múltiples y metadatos del POST; recuperación del botón al volver; formularios con JavaScript deshabilitado; movimiento reducido y pausa global.
 - Portada, contacto y proyectos sin desbordamiento horizontal ni identificadores duplicados en 320, 390, 768 y 1440 px. Revisión visual de newsletter, contacto y proyectos a 390 y 1440 px. Son pruebas de navegador, no pruebas físicas de todos los dispositivos.
 - Informe local: `output/qa/email-production-20260918-report.json`. Operación y límites del servicio documentados en `docs/FORMULARIOS-Y-NEWSLETTER.md`.
+
+## Consulta independiente por WhatsApp e intereses de aplicaciones
+
+18 de septiembre de 2026, ampliación posterior:
+
+- Formulario `/contacto/#whatsapp` con nombre, negocio opcional, tipo de proyecto, idea y consentimiento. No exige correo. Genera un resumen local y un enlace al número de Altum; el visitante debe abrir WhatsApp y confirmar el envío. No se enviaron mensajes ni correos durante la verificación.
+- Opciones de proyecto compartidas con el formulario por correo: aplicación web a medida, las doce demos, aplicaciones móviles y de escritorio, entre otras. El enlace `?solucion=commerce` preselecciona correctamente ambos formularios.
+- Newsletter ampliado a seis intereses; conserva los anteriores y añade aplicaciones web y demos, apps móviles y aplicaciones de escritorio. Selección múltiple comprobada en el POST interceptado, con nombres únicos y consentimiento independiente.
+- 33 pruebas automatizadas aprobadas, incluidas cuatro nuevas para formato, destino, codificación, límites y consentimiento del resumen de WhatsApp. Comprobación de 108 archivos sin errores, advertencias ni sugerencias; 62 páginas compiladas con enlaces, metadatos y trece QR verificados.
+- Quince comprobaciones de navegador aprobadas: validación y espacios exteriores, texto seguro sin interpretar HTML, acentos y caracteres especiales, invalidación del borrador tras cambios, alternativa sin JavaScript y conservación del envío nativo por correo. Sin errores de navegador.
+- Inicio y contacto sin desbordamiento horizontal ni identificadores duplicados en 320, 390, 768 y 1440 px. Capturas de WhatsApp y newsletter revisadas a 390 y 1440 px. Informe local: `output/qa/altum-whatsapp-newsletter-20260918-report.json`.

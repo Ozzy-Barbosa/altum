@@ -5,7 +5,14 @@ interface Props {
 }
 
 const { id = 'newsletter' } = Astro.props;
-const interests = ['Diseño web', 'Tecnología y automatización', 'Noticias y novedades'];
+const interests = [
+  'Diseño web',
+  'Tecnología y automatización',
+  'Noticias y novedades',
+  'Aplicaciones web y demos',
+  'Apps móviles',
+  'Aplicaciones de escritorio',
+];
 ---
 
 <section class="newsletter-section section" id={id} aria-labelledby={`${id}-title`}>
@@ -119,8 +126,9 @@ const interests = ['Diseño web', 'Tecnología y automatización', 'Noticias y n
         </label>
       </div>
 
-      <fieldset class="newsletter-interests">
+      <fieldset class="newsletter-interests" aria-describedby={`${id}-interests-help`}>
         <legend>Me interesa <span class="optional">Opcional</span></legend>
+        <p class="interests-help" id={`${id}-interests-help`}>Puedes elegir uno o varios temas.</p>
         <div class="interest-options">
           {
             interests.map((interest, index) => (
@@ -424,9 +432,15 @@ const interests = ['Diseño web', 'Tecnología y automatización', 'Noticias y n
     font-weight: 600;
   }
   .interest-options {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
-    flex-wrap: wrap;
+  }
+  .interests-help {
+    margin-bottom: 12px;
+    color: #a1b2c8;
+    font-size: 0.73rem;
+    line-height: 1.6;
   }
   .interest-choice {
     display: flex;
@@ -439,6 +453,7 @@ const interests = ['Diseño web', 'Tecnología y automatización', 'Noticias y n
     background: #101c2d;
     color: #bccce1;
     font-size: 0.73rem;
+    line-height: 1.5;
     cursor: pointer;
     transition:
       border-color 0.2s,
@@ -525,6 +540,9 @@ const interests = ['Diseño web', 'Tecnología y automatización', 'Noticias y n
     animation-play-state: paused;
   }
   @media (max-width: 960px) {
+    .interest-options {
+      grid-template-columns: 1fr;
+    }
     .newsletter-panel {
       gap: 35px;
     }
