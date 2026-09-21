@@ -119,3 +119,13 @@ Las comparaciones de versiones protegen frente a cambios desactualizados. Web Lo
 - 33 pruebas automatizadas aprobadas, incluidas cuatro nuevas para formato, destino, codificación, límites y consentimiento del resumen de WhatsApp. Comprobación de 108 archivos sin errores, advertencias ni sugerencias; 62 páginas compiladas con enlaces, metadatos y trece QR verificados.
 - Quince comprobaciones de navegador aprobadas: validación y espacios exteriores, texto seguro sin interpretar HTML, acentos y caracteres especiales, invalidación del borrador tras cambios, alternativa sin JavaScript y conservación del envío nativo por correo. Sin errores de navegador.
 - Inicio y contacto sin desbordamiento horizontal ni identificadores duplicados en 320, 390, 768 y 1440 px. Capturas de WhatsApp y newsletter revisadas a 390 y 1440 px. Informe local: `output/qa/altum-whatsapp-newsletter-20260918-report.json`.
+
+## Banner de vista previa al compartir
+
+21 de septiembre de 2026:
+
+- Nuevo banner `assets/altum-social-20260921.jpg`, JPEG sRGB de 1200 × 630 píxeles y 136,910 bytes. Diseño generado a partir del símbolo oficial como referencia, con composición central y texto reducido. Se conserva el flyer anterior sin borrarlo.
+- Imagen predeterminada Open Graph/Twitter actualizada y propiedades de URL segura, tipo, dimensiones y texto alternativo incluidas en el HTML inicial. Título social breve en Inicio sin cambiar su título SEO ni canonical. Las páginas de proyectos conservan sus capturas y las páginas internas su título específico.
+- Build ampliado con comprobación del JPEG real, tamaño, existencia, metadatos sociales, URL absoluta y coherencia entre Open Graph/Twitter/canonical. 62 páginas verificadas y trece QR decodificados; 33 pruebas aprobadas. Astro sin errores ni advertencias; dos avisos informativos ajenos al cambio en scripts temporales preexistentes.
+- Inspección del archivo final y de simulaciones locales amplias (400 × 210) y compactas (100 × 100, recorte central): símbolo y ALTUM completos. En la miniatura las líneas pequeñas no se consideran legibles; título y descripción se presentan fuera de la imagen. Comparativo local: `output/qa/altum-social-simulation-20260921.png`.
+- Las simulaciones no prueban la presentación ni la caché de WhatsApp en un chat real. No se enviaron mensajes ni se modificaron cuentas sociales. Prompt, especificaciones y límites documentados en `docs/BANNER-COMPARTIR.md`.

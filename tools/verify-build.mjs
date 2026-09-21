@@ -8,6 +8,41 @@ fs.copyFileSync(path.join(root, 'sitemap-index.xml'), path.join(root, 'sitemap.x
 const files = fs.readdirSync(root, { recursive: true }).filter((p) => p.endsWith('.html'));
 const errors = [];
 const titles = new Set();
+const siteOrigin = 'https://www.altumlapaz.com';
+const defaultSocialImagePath = '/assets/altum-social-20260921.jpg';
+const defaultSocialImageUrl = siteOrigin + defaultSocialImagePath;
+// Inspect JPEG frame dimensions without adding an image-processing dependency to CI.
+function jpegDimensions(buffer) {
+  if (buffer.length < 4 || buffer.readUInt16BE(0) !== 0xffd8) return null;
+  let offset = 2;
+  while (offset + 4 < buffer.length && buffer[offset] === 0xff) {
+    while (buffer[offset] === 0xff) offset++;
+    if (offset + 3 > buffer.length) return null;
+    const marker = buffer[offset++];
+    if (marker === 0xda || marker === 0xd9) break;
+    if (marker === 0x01 || (marker >= 0xd0 && marker <= 0xd7)) continue;
+    const length = buffer.readUInt16BE(offset);
+    if (length < 2 || offset + length > buffer.length) return null;
+    if (
+      [0xc0, 0xc1, 0xc2, 0xc3, 0xc5, 0xc6, 0xc7, 0xc9, 0xca, 0xcb, 0xcd, 0xce, 0xcf].includes(
+        marker,
+      )
+    ) {
+      if (length < 8) return null;
+      return { width: buffer.readUInt16BE(offset + 5), height: buffer.readUInt16BE(offset + 3) };
+    }
+    offset += length;
+  }
+  return null;
+}
+const defaultSocialImageFile = path.join(root, defaultSocialImagePath);
+if (!fs.existsSync(defaultSocialImageFile)) {
+  errors.push(`Missing social preview image: ${defaultSocialImagePath}`);
+} else {
+  const dimensions = jpegDimensions(fs.readFileSync(defaultSocialImageFile));
+  if (dimensions?.width !== 1200 || dimensions?.height !== 630)
+    errors.push('Default social preview must be a JPEG measuring 1200 × 630 pixels');
+}
 for (const relative of files) {
   const file = path.join(root, relative);
   const html = fs.readFileSync(file, 'utf8');
@@ -20,6 +55,76 @@ for (const relative of files) {
     errors.push(`${relative}: missing description`);
   if (!/<link\s+rel="canonical"\s+href="https:\/\/www\.altumlapaz\.com\//.test(html))
     errors.push(`${relative}: invalid canonical`);
+  const metadata = new Map(
+    [...html.matchAll(/<meta\b[^>]*>/g)].map(([tag]) => [
+      tag.match(/\b(?:property|name)="([^"]+)"/)?.[1],
+      tag.match(/\bcontent="([^"]*)"/)?.[1]?.replaceAll('&amp;', '&'),
+    ]),
+  );
+  for (const name of [
+    'og:title',
+    'og:description',
+    'og:type',
+    'og:url',
+    'og:image',
+    'og:image:secure_url',
+    'og:image:alt',
+    'twitter:card',
+    'twitter:title',
+    'twitter:description',
+    'twitter:image',
+    'twitter:image:alt',
+  ]) {
+    if (!metadata.get(name)?.trim()) errors.push(`${relative}: missing social metadata ${name}`);
+  }
+  const canonical = html.match(/<link\b[^>]*rel="canonical"[^>]*href="([^"]+)"/)?.[1];
+  if (metadata.get('og:url') !== canonical)
+    errors.push(`${relative}: Open Graph URL differs from canonical`);
+  for (const [og, twitter] of [
+    ['og:title', 'twitter:title'],
+    ['og:description', 'twitter:description'],
+    ['og:image', 'twitter:image'],
+    ['og:image:alt', 'twitter:image:alt'],
+  ]) {
+    if (metadata.get(og) !== metadata.get(twitter))
+      errors.push(`${relative}: inconsistent ${og} and ${twitter}`);
+  }
+  const imageUrl = metadata.get('og:image');
+  try {
+    const url = new URL(imageUrl);
+    if (url.protocol !== 'https:') errors.push(`${relative}: social image must use absolute HTTPS`);
+    if (
+      url.origin === siteOrigin &&
+      !fs.existsSync(path.join(root, decodeURIComponent(url.pathname)))
+    )
+      errors.push(`${relative}: missing social image ${url.pathname}`);
+  } catch {
+    errors.push(`${relative}: invalid absolute social image URL`);
+  }
+  if (metadata.get('og:image:secure_url') !== imageUrl)
+    errors.push(`${relative}: inconsistent secure social image URL`);
+  if (metadata.get('twitter:card') !== 'summary_large_image')
+    errors.push(`${relative}: expected a large-image social card`);
+  if (imageUrl === defaultSocialImageUrl) {
+    if (
+      metadata.get('og:image:type') !== 'image/jpeg' ||
+      metadata.get('og:image:width') !== '1200' ||
+      metadata.get('og:image:height') !== '630'
+    )
+      errors.push(`${relative}: incorrect default social image type or dimensions`);
+  } else if (
+    metadata.has('og:image:width') ||
+    metadata.has('og:image:height') ||
+    metadata.has('og:image:type')
+  ) {
+    errors.push(`${relative}: custom image must not inherit the default banner dimensions or type`);
+  }
+  if (
+    relative === 'index.html' &&
+    (imageUrl !== defaultSocialImageUrl ||
+      metadata.get('og:title') !== 'Altum La Paz | Diseño web y aplicaciones')
+  )
+    errors.push('Homepage must use the current branded social image and short sharing title');
   for (const m of html.matchAll(/(?:href|src)="([^"#]+)(?:#[^"]*)?"/g)) {
     let url = m[1].replaceAll('&amp;', '&').split('?')[0];
     if (!url.startsWith('/') || url.startsWith('//')) continue;
@@ -31,7 +136,10 @@ for (const relative of files) {
     /<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g,
   )) {
     try {
-      JSON.parse(m[1]);
+      const data = JSON.parse(m[1]);
+      const business = data['@graph']?.find((item) => item['@type'] === 'ProfessionalService');
+      if (business && business.image !== defaultSocialImageUrl)
+        errors.push(`${relative}: business schema must use the current social banner`);
     } catch {
       errors.push(`${relative}: invalid structured data`);
     }
@@ -85,5 +193,5 @@ if (errors.length) {
   process.exit(1);
 }
 console.log(
-  `Verified ${files.length} pages: titles, headings, metadata, paths, structured data and ${[...presentation.matchAll(/src="data:image\/png;base64,/g)].length} decoded QR codes.`,
+  `Verified ${files.length} pages: titles, headings, metadata, social previews, paths, structured data and ${[...presentation.matchAll(/src="data:image\/png;base64,/g)].length} decoded QR codes.`,
 );

@@ -9,12 +9,16 @@ import { site, services } from '../data/catalog';
 import { CONTACT } from '../data/contact';
 import Constellation from '../components/Constellation.astro';
 import SocialLinks from '../components/SocialLinks.astro';
+const defaultSocialImage = '/assets/altum-social-20260921.jpg';
 interface Props {
   title: string;
   description: string;
+  socialTitle?: string;
+  socialDescription?: string;
   noindex?: boolean;
   wide?: boolean;
   image?: string;
+  imageAlt?: string;
   schema?: Record<string, unknown>;
   articleDate?: string;
   articleUpdated?: string;
@@ -22,14 +26,25 @@ interface Props {
 const {
   title,
   description,
+  socialTitle = title,
+  socialDescription = description,
   noindex = false,
   wide = false,
-  image = '/assets/altum-banner.jpeg',
+  image = defaultSocialImage,
+  imageAlt,
   schema,
   articleDate,
   articleUpdated,
 } = Astro.props;
 const canonical = new URL(Astro.url.pathname, site.origin).href;
+const socialImageUrl = new URL(image, site.origin).href;
+const defaultSocialImageUrl = new URL(defaultSocialImage, site.origin).href;
+const usesDefaultSocialImage = socialImageUrl === defaultSocialImageUrl;
+const socialImageAlt =
+  imageAlt ??
+  (usesDefaultSocialImage
+    ? 'Altum La Paz: páginas web, apps y software, con su símbolo de montañas plateadas y azules.'
+    : `Vista de ${title.replace(' · Caso de estudio', '').replace(/\s*\|\s*Altum$/, '')}`);
 const activePath = /^\/soluciones\/(?!guias\/|rss\.xml)[^/]+\//.test(Astro.url.pathname)
   ? '/demos/'
   : Astro.url.pathname;
@@ -57,7 +72,7 @@ const graph = [
       telephone: CONTACT.phone,
       availableLanguage: 'Spanish',
     },
-    image: site.origin + '/assets/altum-banner.jpeg',
+    image: defaultSocialImageUrl,
     logo: site.origin + '/assets/logo-altum-symbol-transparent.png',
     address: {
       '@type': 'PostalAddress',
@@ -113,27 +128,33 @@ const graph = [
       content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'}
     />
     <link rel="canonical" href={canonical} /><meta name="theme-color" content="#060a12" />
-    <meta property="og:title" content={title} /><meta
+    <meta property="og:title" content={socialTitle} /><meta
       property="og:description"
-      content={description}
+      content={socialDescription}
     /><meta property="og:type" content={articleDate ? 'article' : 'website'} /><meta
       property="og:url"
       content={canonical}
     /><meta property="og:locale" content="es_MX" /><meta
       property="og:site_name"
-      content="Altum"
-    /><meta property="og:image" content={new URL(image, site.origin).href} /><meta
-      name="twitter:card"
-      content="summary_large_image"
-    /><meta name="twitter:title" content={title} /><meta
-      name="twitter:description"
-      content={description}
-    /><meta name="twitter:image" content={new URL(image, site.origin).href} />
-    <meta
-      property="og:image:alt"
-      content="Altum Soluciones Digitales, La Paz, Baja California Sur"
+      content="Altum La Paz"
     />
-    <meta name="twitter:image:alt" content="Altum Soluciones Digitales" />
+    <meta property="og:image" content={socialImageUrl} />
+    <meta property="og:image:secure_url" content={socialImageUrl} />
+    {
+      usesDefaultSocialImage && (
+        <>
+          <meta property="og:image:type" content="image/jpeg" />
+          <meta property="og:image:width" content="1200" />
+          <meta property="og:image:height" content="630" />
+        </>
+      )
+    }
+    <meta property="og:image:alt" content={socialImageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={socialTitle} />
+    <meta name="twitter:description" content={socialDescription} />
+    <meta name="twitter:image" content={socialImageUrl} />
+    <meta name="twitter:image:alt" content={socialImageAlt} />
     {articleDate && <meta property="article:published_time" content={articleDate} />}
     {articleUpdated && <meta property="article:modified_time" content={articleUpdated} />}
     <link
