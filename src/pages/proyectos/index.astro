@@ -2,11 +2,18 @@
 import Layout from '../../layouts/Layout.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
 import { projects, solutions } from '../../data/catalog';
+import { getProjectFilters, type ProjectFilter } from '../../lib/project-status';
+const filters: { id: ProjectFilter; label: string }[] = [
+  { id: 'all', label: 'Todos' },
+  { id: 'online', label: 'En línea' },
+  { id: 'review', label: 'En revisión' },
+  { id: 'development', label: 'En desarrollo' },
+];
 ---
 
 <Layout
   title="Proyectos de diseño y desarrollo web"
-  description="Explora el trabajo de Altum para Orthomax, Conchalito Tours, A&M Personalizados, Alexa Lara Fotografía y Proyectcons. Diseño y desarrollo web en La Paz."
+  description="Explora el trabajo de Altum para Orthomax, Conchalito Tours, A&M Personalizados, Alexa Lara Fotografía y PROYECTCONS. Sitios en línea y proyectos en desarrollo."
   ><section class="page-hero container">
     <p class="eyebrow">PORTAFOLIO DE CLIENTES</p><h1>
       Cada negocio,<br /><span class="gradient">una historia propia.</span>
@@ -15,23 +22,33 @@ import { projects, solutions } from '../../data/catalog';
       estado actual de cada experiencia.
     </p>
   </section><section class="container compact-section">
-    <div class="filter-bar" aria-label="Filtrar proyectos">
-      <button class="filter-button" data-filter="all" aria-pressed="true">Todos</button><button
-        class="filter-button"
-        data-filter="Publicado"
-        aria-pressed="false">En línea</button
-      ><button class="filter-button" data-filter="En revisión" aria-pressed="false"
-        >En revisión</button
-      ><button class="filter-button" data-filter="En desarrollo" aria-pressed="false"
-        >En desarrollo</button
-      >
-    </div><div class="projects-grid">
+    <div class="filter-bar" role="group" aria-label="Filtrar proyectos">
+      {
+        filters.map((filter) => (
+          <button
+            class="filter-button"
+            data-filter={filter.id}
+            aria-pressed={filter.id === 'all'}
+            aria-controls="project-results"
+          >
+            {filter.label}{' '}
+            <span aria-hidden="true">
+              {projects.filter((p) => getProjectFilters(p).includes(filter.id)).length}
+            </span>
+          </button>
+        ))
+      }
+    </div>
+    <p class="filter-help">
+      En línea significa que puedes visitarlo; su desarrollo o revisión pueden continuar.
+    </p>
+    <p class="project-count" role="status" aria-live="polite" aria-atomic="true">
+      {projects.length} proyectos · Todos
+    </p>
+    <div class="projects-grid" id="project-results">
       {
         projects.map((project) => (
-          <div
-            data-status={project.url ? 'Publicado' : project.status}
-            data-review={project.status.includes('revisión') ? 'true' : 'false'}
-          >
+          <div class="project-result" data-project-filters={getProjectFilters(project).join(' ')}>
             <ProjectCard {project} />
           </div>
         ))
@@ -64,14 +81,57 @@ import { projects, solutions } from '../../data/catalog';
         document
           .querySelectorAll('[data-filter]')
           .forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
-        document.querySelectorAll<HTMLElement>('[data-status]').forEach((x) => {
-          const filter = b.dataset.filter;
-          x.hidden =
-            filter === 'En revisión'
-              ? x.dataset.review !== 'true'
-              : filter !== 'all' && x.dataset.status !== filter;
+        let count = 0;
+        document.querySelectorAll<HTMLElement>('[data-project-filters]').forEach((x) => {
+          x.hidden = !x.dataset.projectFilters?.split(' ').includes(b.dataset.filter ?? 'all');
+          if (!x.hidden) count++;
         });
+        const result = document.querySelector('.project-count');
+        if (result)
+          result.textContent = `${count} ${count === 1 ? 'proyecto' : 'proyectos'} · ${b.childNodes[0]?.textContent?.trim()}`;
       }),
     );
   </script></Layout
 >
+
+<style>
+  .filter-button {
+    display: inline-flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .filter-button span {
+    font-variant-numeric: tabular-nums;
+    opacity: 0.65;
+  }
+  .filter-help {
+    max-width: 680px;
+    font-size: 0.85rem;
+  }
+  .project-count {
+    margin: 16px 0 28px;
+    font-size: 0.75rem;
+    color: #b9cbe0;
+  }
+  .project-result {
+    min-width: 0;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .project-result:not([hidden]) {
+      animation: project-arrive 350ms ease-out both;
+    }
+  }
+  :global(html[data-motion='paused']) .project-result {
+    animation: none;
+  }
+  @keyframes project-arrive {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

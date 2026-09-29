@@ -27,7 +27,7 @@ const { project: p } = Astro.props;
       {
         p.url ? (
           <a class="button" href={p.url} target="_blank" rel="noopener noreferrer">
-            Visitar sitio ↗
+            {p.progress ? 'Explorar versión pública' : 'Visitar sitio'} ↗
           </a>
         ) : (
           <span class="tag">Proyecto en desarrollo</span>
@@ -37,7 +37,7 @@ const { project: p } = Astro.props;
     {p.statusNote && <p class="project-stage-note">{p.statusNote}</p>}
   </section><section class="container compact-section">
     <img
-      class:list={['detail-image', { 'detail-image-complete': p.slug === 'am-personalizados' }]}
+      class="detail-image detail-image-complete"
       src={`/assets/${p.image}`}
       alt={`Vista del sitio de ${p.name}`}
       width={p.imageWidth ?? 1440}
@@ -46,10 +46,53 @@ const { project: p } = Astro.props;
       <div><small>Sector</small><strong>{p.sector}</strong></div><div>
         <small>Participación de Altum</small><strong>{p.role}</strong>
       </div><div><small>Estado</small><strong>{p.status}</strong></div>
-    </div><div class="split">
+    </div>
+    {
+      p.progress && (
+        <section class="project-progress reveal" id="avance" aria-labelledby="progress-title">
+          <div class="progress-heading">
+            <div>
+              <p class="eyebrow">PUBLICADO, EN EVOLUCIÓN</p>
+              <h2 id="progress-title">El avance, con claridad.</h2>
+            </div>
+            <p class="progress-date">
+              Estado al{' '}
+              <time datetime={p.progress.updatedAt}>
+                {new Intl.DateTimeFormat('es-MX', {
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric',
+                  timeZone: 'UTC',
+                }).format(new Date(`${p.progress.updatedAt}T12:00:00Z`))}
+              </time>
+            </p>
+          </div>
+          <p class="progress-summary">{p.progress.summary}</p>
+          <ol class="progress-milestones">
+            {p.progress.milestones.map((milestone, index) => (
+              <li data-stage={milestone.state}>
+                <div class="milestone-top">
+                  <span class="milestone-number" aria-hidden="true">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <span class="milestone-state">{milestone.state}</span>
+                </div>
+                <h3>{milestone.title}</h3>
+                <p>{milestone.detail}</p>
+              </li>
+            ))}
+          </ol>
+          <p class="progress-footnote">
+            La versión pública permite conocer el trabajo actual; no representa el cierre de todos
+            los requerimientos.
+          </p>
+        </section>
+      )
+    }
+    <div class="split">
       <div class="prose">
         <p class="eyebrow">EL CONTEXTO</p><h2>El reto.</h2><p>{p.challenge}</p><h2>
-          La entrega.
+          {p.progress ? 'La versión actual.' : 'La entrega.'}
         </h2><p>{p.result}</p>
       </div><div class="prose">
         <p class="eyebrow">EL TRABAJO</p><h2>Decisiones y alcance.</h2><ul class="check-list">
@@ -80,5 +123,112 @@ const { project: p } = Astro.props;
     border-radius: 12px;
     background: #e6bc7508;
     font-size: 0.9rem;
+  }
+  .project-progress {
+    margin-block: 20px 64px;
+    padding: clamp(22px, 4vw, 44px);
+    border: 1px solid #34506c;
+    border-radius: 24px;
+    background: radial-gradient(ellipse at 0 0, #168dff13, transparent 65%), #0c1725;
+    scroll-margin-top: 110px;
+  }
+  .progress-heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .progress-heading h2 {
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  }
+  .progress-date {
+    max-width: 180px;
+    font-size: 0.75rem;
+    line-height: 1.7;
+    color: #aec3da;
+  }
+  .progress-summary {
+    margin-top: 18px;
+    max-width: 640px;
+  }
+  .progress-milestones {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 28px;
+    list-style: none;
+    padding: 0;
+    margin: 38px 0 0;
+  }
+  .progress-milestones li {
+    min-width: 0;
+    padding-top: 20px;
+    border-top: 2px solid #48617a;
+  }
+  .progress-milestones li[data-stage='Disponible'] {
+    border-color: #74d9b5;
+  }
+  .progress-milestones li[data-stage='En curso'] {
+    border-color: #69b6f1;
+  }
+  .milestone-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+  .milestone-number {
+    font:
+      1.4rem 'Space Grotesk Variable',
+      sans-serif;
+    color: #9db2ca;
+  }
+  .milestone-state {
+    font-size: 0.7rem;
+    border: 1px solid #4a6178;
+    padding: 5px 10px;
+    border-radius: 30px;
+    color: #c0d0e0;
+  }
+  [data-stage='Disponible'] .milestone-state {
+    color: #a1eacb;
+    border-color: #74d9b54d;
+    background: #74d9b508;
+  }
+  [data-stage='En curso'] .milestone-state {
+    color: #a7d8ff;
+    border-color: #69b6f15c;
+    background: #69b6f10a;
+  }
+  .progress-milestones h3 {
+    font-size: 1.1rem;
+    margin: 22px 0 12px;
+  }
+  .progress-milestones p {
+    font-size: 0.85rem;
+    line-height: 1.8;
+  }
+  .progress-footnote {
+    font-size: 0.75rem;
+    margin-top: 32px;
+    padding-top: 22px;
+    border-top: 1px solid #ffffff12;
+  }
+  @media (max-width: 760px) {
+    .progress-heading {
+      flex-direction: column;
+      align-items: start;
+      gap: 16px;
+    }
+    .progress-date {
+      max-width: none;
+    }
+    .progress-milestones {
+      grid-template-columns: 1fr;
+      gap: 26px;
+      margin-top: 28px;
+    }
+    .progress-milestones h3 {
+      margin-top: 14px;
+    }
   }
 </style>

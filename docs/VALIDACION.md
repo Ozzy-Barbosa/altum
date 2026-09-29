@@ -129,3 +129,15 @@ Las comparaciones de versiones protegen frente a cambios desactualizados. Web Lo
 - Build ampliado con comprobación del JPEG real, tamaño, existencia, metadatos sociales, URL absoluta y coherencia entre Open Graph/Twitter/canonical. 62 páginas verificadas y trece QR decodificados; 33 pruebas aprobadas. Astro sin errores ni advertencias; dos avisos informativos ajenos al cambio en scripts temporales preexistentes.
 - Inspección del archivo final y de simulaciones locales amplias (400 × 210) y compactas (100 × 100, recorte central): símbolo y ALTUM completos. En la miniatura las líneas pequeñas no se consideran legibles; título y descripción se presentan fuera de la imagen. Comparativo local: `output/qa/altum-social-simulation-20260921.png`.
 - Las simulaciones no prueban la presentación ni la caché de WhatsApp en un chat real. No se enviaron mensajes ni se modificaron cuentas sociales. Prompt, especificaciones y límites documentados en `docs/BANNER-COMPARTIR.md`.
+
+## PROYECTCONS público y en desarrollo
+
+29 de septiembre de 2026:
+
+- Se verificó en navegador la versión pública indicada por el propietario: `https://ozzy-barbosa.github.io/proyectcons/index.html`. Su propio pie indica que es una vista para revisión. Altum la presenta como «En línea · en desarrollo», con requerimientos y dominio propio pendientes; no como entrega cerrada, ni con un porcentaje de avance inventado.
+- Nueva captura real de la portada: `public/assets/project-proyectcons-20260929.jpg`, 1425 × 990 px, 112,134 bytes. Se conserva la captura anterior. Inicio, Proyectos, Portafolio y el caso comparten el enlace y estado actuales. La ficha añade tres hitos con fecha: versión pública disponible, ajustes y requerimientos en curso, dominio propio pendiente.
+- Los filtros separan disponibilidad y etapa: Todos (5), En línea (4), En revisión (1), En desarrollo (2). PROYECTCONS está incluido en En línea y En desarrollo; A&M mantiene su revisión y Alexa Lara su estado de desarrollo sin enlace público.
+- Tarjetas con marco de navegador, capturas completas, luz de interacción y entrada suave al filtrar. Inicio usa dos columnas en escritorio para sus cuatro casos públicos. Se conserva la identidad y el movimiento existente del sitio. Los efectos nuevos respetan movimiento reducido y la pausa del sitio.
+- 36 pruebas automatizadas aprobadas (tres nuevas de estados); compilación de 62 páginas, enlaces locales, metadatos y trece QR verificados. Astro: cero errores y cero advertencias; doce sugerencias en archivos temporales/de marketing preexistentes fuera del sitio publicado.
+- Inicio, Proyectos y la ficha comprobados en 320, 390, 768 y 1440 px sin desbordamiento horizontal ni imágenes cargadas con error. Filtros comprobados con clic y teclado, enlace de avance operativo y pausa con animación `none` y brillo oculto. Sin errores de consola observados. Son pruebas del navegador integrado, no de dispositivos físicos.
+- Evidencia local en `output/qa/proyectcons-20260929-report.json` y capturas de escritorio/móvil. No se enviaron formularios ni mensajes, ni se cambió el sitio del cliente o su DNS.

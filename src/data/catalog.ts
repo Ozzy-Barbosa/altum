@@ -367,24 +367,53 @@ export const projects = [
   },
   {
     slug: 'proyectcons',
-    name: 'Proyectcons',
+    name: 'PROYECTCONS',
     sector: 'Construcción',
-    status: 'En desarrollo',
-    image: 'project-proyectcons.jpg',
-    url: '',
+    status: 'En línea · en desarrollo',
+    statusNote:
+      'Versión pública en GitHub Pages. Desarrollo en curso, con requerimientos y dominio propio pendientes.',
+    image: 'project-proyectcons-20260929.jpg',
+    imageWidth: 1425,
+    imageHeight: 990,
+    url: 'https://ozzy-barbosa.github.io/proyectcons/index.html',
     intro:
-      'Una presencia digital estructurada para presentar proyectos y servicios de construcción.',
+      'Un portafolio de construcción en La Paz que conecta espacios, proyectos y nuevas consultas. Ya puedes explorar su versión pública.',
     challenge:
       'Comunicar la actividad de la empresa con una estructura clara y una presentación visual consistente.',
     work: [
-      'Arquitectura de información',
-      'Presentación de proyectos',
-      'Diseño y desarrollo adaptable',
+      'Presentación visual de la empresa y sus servicios',
+      'Portafolio organizado por categorías de construcción',
+      'Recorrido de consulta con resumen previo a WhatsApp',
+      'Diseño adaptable y navegación en español e inglés',
     ],
     role: 'Diseño de experiencia y desarrollo web',
     result:
-      'Vista previa de un sitio en desarrollo. Se publicará su alcance final cuando esté terminado.',
-    tags: ['Construcción', 'Diseño web', 'Desarrollo'],
+      'Primera versión publicada y disponible para visitar. El proyecto continúa en desarrollo: quedan requerimientos por atender y la conexión de un dominio propio. No se presenta como una entrega final.',
+    progress: {
+      updatedAt: '2026-09-29',
+      summary: 'Una versión que ya puedes recorrer. Un proyecto que seguimos construyendo.',
+      milestones: [
+        {
+          title: 'Versión pública',
+          state: 'Disponible',
+          detail:
+            'El sitio ya puede visitarse en GitHub Pages y forma parte del portafolio de Altum.',
+        },
+        {
+          title: 'Ajustes y requerimientos',
+          state: 'En curso',
+          detail:
+            'Seguimos trabajando en los requerimientos pendientes y la revisión del proyecto.',
+        },
+        {
+          title: 'Dominio propio',
+          state: 'Pendiente',
+          detail:
+            'La dirección definitiva está pendiente. Por ahora, la versión pública utiliza GitHub Pages.',
+        },
+      ],
+    },
+    tags: ['Construcción', 'Portafolio web', 'Desarrollo continuo'],
   },
 ];
 export const services = [

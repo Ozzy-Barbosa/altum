@@ -149,6 +149,28 @@ for (const relative of files) {
 }
 for (const file of ['CNAME', 'robots.txt', 'sitemap-index.xml', '404.html'])
   if (!fs.existsSync(path.join(root, file))) errors.push(`Missing ${file}`);
+// A public preview must remain linked without being presented as a completed delivery.
+for (const route of [
+  'index.html',
+  'proyectos/index.html',
+  'portafolio/index.html',
+  'proyectos/proyectcons/index.html',
+]) {
+  const html = fs.readFileSync(path.join(root, route), 'utf8');
+  if (!html.includes('https://ozzy-barbosa.github.io/proyectcons/index.html'))
+    errors.push(`${route}: missing PROYECTCONS public link`);
+  if (!html.includes('En línea · en desarrollo') || !html.includes('dominio propio pendientes'))
+    errors.push(`${route}: missing PROYECTCONS ongoing development notice`);
+}
+const projectcons = fs.readFileSync(path.join(root, 'proyectos/proyectcons/index.html'), 'utf8');
+for (const label of [
+  'Versión pública',
+  'Ajustes y requerimientos',
+  'Dominio propio',
+  'id="avance"',
+]) {
+  if (!projectcons.includes(label)) errors.push(`PROYECTCONS: missing milestone ${label}`);
+}
 const sitemap = fs.readFileSync(path.join(root, 'sitemap-0.xml'), 'utf8');
 const indexable = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
 if (new Set(indexable).size !== indexable.length) errors.push('Duplicate sitemap entries');
