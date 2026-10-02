@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { PNG } from 'pngjs';
 import jsQR from 'jsqr';
+import { projects } from '../src/data/catalog.ts';
 const root = path.resolve('dist');
 // Preserve the sitemap URL used by the previous landing and submitted properties.
 fs.copyFileSync(path.join(root, 'sitemap-index.xml'), path.join(root, 'sitemap.xml'));
@@ -170,6 +171,35 @@ for (const label of [
   'id="avance"',
 ]) {
   if (!projectcons.includes(label)) errors.push(`PROYECTCONS: missing milestone ${label}`);
+}
+// Keep refreshed client previews, their public links and stage notices consistent everywhere.
+for (const slug of ['alexa-lara', 'orthomax']) {
+  const project = projects.find((item) => item.slug === slug);
+  const dimensions = jpegDimensions(fs.readFileSync(path.join(root, 'assets', project.image)));
+  if (dimensions?.width !== project.imageWidth || dimensions?.height !== project.imageHeight)
+    errors.push(`${slug}: screenshot dimensions differ from the catalog`);
+  for (const route of [
+    'index.html',
+    'proyectos/index.html',
+    'portafolio/index.html',
+    `proyectos/${slug}/index.html`,
+  ]) {
+    const html = fs.readFileSync(path.join(root, route), 'utf8');
+    for (const value of [
+      project.url,
+      `/assets/${project.image}`,
+      project.status,
+      project.statusNote,
+    ].filter(Boolean)) {
+      if (!html.includes(value)) errors.push(`${route}: missing ${slug} project detail: ${value}`);
+    }
+    if (
+      route === `proyectos/${slug}/index.html` &&
+      project.status.includes('desarrollo') &&
+      !html.includes('La versión actual.')
+    )
+      errors.push(`${route}: work in progress must not be labeled as a final delivery`);
+  }
 }
 const sitemap = fs.readFileSync(path.join(root, 'sitemap-0.xml'), 'utf8');
 const indexable = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);

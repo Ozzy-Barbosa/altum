@@ -286,19 +286,24 @@ export const projects = [
     name: 'Orthomax',
     sector: 'Salud',
     status: 'Publicado',
-    image: 'project-orthomax-202609.png',
+    image: 'project-orthomax-20261001.jpg',
+    imageWidth: 1265,
+    imageHeight: 712,
     url: 'https://www.orthomaxlapaz.com/',
-    intro: 'Información clara para acercar un centro odontológico a sus pacientes.',
+    intro:
+      'Una experiencia cercana para conocer Orthomax, explorar tratamientos y solicitar una cita en La Paz.',
     challenge:
-      'Organizar la información del consultorio y facilitar el contacto desde cualquier pantalla.',
+      'Presentar el cuidado dental con un lenguaje cercano, mostrar el consultorio real y orientar cada consulta hacia el tratamiento o contacto adecuado.',
     work: [
-      'Jerarquía de servicios y contenido',
-      'Diseño adaptable a móvil',
-      'Recorridos hacia información y contacto',
+      'Dirección visual y contenido centrados en la experiencia del paciente',
+      'Exploración de tratamientos por interés',
+      'Galería ampliable con fotografías del consultorio',
+      'Recorridos hacia consultas por WhatsApp, ubicación y primera visita',
+      'Diseño adaptable a móvil y escritorio',
     ],
     role: 'Diseño de experiencia y desarrollo web',
     result:
-      'Un sitio que reúne la presentación del consultorio, sus servicios y sus vías de contacto.',
+      'Sitio publicado en su dominio propio, con tratamientos organizados por interés, fotografías del consultorio, preguntas frecuentes, ubicación y acceso a consultas por WhatsApp.',
     tags: ['Diseño web', 'Experiencia de usuario', 'Desarrollo'],
   },
   {
@@ -349,20 +354,27 @@ export const projects = [
     slug: 'alexa-lara',
     name: 'Alexa Lara Fotografía',
     sector: 'Fotografía',
-    status: 'En desarrollo',
-    image: 'project-alexa-lara.jpg',
-    url: '',
-    intro: 'Un portafolio editorial que da espacio a las imágenes y a cada historia.',
+    status: 'En línea · en desarrollo',
+    statusNote:
+      'Versión pública en GitHub Pages. El sitio ya se puede visitar y continúa en desarrollo.',
+    image: 'project-alexa-lara-20261001.jpg',
+    imageWidth: 1265,
+    imageHeight: 712,
+    url: 'https://ozzy-barbosa.github.io/alexa-lara/',
+    intro:
+      'Un portafolio fotográfico con mirada editorial, galerías por categoría y un recorrido para preparar cada sesión.',
     challenge:
-      'Crear una presentación donde el trabajo fotográfico sea el centro de la experiencia.',
+      'Dar protagonismo a la fotografía, facilitar la exploración de diferentes tipos de sesiones y conectar cada idea con una consulta clara.',
     work: [
-      'Dirección visual editorial',
-      'Organización del portafolio',
-      'Adaptación a distintos tamaños de pantalla',
+      'Dirección visual editorial con fotografías protagonistas',
+      'Portafolio filtrable y galería con ampliación de imágenes',
+      'Presentación de sesiones de retrato, editorial, familia y producto',
+      'Formulario guiado con vista previa del mensaje para WhatsApp',
+      'Diseño adaptable y tarjeta digital de contacto',
     ],
     role: 'Dirección visual y desarrollo web',
     result:
-      'Vista previa de un proyecto en desarrollo. El sitio final todavía no se presenta como publicado.',
+      'Versión pública disponible en GitHub Pages, con portafolio fotográfico, información de sesiones y consulta guiada por WhatsApp. Continúa en desarrollo; su publicación no representa una entrega final.',
     tags: ['Portafolio', 'Dirección visual', 'Responsive'],
   },
   {

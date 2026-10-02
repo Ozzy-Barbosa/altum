@@ -92,7 +92,7 @@ const { project: p } = Astro.props;
     <div class="split">
       <div class="prose">
         <p class="eyebrow">EL CONTEXTO</p><h2>El reto.</h2><p>{p.challenge}</p><h2>
-          {p.progress ? 'La versión actual.' : 'La entrega.'}
+          {p.status === 'Publicado' ? 'La entrega.' : 'La versión actual.'}
         </h2><p>{p.result}</p>
       </div><div class="prose">
         <p class="eyebrow">EL TRABAJO</p><h2>Decisiones y alcance.</h2><ul class="check-list">
