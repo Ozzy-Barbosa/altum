@@ -569,3 +569,95 @@ html:not([data-theme='dark']) :is(.whatsapp-prepare, .whatsapp-open) {
   background: #226347;
   color: #fff;
 }
+
+/* Keep the brand readable without replacing its existing pointer/orbit motion. */
+.header .brand img {
+  width: 58px;
+  height: auto;
+  flex-shrink: 0;
+}
+.hero-system {
+  overflow: visible;
+}
+.hero-system .system-core {
+  position: relative;
+  top: -8px;
+}
+.hero-system .system-core img {
+  width: 202px;
+  height: auto;
+}
+.hero-system .system-core > span {
+  margin-top: 10px;
+}
+.hero-system .atom-halo {
+  width: min(72%, 360px);
+}
+.hero-system .fc-one {
+  top: -8px;
+}
+
+/* Glass is limited to display cards; forms and the contact callout stay solid. */
+html:not([data-theme='dark'])
+  :is(.hero-system .floating-card, .solution-card, .tech-card, .process-grid > article) {
+  background: linear-gradient(135deg, #ffffff8f, #edf5ff61);
+  border-color: #9eb7d54d;
+  box-shadow: 0 14px 40px #254b7c07;
+}
+html:not([data-theme='dark']) .hero-system .floating-card {
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+/* A full-size, contained stage gives tablets a clear center and complete orbits. */
+@media (min-width: 651px) and (max-width: 1180px) {
+  .hero {
+    grid-template-columns: 1fr;
+    max-width: 900px;
+    min-height: auto;
+    gap: 28px;
+  }
+  .hero-system {
+    width: min(100%, 680px);
+    height: 610px;
+    margin: 0 auto;
+    scale: 1;
+  }
+  .hero-system .atom-field {
+    inset: 12px;
+  }
+  .hero-system .fc-one {
+    top: 24px;
+    left: 16px;
+  }
+  .hero-system .fc-two {
+    top: calc(50% + 94px);
+    bottom: auto;
+    right: 16px;
+  }
+  .hero-system .fc-three {
+    left: 20px;
+    bottom: 34px;
+  }
+  .hero-system .system-caption {
+    bottom: 0;
+  }
+}
+@media (max-width: 650px) {
+  .header .brand img {
+    width: 42px;
+  }
+  .hero-system {
+    height: 500px;
+  }
+  .hero-system .system-core img {
+    width: 170px;
+  }
+  .hero-system .fc-one {
+    top: 12px;
+  }
+  .hero-system .fc-two {
+    top: calc(50% + 74px);
+    bottom: auto;
+  }
+}

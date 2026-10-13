@@ -4,6 +4,7 @@ import '../styles/enhancements.css';
 import '../styles/evolution.scss';
 import '../styles/editorial.scss';
 import '../styles/appearance.css';
+import '../styles/entry-motion.css';
 import AppearanceControls from '../components/AppearanceControls.astro';
 import { getLocale, localizePath } from '../i18n/routing.mjs';
 import '@fontsource-variable/manrope';
@@ -295,6 +296,7 @@ const graph = [
     </footer>
     <script>
       import { ui } from '../i18n/messages.mjs';
+      import { startEntryMotion } from '../lib/entry-motion.mjs';
       const motionButton = document.querySelector<HTMLButtonElement>('.motion-toggle');
       const motionMedia = matchMedia('(prefers-reduced-motion: reduce)');
       let motionPreference = false;
@@ -316,6 +318,7 @@ const graph = [
         document.dispatchEvent(new Event('altum:motion'));
       };
       setMotion();
+      startEntryMotion(document, window);
       motionMedia.addEventListener('change', setMotion);
       motionButton?.addEventListener('click', () => {
         motionPreference = !motionPreference;

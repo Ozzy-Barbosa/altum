@@ -156,6 +156,18 @@ Las comparaciones de versiones protegen frente a cambios desactualizados. Web Lo
 
 La comprobación pública del despliegue se registra en la entrega de esta actualización, una vez confirmado el SHA en GitHub Pages.
 
+## Logo, tarjetas translúcidas y entrada por página
+
+13 de octubre de 2026, ajuste posterior:
+
+- Logo central ampliado a 202 px (170 px en móvil), leyenda a 10 px debajo y marca de navegación ampliada. Se mantienen los recursos originales, las órbitas, constelaciones y respuesta al puntero.
+- Fondos translúcidos únicamente en tarjetas del átomo, soluciones, tecnologías y proceso del tema claro. Texto e iconos conservan su opacidad. Formularios, newsletter y el bloque «¿Más ventas…?» quedan fuera del cambio.
+- Encuadre específico de 651 a 1180 px, sin escala reductora general ni recorte rectangular del halo. Las tarjetas se separan del logo. Matriz de navegador en 320, 390, 768, 834, 1024, 1180, 1194, 1366 y 1440 px: sin desbordamiento horizontal ni intersección de las tarjetas con el logo en las mediciones. Cuatro tamaños comprobados también en inglés.
+- Entrada compartida al abrir o recargar un documento: desvanecido de 650 ms, con 60 ms de separación para el contenido. No modifica transformaciones de hijos ni se reproduce al usar filtros, formularios o cambiar el tema. Omite movimiento reducido y pausa; limpia su estado al terminar o restaurar desde el historial.
+- 60 pruebas aprobadas, incluidas seis nuevas de ciclo de vida de la entrada. Astro: 0 errores, 0 advertencias y 17 sugerencias preexistentes en archivos temporales ignorados. Compilación de 124 páginas con comprobación de enlaces, recursos, metadatos, traducciones y QR.
+- Navegación real por las ocho páginas del menú inglés comprobada con entrada activa y terminación visible; recarga española comprobada con movimiento activo y pausado. Revisión visual clara/oscura y de tablet. Revisión independiente del código sin hallazgos accionables. No son pruebas en un iPad físico ni de todos los fotogramas de las animaciones.
+- No se enviaron formularios ni se cambiaron cuentas o DNS. Los documentos personales de Instagram no se incluyen en esta entrega. Publicación directa autorizada por el propietario; su estado final se verifica por SHA y navegador público.
+
 ## PROYECTCONS público y en desarrollo
 
 29 de septiembre de 2026:
