@@ -1,6 +1,6 @@
-import { ui } from '../../i18n/messages.mjs';
+import { ui, matchesVisibleText } from '../../i18n/messages.mjs';
 import { useState } from 'react';
-import { localDate, normalize } from '../../lib/demo-domain.mjs';
+import { localDate } from '../../lib/demo-domain.mjs';
 import { formatMoney as money } from '../../i18n/messages.mjs';
 import { cents, expenseCategories, financeSummary } from '../../lib/business-domain.mjs';
 import { Empty, ExportButton, Field, Modal, Stats, values, type DemoProps } from './Shared';
@@ -16,7 +16,7 @@ export default function FinanceDemo({ data, send, busy }: DemoProps) {
   const rows = transactions
     .filter(
       (t) =>
-        t.date.startsWith(month) && normalize(t.concept + t.category).includes(normalize(query)),
+        t.date.startsWith(month) && matchesVisibleText(query, [t.concept, t.category, ui(t.category)]),
     )
     .sort((a, b) => b.date.localeCompare(a.date));
   const max = Math.max(summary.income, summary.expense, 1);
@@ -74,7 +74,7 @@ export default function FinanceDemo({ data, send, busy }: DemoProps) {
             ].map(([label, amount, className]) => (
               <div key={String(label)}>
                 <div className="bar-label">
-                  <span>{label}</span>
+                  <span>{ui(label)}</span>
                   <strong>{money(Number(amount))}</strong>
                 </div>
                 <div className="bar-track">

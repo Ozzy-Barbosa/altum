@@ -27,6 +27,17 @@ for (const file of files) {
     return value;
   });
   const translated = fs.readFileSync(english, 'utf8');
+  const optionValues = (source) => {
+    const values = [];
+    const tree = visitCopy(source, (value) => value);
+    const walk = (node) => {
+      if (node.tagName === 'option') values.push(node.attrs.find((attr) => attr.name === 'value')?.value);
+      for (const child of node.childNodes || []) walk(child);
+    };
+    walk(tree);
+    return values;
+  };
+  assert.deepEqual(optionValues(translated), optionValues(html), `${file}: translated option labels changed form/filter values`);
   assert.match(translated, /<html[^>]+lang="en"/, `${file}: English lang missing`);
   assert.match(translated, /rel="canonical" href="https:\/\/www.altumlapaz.com\/en\//, `${file}: canonical`);
   for (const locale of ['en', 'es-MX', 'x-default']) assert.ok(translated.includes(`hreflang="${locale}"`), `${file}: missing ${locale}`);

@@ -130,6 +130,32 @@ Las comparaciones de versiones protegen frente a cambios desactualizados. Web Lo
 - Inspección del archivo final y de simulaciones locales amplias (400 × 210) y compactas (100 × 100, recorte central): símbolo y ALTUM completos. En la miniatura las líneas pequeñas no se consideran legibles; título y descripción se presentan fuera de la imagen. Comparativo local: `output/qa/altum-social-simulation-20260921.png`.
 - Las simulaciones no prueban la presentación ni la caché de WhatsApp en un chat real. No se enviaron mensajes ni se modificaron cuentas sociales. Prompt, especificaciones y límites documentados en `docs/BANNER-COMPARTIR.md`.
 
+## Tema claro/oscuro e interfaz bilingüe
+
+13 de octubre de 2026:
+
+- Fondo claro inicial y opción oscura persistente. Logo limpio integrado sin el disco opaco; composición, átomo, órbitas, constelaciones, tarjetas y animaciones conservados. El cambio de tema no cambia la preferencia de movimiento.
+- 62 rutas españolas con 62 equivalentes inglesas. Se conservan URLs, parámetros y fragmentos al alternar idioma; canonical, hreflang y metadatos localizados. Diccionarios editoriales revisados y controles interactivos separados; no hay traducción automática remota.
+- Demos, controles, validaciones, borrador de WhatsApp y PDF de cotización adaptados. Los nombres, descripciones, documentos y demás datos de los visitantes permanecen en su idioma original. Los importes siguen en MXN. Los documentos descargables preexistentes no se reeditaron.
+- 54 pruebas aprobadas. Astro: 0 errores y 0 advertencias; 17 sugerencias preexistentes en scripts ignorados de output/tmp. Compilación de 124 páginas, comprobaciones de enlaces, metadatos, archivos, cobertura de traducciones, valores de opciones y QR de presentación/tarjeta por idioma. Auditoría npm: 0 alertas después de actualizaciones transitivas compatibles, sin cambiar versiones principales.
+- Revisión independiente de toda la rama. Se corrigieron filtros con valores traducidos, búsquedas incompatibles con los ejemplos, contraste de importes/estados, etiquetas de gráficos y enlaces absolutos internos que salían del idioma inglés. Las regresiones se reprodujeron antes de corregirlas. Contraste medido en los textos señalados: de 1.50–1.70:1 a 5.73–14.92:1 contra el fondo claro de referencia.
+- Navegador: doce demos inglesas cargadas sin errores de consola; modalidad de inventario; filtros editoriales y de soluciones; búsqueda financiera; resumen WhatsApp sin envío; newsletter; proyectos y artículo en móvil. ES/claro y EN/oscuro a 390×844, escritorio a 1440×960. Se comprobaron conservación de tema al recargar, parámetros/fragmentos al alternar idioma, pausa de movimiento, cierre del menú con Escape y foco visible.
+- Evidencias locales: `output/qa/theme-locale-browser-20261013.json`, `output/qa/altum-claro-es-20261013.png`, `output/qa/altum-oscuro-en-20261013.png` y los registros `output/qa-theme-*.log`. No son pruebas en teléfonos físicos ni una certificación exhaustiva de accesibilidad. No se enviaron formularios reales, no se alteraron datos del visitante ni se probaron sesiones privadas en nube.
+
+### Decisiones de ejecución y mantenimiento
+
+- Se trabajó directamente en el checkout solicitado, aislando los commits en `codex/theme-language`; los documentos personales de Instagram quedaron fuera. No se creó otra copia del proyecto. Si se requiere otro aislamiento, los commits se pueden trasladar.
+- Los scripts de seguimiento Bash no funcionaron en el entorno Windows aislado; se llevó un registro local equivalente. La vista previa también requirió un proceso de prueba accesible en loopback; no se expuso a la red pública.
+- Las vistas existentes se reutilizan y se traducen durante la generación estática. Esto evita duplicarlas; exige mantener los diccionarios y la verificación de cobertura al agregar contenido.
+- La interfaz interactiva toma el idioma de la ruta, no del almacenamiento de negocio. Un futuro cambio de idioma sin navegación requerirá añadir un estado compartido de idioma.
+- Se aplicaron correcciones compatibles de seguridad y se repitieron las pruebas. El archivo de dependencias permite revisar o revertir esa actualización.
+- Las omisiones de etiquetas y enlaces clasificadas inicialmente como menores se trataron como importantes por afectar la interfaz bilingüe solicitada; se corrigieron en la misma pasada con pruebas. No quedaron observaciones menores de esa revisión diferidas.
+- La revisión independiente fue de código; las comprobaciones visuales, compilación, auditoría y publicación corresponden al ejecutor principal. No se realizó una segunda revisión independiente después de las pruebas de regresión.
+- El formulario conserva proveedor y destinos. Su entrega externa, las sesiones privadas, una corrección lingüística profesional exhaustiva y las traducciones de archivos descargables existentes quedan fuera de esta validación; no se presentan como comprobadas.
+- La publicación directa ya fue autorizada por el propietario. Se integra en main sin forzar historial ni cambiar DNS/cuentas; cualquier reversión se hará mediante un nuevo commit.
+
+La comprobación pública del despliegue se registra en la entrega de esta actualización, una vez confirmado el SHA en GitHub Pages.
+
 ## PROYECTCONS público y en desarrollo
 
 29 de septiembre de 2026:

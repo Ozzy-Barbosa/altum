@@ -15,7 +15,7 @@ import { solutions } from '../data/catalog';
       >Tipo de solución<select data-catalog-category
         ><option value="">Todas las categorías</option>{
           [...new Set(solutions.map((s) => s.category))].map((category) => (
-            <option>{category}</option>
+            <option value={category}>{category}</option>
           ))
         }</select
       ></label

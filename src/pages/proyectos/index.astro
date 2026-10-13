@@ -96,6 +96,9 @@ const filters: { id: ProjectFilter; label: string }[] = [
 >
 
 <style>
+  :global(html[data-theme='light']) .project-count {
+    color: var(--muted);
+  }
   .filter-button {
     display: inline-flex;
     gap: 10px;

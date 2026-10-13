@@ -40,9 +40,9 @@ export default function SearchDemo({ data, send, busy }: DemoProps) {
         ) : null}
       </label>
       <div className="category-chips">
-        {['Todas', ...new Set<string>(data.documents.map((d: any) => d.category))].map((c) => (
+        {['Todas', ...new Set<string>(data.documents.map((d: any) => d.category))].map((c, index) => (
           <button key={c} aria-pressed={category === c} onClick={() => setCategory(c)}>
-            {c}
+            {index === 0 ? ui(c) : c}
           </button>
         ))}
       </div>

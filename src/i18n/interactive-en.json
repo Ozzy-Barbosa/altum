@@ -1,4 +1,6 @@
 {
+  "Ingresos": "Income",
+  "Gastos": "Expenses",
   "Cotización de ejemplo": "Sample quote", "CONCEPTO": "ITEM", "CANT.": "QTY.", "PRECIO": "PRICE", "IMPORTE": "AMOUNT", "DOCUMENTO DE EJEMPLO. NO VÁLIDO COMO FACTURA.": "SAMPLE DOCUMENT. NOT A VALID INVOICE.", "Descuento": "Discount", "Condiciones y notas": "Terms and notes", "Importes en MXN. Este documento no se envía a ningún cliente desde la demo.": "Amounts in MXN. This document is not sent to any customer from the demo.",
   "La meta no puede ser menor que las aportaciones registradas.": "The goal cannot be less than the recorded contributions.", "La demo admite hasta 20 metas.": "The demo supports up to 20 goals.", "La aportación supera el importe pendiente de la meta.": "The contribution exceeds the goal's remaining amount.", "Límite de 50 aportaciones por meta.": "Limit of 50 contributions per goal.", "La demo admite hasta 100 tickets.": "The demo supports up to 100 tickets.", "Límite de 50 respuestas por ticket.": "Limit of 50 replies per ticket.", "La demo alcanzó su límite. Exporta y elimina algunos registros.": "The demo has reached its limit. Export and delete some records.", "Los datos no tienen una estructura válida para esta demo.": "The data does not have a valid structure for this demo.", "PDF generado. Revisa las descargas de tu navegador.": "PDF generated. Check your browser downloads.", "No se pudo generar el PDF. Intenta de nuevo o utiliza la opción Imprimir.": "The PDF could not be generated. Try again or use Print.",
   "Recibida": "Received", "Lista": "Ready", "Entregada": "Delivered", "Materiales": "Materials", "Renta": "Rent", "Servicios": "Services", "Equipo": "Equipment", "Otros": "Other", "Red y Wi-Fi": "Network and Wi-Fi", "Accesos": "Access", "Consulta": "Inquiry", "recoger": "pickup", "envio": "delivery",
@@ -313,7 +315,7 @@
   "Proyecto": "Project",
   "Proyecto *": "Project *",
   "Proyecto o servicio": "Project or service",
-  "Prueba con “envíos”, “cita” o “inventario”": "Try “shipping”, “appointment” or “inventory”",
+  "Prueba con “envíos”, “cita” o “inventario”": "Try “envíos”, “cita” or “inventario” (sample records in Spanish)",
   "Próximo seguimiento": "Next follow-up",
   "Quiero una solución así ↗": "I want a solution like this ↗",
   "Qué cambió en este paso": "What changed in this step",

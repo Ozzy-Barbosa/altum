@@ -16,7 +16,7 @@ const { categories, label, placeholder, total, noun } = Astro.props;
     <label
       >Explorar por tema<select data-filter-category
         ><option value="">Todos los temas</option>{
-          categories.map((c) => <option>{c}</option>)
+          categories.map((c) => <option value={c}>{c}</option>)
         }</select
       ></label
     >

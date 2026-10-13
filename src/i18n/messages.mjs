@@ -27,6 +27,11 @@ export function ui(text, locale = browserLocale(), params = {}) {
 }
 export const languageTag = () => (browserLocale() === 'en' ? 'en-US' : 'es-MX');
 export const localizedHref = (path) => localizePath(path, browserLocale());
+/** Include rendered interface labels in searches without changing stored values. */
+export function matchesVisibleText(query, fields) {
+  const normalize = (value) => String(value).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+  return normalize(fields.join(' ')).includes(normalize(query));
+}
 export const formatMoney = (value, locale = browserLocale()) =>
   new Intl.NumberFormat(locale === 'en' ? 'en-US' : 'es-MX', {
     style: 'currency',

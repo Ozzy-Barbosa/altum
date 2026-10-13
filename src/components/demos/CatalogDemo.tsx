@@ -214,9 +214,9 @@ export default function CatalogDemo({
             ) : null}
           </div>
           <div className="category-chips">
-            {categories.map((c) => (
+            {categories.map((c, index) => (
               <button key={c} aria-pressed={category === c} onClick={() => setCategory(c)}>
-                {c}
+                {index === 0 ? ui(c) : c}
               </button>
             ))}
           </div>

@@ -1,10 +1,24 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { translateHtml } from '../src/i18n/static-html.mjs';
+import { parse } from 'parse5';
 import es from '../src/i18n/es.json' with { type: 'json' };
 import en from '../src/i18n/en.json' with { type: 'json' };
 
 const routing = await import('../src/i18n/routing.mjs').catch(() => ({}));
+test('translated category labels retain the values used by real catalog filtering', () => {
+  const output = translateHtml('<select><option>Alimentos</option></select><article data-category="Alimentos"></article>', { Alimentos: 'Food' });
+  const body = parse(output).childNodes.find((n) => n.tagName === 'html').childNodes.find((n) => n.tagName === 'body');
+  const option = body.childNodes[0].childNodes[0];
+  const card = body.childNodes[1];
+  assert.equal(option.attrs.find((a) => a.name === 'value')?.value, card.attrs.find((a) => a.name === 'data-category').value);
+  assert.equal(option.childNodes[0].value, 'Food');
+});
+test('same-origin absolute links keep the chosen language; external clients stay external', () => {
+  const output = translateHtml('<a href="https://www.altumlapaz.com/proyectos/orthomax/?a=1#avance">Orthomax</a><a href="https://www.orthomaxlapaz.com/">Client</a>');
+  assert.match(output, /href="https:\/\/www.altumlapaz.com\/en\/proyectos\/orthomax\/\?a=1#avance"/);
+  assert.match(output, /href="https:\/\/www.orthomaxlapaz.com\/"/);
+});
 test('literal dollar symbols in curated translations stay literal', () => {
   assert.match(translateHtml('<p>Precio</p>', { Precio: '$& USD' }), /\$&amp; USD/);
 });

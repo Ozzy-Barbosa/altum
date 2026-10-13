@@ -1,4 +1,7 @@
 /* Shared geometry and animation remain in the original stylesheets. */
+html:not([data-theme='dark']) :is(.product-title > strong, .deal-value, .demo-eyebrow) {
+  color: var(--text);
+}
 :root:not([data-theme='dark']) {
   --bg: #f8faff;
   --surface: #fff;

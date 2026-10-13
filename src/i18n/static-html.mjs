@@ -30,6 +30,11 @@ export function visitCopy(html, visitor) {
   function walk(node, skip = false) {
     const attrs = node.attrs || [];
     const get = (name) => attrs.find((a) => a.name === name)?.value;
+    // A translated option label must not change its form/filter identifier.
+    if (node.tagName === 'option' && get('value') === undefined) {
+      const text = (item) => item.nodeName === '#text' ? item.value : (item.childNodes || []).map(text).join('');
+      attrs.push({ name: 'value', value: normalize(text(node)) });
+    }
     const excluded =
       skip ||
       ['script', 'style', 'code', 'pre'].includes(node.tagName) ||
@@ -98,8 +103,12 @@ export function translateHtml(html, dictionary = messages) {
         );
     }
     for (const attr of attrs) {
-      if (attr.name === 'href' && node.tagName === 'a' && get('data-language-link') === undefined)
-        attr.value = localizePath(attr.value, 'en');
+      if (attr.name === 'href' && node.tagName === 'a' && get('data-language-link') === undefined) {
+        const origin = 'https://www.altumlapaz.com';
+        attr.value = attr.value.startsWith(origin + '/')
+          ? origin + localizePath(attr.value.slice(origin.length), 'en')
+          : localizePath(attr.value, 'en');
+      }
       if (node.tagName === 'input' && get('name') === '_next' && attr.name === 'value')
         attr.value = attr.value.replace(
           'https://www.altumlapaz.com/',

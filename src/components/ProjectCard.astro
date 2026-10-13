@@ -75,6 +75,10 @@ const { project: p } = Astro.props;
 </article>
 
 <style>
+  :global(html[data-theme='light']) .project-card > .project-note,
+  :global(html[data-theme='light']) .project-preview-bar {
+    color: var(--muted);
+  }
   .project-card {
     height: 100%;
     display: flex;

@@ -5,8 +5,25 @@ import ts from 'typescript';
 import { inflateSync } from 'node:zlib';
 import { createQuotePdf } from '../src/lib/quote-pdf.ts';
 import english from '../src/i18n/interactive-en.json' with { type: 'json' };
+import { seed, searchDocuments } from '../src/lib/demo-domain.mjs';
 import { buildWhatsAppBrief } from '../src/lib/whatsapp-brief.ts';
 const messages = await import('../src/i18n/messages.mjs').catch(() => ({}));
+test('English search examples find the original records, and visible categories are searchable', () => {
+  const hint = messages.ui('Prueba con “envíos”, “cita” o “inventario”', 'en');
+  for (const word of hint.matchAll(/“([^”]+)”/g)) assert.ok(searchDocuments(seed('search').documents, word[1]).length, word[1]);
+  assert.equal(typeof messages.matchesVisibleText, 'function');
+  assert.equal(messages.matchesVisibleText('Services', ['Trabajo', 'Servicios', messages.ui('Servicios', 'en')]), true);
+});
+test('fixed chart and all-category controls translate, but visitor categories do not', () => {
+  assert.equal(messages.ui('Ingresos', 'en'), 'Income');
+  assert.equal(messages.ui('Gastos', 'en'), 'Expenses');
+  const finance = fs.readFileSync('src/components/demos/FinanceDemo.tsx', 'utf8');
+  assert.match(finance, /<span>\{ui\(label\)\}<\/span>/);
+  for (const file of ['CatalogDemo.tsx', 'SearchDemo.tsx']) {
+    const source = fs.readFileSync(`src/components/demos/${file}`, 'utf8');
+    assert.match(source, /\{index === 0 \? ui\(c\) : c\}/);
+  }
+});
 test('all authored React interface literals have a curated English translation', () => {
   const missing = new Set();
   for (const file of fs.readdirSync('src/components/demos').filter((f) => f.endsWith('.tsx'))) {
