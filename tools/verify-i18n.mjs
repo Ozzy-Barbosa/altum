@@ -3,9 +3,20 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 import { visitCopy, normalize } from '../src/i18n/static-html.mjs';
 import en from '../src/i18n/en.json' with { type: 'json' };
+import { PNG } from 'pngjs';
+import jsQR from 'jsqr';
 const root = path.resolve('dist');
 const files = fs.readdirSync(root, { recursive: true }).filter((file) => file.endsWith('.html') && !file.replaceAll('\\', '/').startsWith('en/'));
 const missing = new Set();
+for (const file of ['presentacion/index.html', 'tarjeta/index.html']) {
+  const codes = (prefix) => [...fs.readFileSync(path.join(root, prefix, file), 'utf8').matchAll(/src="data:image\/png;base64,([^"]+)"/g)].map((match) => {
+    const png = PNG.sync.read(Buffer.from(match[1], 'base64'));
+    const code = jsQR(new Uint8ClampedArray(png.data), png.width, png.height);
+    assert.ok(code, `${prefix}${file}: unreadable QR`);
+    return code.data;
+  });
+  assert.deepEqual(codes('en'), codes('').map((url) => url.replace('https://www.altumlapaz.com/', 'https://www.altumlapaz.com/en/')), `${file}: English QR destinations`);
+}
 for (const file of files) {
   const html = fs.readFileSync(path.join(root, file), 'utf8');
   const english = path.join(root, 'en', file === '404.html' ? '404/index.html' : file);

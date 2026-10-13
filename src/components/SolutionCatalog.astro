@@ -33,6 +33,7 @@ import { solutions } from '../data/catalog';
   </p>
 </div>
 <script>
+  import { ui } from '../i18n/messages.mjs';
   document.querySelectorAll<HTMLElement>('[data-catalog]').forEach((catalog) => {
     const search = catalog.querySelector<HTMLInputElement>('[data-catalog-search]')!;
     const category = catalog.querySelector<HTMLSelectElement>('[data-catalog-category]')!;
@@ -48,7 +49,7 @@ import { solutions } from '../data/catalog';
       let visible = 0;
       catalog.querySelectorAll<HTMLElement>('[data-solution]').forEach((card) => {
         const match =
-          normalize(card.dataset.solution || '').includes(normalize(search.value)) &&
+          normalize((card.dataset.solution || '') + ' ' + card.textContent).includes(normalize(search.value)) &&
           (!category.value || card.dataset.category === category.value);
         card.hidden = !match;
         if (match) {
@@ -56,7 +57,7 @@ import { solutions } from '../data/catalog';
           card.classList.add('seen');
         }
       });
-      count.textContent = `${visible} ${visible === 1 ? 'solución disponible' : 'soluciones disponibles'}`;
+      count.textContent = `${visible} ${ui(visible === 1 ? 'solución disponible' : 'soluciones disponibles')}`;
       empty.hidden = visible > 0;
     };
     search.addEventListener('input', filter);

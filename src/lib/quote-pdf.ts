@@ -1,5 +1,6 @@
 import { jsPDF } from 'jspdf';
 import { quoteTotals } from './business-domain.mjs';
+import { ui, browserLocale, formatMoney } from '../i18n/messages.mjs';
 type Quote = {
   number: number;
   title: string;
@@ -18,14 +19,14 @@ const printable = (text: string) =>
     .replace(/[‘’]/g, "'")
     .replace(/[–—]/g, '-')
     .replace(/[^\x20-\xff\n]/gu, '?');
-const currency = (value: number) =>
-  new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(value);
-export function createQuotePdf(quote: Quote) {
+export function createQuotePdf(quote: Quote, locale = browserLocale()) {
+  const t = (text: string) => ui(text, locale);
+  const currency = (value: number) => formatMoney(value, locale);
   const totals = quoteTotals(quote.lines, quote.discount);
   const doc = new jsPDF({ unit: 'mm', format: 'a4', compress: true });
   const reference = `COT-${String(quote.number).padStart(4, '0')}`;
   doc.setProperties({
-    title: `Altum - ${reference} - Cotización de ejemplo`,
+    title: `Altum - ${reference} - ${t('Cotización de ejemplo')}`,
     author: 'Altum Soluciones Digitales',
   });
   let y = 0;
@@ -37,7 +38,7 @@ export function createQuotePdf(quote: Quote) {
     doc.setFontSize(19);
     doc.text('ALTUM', 18, 18);
     doc.setFontSize(8);
-    doc.text('COTIZADOR DE DEMOSTRACIÓN', 18, 26);
+    doc.text(t('COTIZADOR DE DEMOSTRACIÓN'), 18, 26);
     doc.setFont('helvetica', 'normal');
     doc.text(reference, 192, 19, { align: 'right' });
     y = 47;
@@ -68,17 +69,17 @@ export function createQuotePdf(quote: Quote) {
     doc.rect(18, y - 4, 174, 11, 'F');
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(8);
-    doc.text('CONCEPTO', 21, y + 2);
-    doc.text('CANT.', 118, y + 2, { align: 'right' });
-    doc.text('PRECIO', 154, y + 2, { align: 'right' });
-    doc.text('IMPORTE', 189, y + 2, { align: 'right' });
+    doc.text(t('CONCEPTO'), 21, y + 2);
+    doc.text(t('CANT.'), 118, y + 2, { align: 'right' });
+    doc.text(t('PRECIO'), 154, y + 2, { align: 'right' });
+    doc.text(t('IMPORTE'), 189, y + 2, { align: 'right' });
     y += 15;
   };
   header();
-  paragraph('DOCUMENTO DE EJEMPLO. NO VÁLIDO COMO FACTURA.', 8, true);
+  paragraph(t('DOCUMENTO DE EJEMPLO. NO VÁLIDO COMO FACTURA.'), 8, true);
   paragraph(quote.title, 20, true);
-  paragraph(`Preparada para: ${quote.customer}`, 11);
-  paragraph(`Emisión: ${quote.date}    |    Vigencia: ${quote.validUntil || 'Sin definir'}`, 9);
+  paragraph(`${t('Preparada para')}: ${quote.customer}`, 11);
+  paragraph(`${t('Emisión')}: ${quote.date}    |    ${t('Vigencia')}: ${quote.validUntil || t('Sin definir')}`, 9);
   tableHeader();
   for (const line of quote.lines) {
     doc.setFont('helvetica', 'normal');
@@ -104,19 +105,19 @@ export function createQuotePdf(quote: Quote) {
   y += 7;
   for (const [label, value] of [
     ['Subtotal', totals.subtotal],
-    [`Descuento (${quote.discount} %)`, -totals.discount || 0],
+    [`${t('Descuento')} (${quote.discount} %)`, -totals.discount || 0],
     ['Total sin impuestos', totals.total],
   ] as const) {
     doc.setFont('helvetica', label === 'Total sin impuestos' ? 'bold' : 'normal');
     doc.setFontSize(11);
-    doc.text(label, 105, y);
+    doc.text(t(label), 105, y);
     doc.text(currency(value), 189, y, { align: 'right' });
     y += 9;
   }
   y += 8;
-  paragraph('Condiciones y notas', 10, true);
-  paragraph(quote.notes || 'Sin condiciones adicionales de ejemplo.', 9);
-  paragraph('Importes en MXN. Este documento no se envía a ningún cliente desde la demo.', 8);
+  paragraph(t('Condiciones y notas'), 10, true);
+  paragraph(quote.notes || t('Sin condiciones adicionales de ejemplo.'), 9);
+  paragraph(t('Importes en MXN. Este documento no se envía a ningún cliente desde la demo.'), 8);
   const pages = doc.getNumberOfPages();
   for (let page = 1; page <= pages; page++) {
     doc.setPage(page);
@@ -125,7 +126,7 @@ export function createQuotePdf(quote: Quote) {
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
     doc.setTextColor('#52677e');
-    doc.text('www.altumlapaz.com  |  Cotización de ejemplo', 18, 286);
+    doc.text(`www.altumlapaz.com  |  ${t('Cotización de ejemplo')}`, 18, 286);
     doc.text(`${page} / ${pages}`, 192, 286, { align: 'right' });
   }
   return doc;

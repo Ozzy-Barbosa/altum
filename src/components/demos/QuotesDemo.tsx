@@ -1,5 +1,7 @@
+import { ui } from '../../i18n/messages.mjs';
 import { useState } from 'react';
-import { localDate, money, normalize } from '../../lib/demo-domain.mjs';
+import { localDate, normalize } from '../../lib/demo-domain.mjs';
+import { formatMoney as money } from '../../i18n/messages.mjs';
 import { quoteStages, quoteTotals } from '../../lib/business-domain.mjs';
 import { Empty, ExportButton, Field, Modal, Stats, values, type DemoProps } from './Shared';
 import { DeleteRecord, folio, type RecordData } from './BusinessShared';
@@ -28,7 +30,7 @@ function QuoteEditor({
       items.map((line) => (line.key === key ? { ...line, [field]: value } : line)),
     );
   return (
-    <Modal title={record.id ? 'Editar cotización' : 'Nueva cotización'} onClose={close}>
+    <Modal title={record.id ? ui('Editar cotización') : ui('Nueva cotización')} onClose={close}>
       <form
         onSubmit={async (e) => {
           e.preventDefault();
@@ -43,26 +45,28 @@ function QuoteEditor({
         }}
       >
         <div className="form-grid">
-          <Field label="Cliente de ejemplo">
+          <Field label={ui('Cliente de ejemplo')}>
             <input name="customer" defaultValue={record.customer || ''} maxLength={120} required />
           </Field>
-          <Field label="Proyecto o servicio">
+          <Field label={ui('Proyecto o servicio')}>
             <input name="title" defaultValue={record.title || ''} maxLength={120} required />
           </Field>
-          <Field label="Fecha de emisión">
+          <Field label={ui('Fecha de emisión')}>
             <input name="date" type="date" defaultValue={record.date || localDate()} required />
           </Field>
-          <Field label="Válida hasta (opcional)">
+          <Field label={ui('Válida hasta (opcional)')}>
             <input name="validUntil" type="date" defaultValue={record.validUntil || ''} />
           </Field>
-          <Field label="Estado simulado">
+          <Field label={ui('Estado simulado')}>
             <select name="status" defaultValue={record.status || 'Borrador'}>
               {quoteStages.map((s) => (
-                <option key={s}>{s}</option>
+                <option key={s} value={s}>
+                  {ui(s)}
+                </option>
               ))}
             </select>
           </Field>
-          <Field label="Descuento (%)">
+          <Field label={ui('Descuento (%)')}>
             <input
               type="number"
               min="0"
@@ -75,7 +79,7 @@ function QuoteEditor({
           </Field>
         </div>
         <div className="quote-line-heading">
-          <h3>Conceptos</h3>
+          <h3>{ui('Conceptos')}</h3>
           <button
             className="inline-button"
             type="button"
@@ -87,12 +91,12 @@ function QuoteEditor({
               ])
             }
           >
-            + Agregar concepto
+            {ui('+ Agregar concepto ')}
           </button>
         </div>
         {lines.map((line, index) => (
           <div className="quote-line-editor" key={line.key}>
-            <Field label={`Concepto ${index + 1}`}>
+            <Field label={ui('Concepto {value0}', undefined, { value0: index + 1 })}>
               <input
                 value={line.description}
                 maxLength={180}
@@ -100,7 +104,7 @@ function QuoteEditor({
                 onChange={(e) => edit(line.key, 'description', e.target.value)}
               />
             </Field>
-            <Field label={`Cantidad ${index + 1}`}>
+            <Field label={ui('Cantidad {value0}', undefined, { value0: index + 1 })}>
               <input
                 type="number"
                 min="1"
@@ -111,7 +115,7 @@ function QuoteEditor({
                 onChange={(e) => edit(line.key, 'quantity', e.target.value)}
               />
             </Field>
-            <Field label={`Precio ${index + 1} (MXN)`}>
+            <Field label={ui('Precio {value0} (MXN)', undefined, { value0: index + 1 })}>
               <input
                 type="number"
                 min="0"
@@ -125,7 +129,7 @@ function QuoteEditor({
             <button
               type="button"
               className="icon-button"
-              aria-label={`Quitar concepto ${index + 1}`}
+              aria-label={ui('Quitar concepto {value0}', undefined, { value0: index + 1 })}
               disabled={lines.length === 1}
               onClick={() => setLines((items) => items.filter((l) => l.key !== line.key))}
             >
@@ -133,22 +137,24 @@ function QuoteEditor({
             </button>
           </div>
         ))}
-        <Field label="Condiciones y notas (opcional)" full>
+        <Field label={ui('Condiciones y notas (opcional)')} full>
           <textarea name="notes" rows={3} maxLength={500} defaultValue={record.notes || ''} />
         </Field>
         <p className="quote-running-total" aria-live="polite">
-          Total: <strong>{total ? money(total.total) : 'Revisa los importes'}</strong>
+          {ui('Total: ')}
+          <strong>{total ? money(total.total) : ui('Revisa los importes')}</strong>
         </p>
         <p className="form-note">
-          No se calculan impuestos. Es un presupuesto de ejemplo, no una factura. Cambiar el estado
-          no envía mensajes.
+          {ui(
+            'No se calculan impuestos. Es un presupuesto de ejemplo, no una factura. Cambiar el estado no envía mensajes. ',
+          )}
         </p>
         <div className="modal-actions">
           <button className="demo-button secondary" type="button" onClick={close}>
-            Cancelar
+            {ui('Cancelar ')}
           </button>
           <button className="demo-button" disabled={busy || !total}>
-            Guardar cotización
+            {ui('Guardar cotización ')}
           </button>
         </div>
       </form>
@@ -176,28 +182,29 @@ export default function QuotesDemo(props: DemoProps) {
     <>
       <div className="demo-heading">
         <div>
-          <span className="demo-eyebrow">PROPUESTAS QUE SE ENTIENDEN</span>
+          <span className="demo-eyebrow">{ui('PROPUESTAS QUE SE ENTIENDEN')}</span>
           <h2>
-            De una solicitud
-            <br />a una propuesta clara.
+            {ui('De una solicitud ')}
+            <br />
+            {ui('a una propuesta clara. ')}
           </h2>
-          <p>Prepara conceptos, revisa importes y presenta tu cotización.</p>
+          <p>{ui('Prepara conceptos, revisa importes y presenta tu cotización.')}</p>
         </div>
         <button className="demo-button" onClick={() => setEditor({})}>
-          + Nueva cotización
+          {ui('+ Nueva cotización ')}
         </button>
       </div>
       <Stats
         items={[
-          { label: 'Cotizaciones guardadas', value: quotes.length },
+          { label: ui('Cotizaciones guardadas'), value: quotes.length },
           {
-            label: 'Pendientes de respuesta',
+            label: ui('Pendientes de respuesta'),
             value: quotes.filter((q) => q.status === 'Enviada').length,
           },
           {
-            label: 'Aceptadas',
+            label: ui('Aceptadas'),
             value: quotes.filter((q) => q.status === 'Aceptada').length,
-            detail: 'Estados de ejemplo; no son pagos',
+            detail: ui('Estados de ejemplo; no son pagos'),
           },
         ]}
       />
@@ -205,18 +212,20 @@ export default function QuotesDemo(props: DemoProps) {
         <label className="search-field">
           <span aria-hidden="true">⌕</span>
           <input
-            aria-label="Buscar cotizaciones"
-            placeholder="Cliente, proyecto o folio…"
+            aria-label={ui('Buscar cotizaciones')}
+            placeholder={ui('Cliente, proyecto o folio…')}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
         </label>
         <label className="compact-field">
-          Estado
+          {ui('Estado ')}
           <select value={status} onChange={(e) => setStatus(e.target.value)}>
-            <option>Todas</option>
+            <option value={'Todas'}>{ui('Todas')}</option>
             {quoteStages.map((s) => (
-              <option key={s}>{s}</option>
+              <option key={s} value={s}>
+                {ui(s)}
+              </option>
             ))}
           </select>
         </label>
@@ -244,28 +253,30 @@ export default function QuotesDemo(props: DemoProps) {
               </small>
               <h3>{q.title}</h3>
               <p>{q.customer}</p>
-              <span className="tag">{q.status}</span>
+              <span className="tag">{ui(q.status)}</span>
             </div>
             <div className="quote-list-actions">
               <strong>{money(quoteTotals(q.lines, q.discount).total)}</strong>
               <div className="inline-actions">
                 <button
-                  aria-label={`Ver ${folio('COT', q.number)}`}
+                  aria-label={ui('Ver {value0}', undefined, { value0: folio('COT', q.number) })}
                   onClick={() => setPreviewId(q.id)}
                 >
-                  Ver documento
+                  {ui('Ver documento ')}
                 </button>
                 <button
-                  aria-label={`Editar ${folio('COT', q.number)}`}
+                  aria-label={ui('Editar {value0}', undefined, { value0: folio('COT', q.number) })}
                   onClick={() => setEditor(q)}
                 >
-                  Editar
+                  {ui('Editar ')}
                 </button>
                 <button
-                  aria-label={`Eliminar ${folio('COT', q.number)}`}
+                  aria-label={ui('Eliminar {value0}', undefined, {
+                    value0: folio('COT', q.number),
+                  })}
                   onClick={() => setDeleting(q)}
                 >
-                  Eliminar
+                  {ui('Eliminar ')}
                 </button>
               </div>
             </div>
@@ -273,7 +284,7 @@ export default function QuotesDemo(props: DemoProps) {
         ))}
       </div>
       {!filtered.length && (
-        <Empty>No hay cotizaciones con estos filtros. Crea una propuesta de ejemplo.</Empty>
+        <Empty>{ui('No hay cotizaciones con estos filtros. Crea una propuesta de ejemplo.')}</Empty>
       )}
       {editor && <QuoteEditor {...props} record={editor} close={() => setEditor(null)} />}
       {deleting && (
@@ -287,37 +298,38 @@ export default function QuotesDemo(props: DemoProps) {
         />
       )}
       {preview && totals && (
-        <Modal title="Vista de cotización" onClose={() => setPreviewId(null)}>
+        <Modal title={ui('Vista de cotización')} onClose={() => setPreviewId(null)}>
           <div className="quote-paper" id="quote-print">
             <div className="quote-paper-head">
               <strong>
-                ALTUM<span>COTIZADOR DE DEMOSTRACIÓN</span>
+                {ui('ALTUM')}
+                <span>{ui('COTIZADOR DE DEMOSTRACIÓN')}</span>
               </strong>
               <span>{folio('COT', preview.number)}</span>
             </div>
-            <p>DOCUMENTO DE EJEMPLO · NO VÁLIDO COMO FACTURA</p>
+            <p>{ui('DOCUMENTO DE EJEMPLO · NO VÁLIDO COMO FACTURA')}</p>
             <h3>{preview.title}</h3>
             <div className="quote-details">
               <div>
-                <small>Preparada para</small>
+                <small>{ui('Preparada para')}</small>
                 <strong>{preview.customer}</strong>
               </div>
               <div>
-                <small>Emisión</small>
+                <small>{ui('Emisión')}</small>
                 <strong>{preview.date}</strong>
               </div>
               <div>
-                <small>Vigencia</small>
-                <strong>{preview.validUntil || 'Sin definir'}</strong>
+                <small>{ui('Vigencia')}</small>
+                <strong>{preview.validUntil || ui('Sin definir')}</strong>
               </div>
             </div>
             <table>
               <thead>
                 <tr>
-                  <th>Concepto</th>
-                  <th>Cant.</th>
-                  <th>Precio</th>
-                  <th>Importe</th>
+                  <th>{ui('Concepto')}</th>
+                  <th>{ui('Cant.')}</th>
+                  <th>{ui('Precio')}</th>
+                  <th>{ui('Importe')}</th>
                 </tr>
               </thead>
               <tbody>
@@ -333,36 +345,41 @@ export default function QuotesDemo(props: DemoProps) {
             </table>
             <dl className="quote-totals">
               <div>
-                <dt>Subtotal</dt>
+                <dt>{ui('Subtotal')}</dt>
                 <dd>{money(totals.subtotal)}</dd>
               </div>
               <div>
-                <dt>Descuento ({preview.discount} %)</dt>
+                <dt>
+                  {ui('Descuento (')}
+                  {preview.discount} %)
+                </dt>
                 <dd>−{money(totals.discount)}</dd>
               </div>
               <div>
-                <dt>Total sin impuestos</dt>
+                <dt>{ui('Total sin impuestos')}</dt>
                 <dd>{money(totals.total)}</dd>
               </div>
             </dl>
             <p className="quote-conditions">
-              {preview.notes || 'Sin condiciones adicionales de ejemplo.'}
+              {preview.notes || ui('Sin condiciones adicionales de ejemplo.')}
             </p>
-            <p>Creada con Altum · www.altumlapaz.com · Importes en MXN</p>
+            <p>{ui('Creada con Altum · www.altumlapaz.com · Importes en MXN')}</p>
           </div>
           <label className="task-status">
-            Estado simulado
+            {ui('Estado simulado ')}
             <select
               value={preview.status}
               disabled={busy}
               onChange={(e) => send({ type: 'quote.stage', id: preview.id, stage: e.target.value })}
             >
               {quoteStages.map((s) => (
-                <option key={s}>{s}</option>
+                <option key={s} value={s}>
+                  {ui(s)}
+                </option>
               ))}
             </select>
           </label>
-          <p className="form-note">Este cambio no envía la cotización al cliente.</p>
+          <p className="form-note">{ui('Este cambio no envía la cotización al cliente.')}</p>
           <div className="modal-actions">
             <button
               className="demo-button secondary"
@@ -372,10 +389,10 @@ export default function QuotesDemo(props: DemoProps) {
                 setEditor({ ...copy, status: 'Borrador', date: localDate() });
               }}
             >
-              Duplicar
+              {ui('Duplicar ')}
             </button>
             <button className="demo-button secondary" onClick={() => window.print()}>
-              Imprimir
+              {ui('Imprimir ')}
             </button>
             <button
               className="demo-button"
@@ -399,11 +416,11 @@ export default function QuotesDemo(props: DemoProps) {
                 }
               }}
             >
-              {exporting ? 'Preparando PDF…' : 'Descargar PDF'}
+              {exporting ? ui('Preparando PDF…') : ui('Descargar PDF')}
             </button>
           </div>
           <p className="form-note" role="status">
-            {pdfNotice}
+            {ui(pdfNotice)}
           </p>
         </Modal>
       )}

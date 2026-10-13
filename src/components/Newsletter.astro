@@ -196,6 +196,29 @@ const interests = [
 </script>
 
 <style>
+  :global(html[data-theme='light']) .newsletter-copy h2 span,
+  :global(html[data-theme='light']) .newsletter-privacy a,
+  :global(html[data-theme='light']) .newsletter-privacy a:hover,
+  :global(html[data-theme='light']) .edition-bottom > span:last-child {
+    color: var(--cyan);
+  }
+  :global(html[data-theme='light']) .newsletter-copy .eyebrow,
+  :global(html[data-theme='light']) .edition-content small {
+    color: var(--muted);
+  }
+  :global(html[data-theme='light']) .newsletter-interests legend {
+    color: var(--text);
+  }
+  :global(html[data-theme='light']) .newsletter-field input {
+    background: var(--surface);
+    color: var(--text);
+    border-color: var(--line);
+  }
+  :global(html[data-theme='light']) .interest-choice:has(input:checked) {
+    background: #e5f4f8;
+    color: #075d70;
+    border-color: #539aab;
+  }
   .newsletter-section {
     padding-top: 65px;
   }

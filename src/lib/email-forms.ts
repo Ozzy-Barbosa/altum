@@ -1,3 +1,4 @@
+import { ui } from '../i18n/messages.mjs';
 /** Native POST and provider verification remain available without JavaScript. */
 export function enhanceEmailForms() {
   document.querySelectorAll<HTMLFormElement>('form[data-email-form]').forEach((form) => {
@@ -33,9 +34,9 @@ export function enhanceEmailForms() {
         )
         .forEach((input) => {
           input.value = input.value.trim();
-          input.setCustomValidity(input.required && !input.value ? 'Completa este campo.' : '');
+          input.setCustomValidity(input.required && !input.value ? ui('Completa este campo.') : '');
           if (input.minLength > 0 && input.value.length < input.minLength)
-            input.setCustomValidity(`Escribe al menos ${input.minLength} caracteres.`);
+            input.setCustomValidity(ui('Escribe al menos {count} caracteres.', undefined, { count: input.minLength }));
         });
       if (!form.reportValidity()) {
         event.preventDefault();
@@ -47,7 +48,7 @@ export function enhanceEmailForms() {
       submitting = true;
       if (button) button.disabled = true;
       form.setAttribute('aria-busy', 'true');
-      if (status) status.textContent = 'Abriendo la verificación de envío…';
+      if (status) status.textContent = ui('Abriendo la verificación de envío…');
       // Recover if interrupted navigation prevents the native POST.
       recovery = setTimeout(restore, 15000);
     });

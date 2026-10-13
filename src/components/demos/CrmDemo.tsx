@@ -1,5 +1,7 @@
+import { ui } from '../../i18n/messages.mjs';
 import { useState } from 'react';
-import { localDate, money, normalize } from '../../lib/demo-domain.mjs';
+import { localDate, normalize } from '../../lib/demo-domain.mjs';
+import { formatMoney as money } from '../../i18n/messages.mjs';
 import { cents, leadStages } from '../../lib/business-domain.mjs';
 import { Empty, ExportButton, Stats, type DemoProps } from './Shared';
 import { DeleteRecord, RecordEditor, type RecordData } from './BusinessShared';
@@ -20,41 +22,41 @@ export default function CrmDemo({ data, send, busy }: DemoProps) {
     <>
       <div className="demo-heading">
         <div>
-          <span className="demo-eyebrow">RELACIONES QUE SE CONSTRUYEN · CRM</span>
+          <span className="demo-eyebrow">{ui('RELACIONES QUE SE CONSTRUYEN · CRM')}</span>
           <h2>
-            Cada conversación,
+            {ui('Cada conversación, ')}
             <br />
-            un siguiente paso.
+            {ui('un siguiente paso. ')}
           </h2>
-          <p>Organiza contactos, oportunidades y próximos seguimientos.</p>
+          <p>{ui('Organiza contactos, oportunidades y próximos seguimientos.')}</p>
         </div>
         <button
           className="demo-button"
           onClick={() => setEditor({ stage: 'Nuevo', value: 0, followup: localDate() })}
         >
-          + Nueva oportunidad
+          {ui('+ Nueva oportunidad ')}
         </button>
       </div>
       <Stats
         items={[
           {
-            label: 'Oportunidades abiertas',
+            label: ui('Oportunidades abiertas'),
             value: open.length,
-            detail: 'Resumen de toda la cartera de ejemplo',
+            detail: ui('Resumen de toda la cartera de ejemplo'),
           },
           {
-            label: 'Valor potencial abierto',
+            label: ui('Valor potencial abierto'),
             value: money(open.reduce((sum, l) => sum + cents(l.value), 0) / 100),
-            detail: 'Estimación; no equivale a ventas cobradas',
+            detail: ui('Estimación; no equivale a ventas cobradas'),
           },
-          { label: 'Oportunidades ganadas', value: won.length },
+          { label: ui('Oportunidades ganadas'), value: won.length },
           {
-            label: 'Seguimientos por atender',
+            label: ui('Seguimientos por atender'),
             value: open.filter((l) => l.followup && l.followup <= localDate()).length,
           },
         ]}
       />
-      <div className="pipeline-summary" aria-label="Distribución por etapa">
+      <div className="pipeline-summary" aria-label={ui('Distribución por etapa')}>
         {leadStages.map((s, i) => (
           <button
             key={s}
@@ -66,7 +68,7 @@ export default function CrmDemo({ data, send, busy }: DemoProps) {
               } as React.CSSProperties
             }
           >
-            <span>{s}</span>
+            <span>{ui(s)}</span>
             <strong>{leads.filter((l) => l.stage === s).length}</strong>
             <span className="pipeline-line" />
           </button>
@@ -76,18 +78,20 @@ export default function CrmDemo({ data, send, busy }: DemoProps) {
         <label className="search-field">
           <span aria-hidden="true">⌕</span>
           <input
-            aria-label="Buscar oportunidades"
-            placeholder="Negocio, contacto o interés…"
+            aria-label={ui('Buscar oportunidades')}
+            placeholder={ui('Negocio, contacto o interés…')}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
         </label>
         <label className="compact-field">
-          Etapa
+          {ui('Etapa ')}
           <select value={stage} onChange={(e) => setStage(e.target.value)}>
-            <option>Todas</option>
+            <option value={'Todas'}>{ui('Todas')}</option>
             {leadStages.map((s) => (
-              <option key={s}>{s}</option>
+              <option key={s} value={s}>
+                {ui(s)}
+              </option>
             ))}
           </select>
         </label>
@@ -108,7 +112,7 @@ export default function CrmDemo({ data, send, busy }: DemoProps) {
           <article className="lead-card" key={l.id}>
             <div className="card-top">
               <span className="avatar">{l.company.slice(0, 1)}</span>
-              <span className="tag">{l.stage}</span>
+              <span className="tag">{ui(l.stage)}</span>
             </div>
             <h3>{l.company}</h3>
             <p>
@@ -116,7 +120,7 @@ export default function CrmDemo({ data, send, busy }: DemoProps) {
             </p>
             <strong className="deal-value">{money(l.value)}</strong>
             <p className="lead-notes">
-              {l.notes || 'Agrega notas para preparar la siguiente conversación.'}
+              {l.notes || ui('Agrega notas para preparar la siguiente conversación.')}
             </p>
             <p
               className={
@@ -125,49 +129,59 @@ export default function CrmDemo({ data, send, busy }: DemoProps) {
                   : 'form-note'
               }
             >
-              {l.followup ? `Seguimiento: ${l.followup}` : 'Sin fecha de seguimiento'}
+              {l.followup
+                ? ui('Seguimiento: {value0}', undefined, { value0: l.followup })
+                : ui('Sin fecha de seguimiento')}
             </p>
             <label className="task-status">
-              Etapa comercial
+              {ui('Etapa comercial ')}
               <select
-                aria-label={`Etapa de ${l.company}`}
+                aria-label={ui('Etapa de {value0}', undefined, { value0: l.company })}
                 value={l.stage}
                 disabled={busy}
                 onChange={(e) => send({ type: 'lead.stage', id: l.id, stage: e.target.value })}
               >
                 {leadStages.map((s) => (
-                  <option key={s}>{s}</option>
+                  <option key={s} value={s}>
+                    {ui(s)}
+                  </option>
                 ))}
               </select>
             </label>
             <div className="inline-actions">
-              <button onClick={() => setEditor(l)} aria-label={`Editar ${l.company}`}>
-                Editar
+              <button
+                onClick={() => setEditor(l)}
+                aria-label={ui('Editar {value0}', undefined, { value0: l.company })}
+              >
+                {ui('Editar ')}
               </button>
-              <button onClick={() => setDeleting(l)} aria-label={`Eliminar ${l.company}`}>
-                Eliminar
+              <button
+                onClick={() => setDeleting(l)}
+                aria-label={ui('Eliminar {value0}', undefined, { value0: l.company })}
+              >
+                {ui('Eliminar ')}
               </button>
             </div>
           </article>
         ))}
       </div>
-      {!filtered.length && <Empty>No hay oportunidades con estos filtros.</Empty>}
+      {!filtered.length && <Empty>{ui('No hay oportunidades con estos filtros.')}</Empty>}
       {editor && (
         <RecordEditor
-          title={editor.id ? 'Editar oportunidad' : 'Nueva oportunidad'}
+          title={editor.id ? ui('Editar oportunidad') : ui('Nueva oportunidad')}
           record={editor}
           entity="lead"
           send={send}
           busy={busy}
           close={() => setEditor(null)}
           fields={[
-            { name: 'company', label: 'Negocio de ejemplo' },
-            { name: 'contact', label: 'Nombre de contacto', maxLength: 80 },
-            { name: 'interest', label: 'Servicio de interés', full: true },
-            { name: 'value', label: 'Valor estimado (MXN)', type: 'number' },
-            { name: 'stage', label: 'Etapa', options: leadStages },
-            { name: 'followup', label: 'Próximo seguimiento', type: 'date', required: false },
-            { name: 'notes', label: 'Notas', type: 'textarea', full: true, required: false },
+            { name: 'company', label: ui('Negocio de ejemplo') },
+            { name: 'contact', label: ui('Nombre de contacto'), maxLength: 80 },
+            { name: 'interest', label: ui('Servicio de interés'), full: true },
+            { name: 'value', label: ui('Valor estimado (MXN)'), type: 'number' },
+            { name: 'stage', label: ui('Etapa'), options: leadStages },
+            { name: 'followup', label: ui('Próximo seguimiento'), type: 'date', required: false },
+            { name: 'notes', label: ui('Notas'), type: 'textarea', full: true, required: false },
           ]}
         />
       )}

@@ -4,7 +4,8 @@ import SocialLinks from '../components/SocialLinks.astro';
 import { site } from '../data/catalog';
 import { CONTACT } from '../data/contact';
 import QRCode from 'qrcode';
-const qr = await QRCode.toDataURL(site.origin + '/demos/', {
+import { getLocale, localizePath } from '../i18n/routing.mjs';
+const qr = await QRCode.toDataURL(site.origin + localizePath('/demos/', getLocale(Astro.url.pathname)), {
   width: 340,
   margin: 4,
   errorCorrectionLevel: 'M',

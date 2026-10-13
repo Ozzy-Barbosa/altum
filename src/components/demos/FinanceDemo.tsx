@@ -1,5 +1,7 @@
+import { ui } from '../../i18n/messages.mjs';
 import { useState } from 'react';
-import { localDate, money, normalize } from '../../lib/demo-domain.mjs';
+import { localDate, normalize } from '../../lib/demo-domain.mjs';
+import { formatMoney as money } from '../../i18n/messages.mjs';
 import { cents, expenseCategories, financeSummary } from '../../lib/business-domain.mjs';
 import { Empty, ExportButton, Field, Modal, Stats, values, type DemoProps } from './Shared';
 import { DeleteRecord, RecordEditor, type RecordData } from './BusinessShared';
@@ -22,24 +24,24 @@ export default function FinanceDemo({ data, send, busy }: DemoProps) {
     <>
       <div className="demo-heading">
         <div>
-          <span className="demo-eyebrow">FINANZAS DEL NEGOCIO · EJEMPLO</span>
+          <span className="demo-eyebrow">{ui('FINANZAS DEL NEGOCIO · EJEMPLO')}</span>
           <h2>
-            Claridad para
+            {ui('Claridad para ')}
             <br />
-            decidir mejor.
+            {ui('decidir mejor. ')}
           </h2>
-          <p>Ingresos, gastos y presupuesto en una misma vista.</p>
+          <p>{ui('Ingresos, gastos y presupuesto en una misma vista.')}</p>
         </div>
         <button
           className="demo-button"
           onClick={() => setEditor({ kind: 'Ingreso', category: 'Servicios', date: localDate() })}
         >
-          + Registrar movimiento
+          {ui('+ Registrar movimiento ')}
         </button>
       </div>
       <div className="demo-toolbar">
         <label className="compact-field">
-          Mes del reporte
+          {ui('Mes del reporte ')}
           <input
             type="month"
             value={month}
@@ -48,23 +50,23 @@ export default function FinanceDemo({ data, send, busy }: DemoProps) {
             }}
           />
         </label>
-        <span className="form-note">Importes en MXN · Ejemplos, sin conexión bancaria</span>
+        <span className="form-note">{ui('Importes en MXN · Ejemplos, sin conexión bancaria')}</span>
       </div>
       <Stats
         items={[
-          { label: 'Ingresos del mes', value: money(summary.income) },
-          { label: 'Gastos del mes', value: money(summary.expense) },
+          { label: ui('Ingresos del mes'), value: money(summary.income) },
+          { label: ui('Gastos del mes'), value: money(summary.expense) },
           {
-            label: 'Flujo neto del mes',
+            label: ui('Flujo neto del mes'),
             value: money(summary.net),
-            detail: 'Ingresos menos gastos. No es saldo bancario.',
+            detail: ui('Ingresos menos gastos. No es saldo bancario.'),
           },
         ]}
       />
       <div className="business-grid">
         <section className="business-panel">
-          <p className="demo-eyebrow">ENTRADAS Y SALIDAS</p>
-          <h3>El pulso de tu mes.</h3>
+          <p className="demo-eyebrow">{ui('ENTRADAS Y SALIDAS')}</p>
+          <h3>{ui('El pulso de tu mes.')}</h3>
           <div className="finance-bars">
             {[
               ['Ingresos', summary.income, 'income'],
@@ -85,13 +87,14 @@ export default function FinanceDemo({ data, send, busy }: DemoProps) {
             ))}
           </div>
           <p className="form-note">
-            El reporte reúne todos los movimientos del mes elegido. La búsqueda de abajo filtra
-            únicamente la lista.
+            {ui(
+              'El reporte reúne todos los movimientos del mes elegido. La búsqueda de abajo filtra únicamente la lista. ',
+            )}
           </p>
         </section>
         <section className="business-panel">
-          <p className="demo-eyebrow">PLANIFICA EL GASTO</p>
-          <h3>Presupuesto por categoría.</h3>
+          <p className="demo-eyebrow">{ui('PLANIFICA EL GASTO')}</p>
+          <h3>{ui('Presupuesto por categoría.')}</h3>
           <div className="budget-list">
             {expenseCategories.map((category) => {
               const spent =
@@ -105,18 +108,20 @@ export default function FinanceDemo({ data, send, busy }: DemoProps) {
               return (
                 <div className="budget-row" key={category}>
                   <div>
-                    <strong>{category}</strong>
+                    <strong>{ui(category)}</strong>
                     <small className={spent > cap ? 'over-budget' : ''}>
                       {money(spent)} / {money(cap)}
-                      {spent > cap ? ' · Excedido' : ''}
+                      {spent > cap ? ui(' · Excedido') : ''}
                     </small>
                   </div>
                   <button
                     className="inline-button"
-                    aria-label={`Editar presupuesto de ${category}`}
+                    aria-label={ui('Editar presupuesto de {value0}', undefined, {
+                      value0: category,
+                    })}
                     onClick={() => setBudget(category)}
                   >
-                    Ajustar
+                    {ui('Ajustar ')}
                   </button>
                   <div className="bar-track">
                     <span
@@ -131,7 +136,7 @@ export default function FinanceDemo({ data, send, busy }: DemoProps) {
             })}
           </div>
           <p className="form-note">
-            Estos límites mensuales de referencia se aplican a todos los meses.
+            {ui('Estos límites mensuales de referencia se aplican a todos los meses. ')}
           </p>
         </section>
       </div>
@@ -139,8 +144,8 @@ export default function FinanceDemo({ data, send, busy }: DemoProps) {
         <label className="search-field">
           <span aria-hidden="true">⌕</span>
           <input
-            aria-label="Buscar movimientos"
-            placeholder="Buscar concepto o categoría…"
+            aria-label={ui('Buscar movimientos')}
+            placeholder={ui('Buscar concepto o categoría…')}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
@@ -159,14 +164,17 @@ export default function FinanceDemo({ data, send, busy }: DemoProps) {
       {rows.length ? (
         <div className="table-scroll">
           <table className="data-table">
-            <caption>Movimientos de {month}</caption>
+            <caption>
+              {ui('Movimientos de ')}
+              {month}
+            </caption>
             <thead>
               <tr>
-                <th>Concepto</th>
-                <th>Fecha</th>
-                <th>Categoría</th>
-                <th>Importe</th>
-                <th>Acciones</th>
+                <th>{ui('Concepto')}</th>
+                <th>{ui('Fecha')}</th>
+                <th>{ui('Categoría')}</th>
+                <th>{ui('Importe')}</th>
+                <th>{ui('Acciones')}</th>
               </tr>
             </thead>
             <tbody>
@@ -174,21 +182,27 @@ export default function FinanceDemo({ data, send, busy }: DemoProps) {
                 <tr key={t.id}>
                   <td>
                     <strong>{t.concept}</strong>
-                    <small>{t.kind}</small>
+                    <small>{ui(t.kind)}</small>
                   </td>
                   <td>{t.date}</td>
-                  <td>{t.category}</td>
+                  <td>{ui(t.category)}</td>
                   <td className={t.kind === 'Ingreso' ? 'income-text' : 'expense-text'}>
                     {t.kind === 'Ingreso' ? '+' : '−'}
                     {money(t.amount)}
                   </td>
                   <td>
                     <div className="inline-actions">
-                      <button onClick={() => setEditor(t)} aria-label={`Editar ${t.concept}`}>
-                        Editar
+                      <button
+                        onClick={() => setEditor(t)}
+                        aria-label={ui('Editar {value0}', undefined, { value0: t.concept })}
+                      >
+                        {ui('Editar ')}
                       </button>
-                      <button onClick={() => setDeleting(t)} aria-label={`Eliminar ${t.concept}`}>
-                        Eliminar
+                      <button
+                        onClick={() => setDeleting(t)}
+                        aria-label={ui('Eliminar {value0}', undefined, { value0: t.concept })}
+                      >
+                        {ui('Eliminar ')}
                       </button>
                     </div>
                   </td>
@@ -199,23 +213,25 @@ export default function FinanceDemo({ data, send, busy }: DemoProps) {
         </div>
       ) : (
         <Empty>
-          No hay movimientos para este mes y búsqueda. Registra el primero o cambia el filtro.
+          {ui(
+            'No hay movimientos para este mes y búsqueda. Registra el primero o cambia el filtro. ',
+          )}
         </Empty>
       )}
       {editor && (
         <RecordEditor
-          title={editor.id ? 'Editar movimiento' : 'Registrar movimiento'}
+          title={editor.id ? ui('Editar movimiento') : ui('Registrar movimiento')}
           record={editor}
           entity="transaction"
           send={send}
           busy={busy}
           close={() => setEditor(null)}
           fields={[
-            { name: 'concept', label: 'Concepto', full: true },
-            { name: 'kind', label: 'Tipo', options: ['Ingreso', 'Gasto'] },
-            { name: 'category', label: 'Categoría', options: expenseCategories },
-            { name: 'amount', label: 'Importe (MXN)', type: 'number' },
-            { name: 'date', label: 'Fecha', type: 'date' },
+            { name: 'concept', label: ui('Concepto'), full: true },
+            { name: 'kind', label: ui('Tipo'), options: ['Ingreso', 'Gasto'] },
+            { name: 'category', label: ui('Categoría'), options: expenseCategories },
+            { name: 'amount', label: ui('Importe (MXN)'), type: 'number' },
+            { name: 'date', label: ui('Fecha'), type: 'date' },
           ]}
         />
       )}
@@ -230,7 +246,10 @@ export default function FinanceDemo({ data, send, busy }: DemoProps) {
         />
       )}
       {budget && (
-        <Modal title={`Presupuesto · ${budget}`} onClose={() => setBudget(null)}>
+        <Modal
+          title={ui('Presupuesto · {value0}', undefined, { value0: budget })}
+          onClose={() => setBudget(null)}
+        >
           <form
             onSubmit={async (e) => {
               e.preventDefault();
@@ -238,7 +257,7 @@ export default function FinanceDemo({ data, send, busy }: DemoProps) {
                 setBudget(null);
             }}
           >
-            <Field label="Límite mensual (MXN)">
+            <Field label={ui('Límite mensual (MXN)')}>
               <input
                 type="number"
                 name="amount"
@@ -251,7 +270,7 @@ export default function FinanceDemo({ data, send, busy }: DemoProps) {
             </Field>
             <div className="modal-actions">
               <button className="demo-button" disabled={busy}>
-                Guardar presupuesto
+                {ui('Guardar presupuesto ')}
               </button>
             </div>
           </form>

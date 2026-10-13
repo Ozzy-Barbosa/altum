@@ -5,6 +5,9 @@ import es from '../src/i18n/es.json' with { type: 'json' };
 import en from '../src/i18n/en.json' with { type: 'json' };
 
 const routing = await import('../src/i18n/routing.mjs').catch(() => ({}));
+test('literal dollar symbols in curated translations stay literal', () => {
+  assert.match(translateHtml('<p>Precio</p>', { Precio: '$& USD' }), /\$&amp; USD/);
+});
 test('locale links preserve deep routes, query and hash without double prefixes', () => {
   assert.equal(typeof routing.localizePath, 'function');
   assert.equal(routing.localizePath('/proyectos/orthomax/?a=1#avance', 'en'), '/en/proyectos/orthomax/?a=1#avance');

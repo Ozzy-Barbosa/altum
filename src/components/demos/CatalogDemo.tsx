@@ -1,5 +1,7 @@
+import { ui, languageTag } from '../../i18n/messages.mjs';
 import { useState } from 'react';
-import { money, normalize, totals } from '../../lib/demo-domain.mjs';
+import { normalize, totals } from '../../lib/demo-domain.mjs';
+import { formatMoney as money } from '../../i18n/messages.mjs';
 import { Empty, Field, Modal, Stats, Tabs, values, type DemoProps } from './Shared';
 export default function CatalogDemo({
   data,
@@ -54,7 +56,8 @@ export default function CatalogDemo({
   const cartPanel = (
     <>
       <h3>
-        {kind === 'menu' ? 'Tu pedido' : 'Tu carrito'} <span className="count">{units}</span>
+        {kind === 'menu' ? ui('Tu pedido') : ui('Tu carrito')}{' '}
+        <span className="count">{units}</span>
       </h3>
       {total.lines.length ? (
         total.lines.map((p) => (
@@ -64,14 +67,17 @@ export default function CatalogDemo({
               <small>{money(p.price)}</small>
             </div>
             <div className="quantity">
-              <button onClick={() => change(p.id, -1)} aria-label={`Quitar uno de ${p.name}`}>
+              <button
+                onClick={() => change(p.id, -1)}
+                aria-label={ui('Quitar uno de {value0}', undefined, { value0: p.name })}
+              >
                 −
               </button>
               <span>{p.quantity}</span>
               <button
                 onClick={() => change(p.id, 1)}
                 disabled={p.quantity >= products.find((x) => x.id === p.id).stock}
-                aria-label={`Agregar uno de ${p.name}`}
+                aria-label={ui('Agregar uno de {value0}', undefined, { value0: p.name })}
               >
                 +
               </button>
@@ -79,36 +85,39 @@ export default function CatalogDemo({
           </div>
         ))
       ) : (
-        <Empty>Agrega productos para preparar tu {kind === 'menu' ? 'pedido' : 'compra'}.</Empty>
+        <Empty>
+          {ui('Agrega productos para preparar tu ')}
+          {kind === 'menu' ? ui('pedido') : ui('compra')}.
+        </Empty>
       )}
       {kind === 'commerce' ? (
-        <Field label="Forma de entrega">
+        <Field label={ui('Forma de entrega')}>
           <select value={delivery} onChange={(e) => setDelivery(e.target.value)}>
-            <option value="recoger">Recoger · sin costo</option>
-            <option value="envio">Entrega local · $80 / gratis desde $1,000</option>
+            <option value="recoger">{ui('Recoger · sin costo')}</option>
+            <option value="envio">{ui('Entrega local · $80 / gratis desde $1,000')}</option>
           </select>
         </Field>
       ) : null}
       <div className="cart-totals">
         <div>
-          <span>Subtotal</span>
+          <span>{ui('Subtotal')}</span>
           <span>{money(total.subtotal)}</span>
         </div>
         {kind === 'commerce' ? (
           <div>
-            <span>Envío de ejemplo</span>
+            <span>{ui('Envío de ejemplo')}</span>
             <span>{money(total.shipping)}</span>
           </div>
         ) : null}
         <div className="total">
-          <strong>Total MXN</strong>
+          <strong>{ui('Total MXN')}</strong>
           <strong>{money(total.total)}</strong>
         </div>
       </div>
       <button className="demo-button full-width" disabled={busy || !units} onClick={order}>
-        {kind === 'menu' ? 'Simular pedido' : 'Simular compra'} →
+        {kind === 'menu' ? ui('Simular pedido') : ui('Simular compra')} →
       </button>
-      <p className="demo-caption">Demostración sin cobros, envíos ni pedidos reales.</p>
+      <p className="demo-caption">{ui('Demostración sin cobros, envíos ni pedidos reales.')}</p>
     </>
   );
   return (
@@ -116,13 +125,14 @@ export default function CatalogDemo({
       <div className="demo-heading">
         <div>
           <span className="demo-eyebrow">
-            {kind === 'menu' ? 'CAFETERÍA DE EJEMPLO' : 'TIENDA DE EJEMPLO'}
+            {kind === 'menu' ? ui('CAFETERÍA DE EJEMPLO') : ui('TIENDA DE EJEMPLO')}
           </span>
           <h2>{data.brand}</h2>
-          <p>{kind === 'menu' ? data.subtitle : 'Objetos para acompañar tu día.'}</p>
+          <p>{kind === 'menu' ? data.subtitle : ui('Objetos para acompañar tu día.')}</p>
         </div>
         <button className="demo-button" onClick={() => setCartOpen(true)}>
-          Ver {kind === 'menu' ? 'pedido' : 'carrito'} ({units})
+          {ui('Ver ')}
+          {kind === 'menu' ? ui('pedido') : ui('carrito')} ({units})
         </button>
       </div>
       <Tabs values={['Catálogo', 'Administrar', 'Pedidos']} value={tab} onChange={setTab} />
@@ -132,16 +142,16 @@ export default function CatalogDemo({
             src="/assets/brisa-cafe-demo.webp"
             width="1280"
             height="853"
-            alt="Composición ilustrativa de café y desayunos para Brisa Café"
+            alt={ui('Composición ilustrativa de café y desayunos para Brisa Café')}
           />
           <div>
-            <span>HECHO PARA DISFRUTAR</span>
+            <span>{ui('HECHO PARA DISFRUTAR')}</span>
             <strong>
-              Un buen día
+              {ui('Un buen día ')}
               <br />
-              empieza aquí.
+              {ui('empieza aquí. ')}
             </strong>
-            <small>Imagen creada para esta demostración.</small>
+            <small>{ui('Imagen creada para esta demostración.')}</small>
           </div>
         </div>
       ) : null}
@@ -149,9 +159,9 @@ export default function CatalogDemo({
         <>
           <Stats
             items={[
-              { label: 'Pedidos simulados', value: data.orders.length },
+              { label: ui('Pedidos simulados'), value: data.orders.length },
               {
-                label: 'Importe de ejemplo',
+                label: ui('Importe de ejemplo'),
                 value: money(data.orders.reduce((sum: number, o: any) => sum + o.total, 0)),
               },
             ]}
@@ -161,9 +171,12 @@ export default function CatalogDemo({
               {data.orders.map((o: any) => (
                 <article key={o.id}>
                   <div>
-                    <strong>Pedido {o.id.slice(0, 8).toUpperCase()}</strong>
+                    <strong>
+                      {ui('Pedido ')}
+                      {o.id.slice(0, 8).toUpperCase()}
+                    </strong>
                     <small>
-                      {new Date(o.at).toLocaleString('es-MX')} · {o.delivery}
+                      {new Date(o.at).toLocaleString(languageTag())} · {ui(o.delivery)}
                     </small>
                   </div>
                   <ul>
@@ -174,12 +187,12 @@ export default function CatalogDemo({
                     ))}
                   </ul>
                   <strong>{money(o.total)}</strong>
-                  <span className="pill">Simulado</span>
+                  <span className="pill">{ui('Simulado')}</span>
                 </article>
               ))}
             </div>
           ) : (
-            <Empty>Todavía no hay pedidos. Completa uno desde el catálogo.</Empty>
+            <Empty>{ui('Todavía no hay pedidos. Completa uno desde el catálogo.')}</Empty>
           )}
         </>
       ) : (
@@ -188,15 +201,15 @@ export default function CatalogDemo({
             <label className="search-field">
               <span aria-hidden="true">⌕</span>
               <input
-                aria-label="Buscar productos"
-                placeholder="Buscar productos..."
+                aria-label={ui('Buscar productos')}
+                placeholder={ui('Buscar productos...')}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
               />
             </label>
             {tab === 'Administrar' ? (
               <button className="demo-button" onClick={() => setEditor({})}>
-                + Nuevo producto
+                {ui('+ Nuevo producto ')}
               </button>
             ) : null}
           </div>
@@ -224,18 +237,24 @@ export default function CatalogDemo({
                     <div className="product-actions">
                       <small>
                         {!p.active
-                          ? 'Oculto'
+                          ? ui('Oculto')
                           : p.stock === 0
-                            ? 'Agotado'
-                            : `${p.stock} disponibles`}
+                            ? ui('Agotado')
+                            : ui('{value0} disponibles', undefined, { value0: p.stock })}
                       </small>
                       {tab === 'Administrar' ? (
                         <div className="inline-actions">
-                          <button onClick={() => setEditor(p)} aria-label={`Editar ${p.name}`}>
-                            Editar
+                          <button
+                            onClick={() => setEditor(p)}
+                            aria-label={ui('Editar {value0}', undefined, { value0: p.name })}
+                          >
+                            {ui('Editar ')}
                           </button>
-                          <button onClick={() => setDeleting(p)} aria-label={`Eliminar ${p.name}`}>
-                            Eliminar
+                          <button
+                            onClick={() => setDeleting(p)}
+                            aria-label={ui('Eliminar {value0}', undefined, { value0: p.name })}
+                          >
+                            {ui('Eliminar ')}
                           </button>
                         </div>
                       ) : (
@@ -243,16 +262,16 @@ export default function CatalogDemo({
                           className="add-button"
                           disabled={!p.stock || (validCart[p.id] || 0) >= p.stock}
                           onClick={() => change(p.id, 1)}
-                          aria-label={`Agregar ${p.name}`}
+                          aria-label={ui('Agregar {value0}', undefined, { value0: p.name })}
                         >
-                          + Agregar
+                          {ui('+ Agregar ')}
                         </button>
                       )}
                     </div>
                   </div>
                 </article>
               ))}
-              {!visible.length ? <Empty>No hay productos con esos filtros.</Empty> : null}
+              {!visible.length ? <Empty>{ui('No hay productos con esos filtros.')}</Empty> : null}
             </div>
             <aside className="cart-panel">{cartPanel}</aside>
           </div>
@@ -260,7 +279,7 @@ export default function CatalogDemo({
       )}
       {cartOpen ? (
         <Modal
-          title={kind === 'menu' ? 'Tu pedido de ejemplo' : 'Tu compra de ejemplo'}
+          title={kind === 'menu' ? ui('Tu pedido de ejemplo') : ui('Tu compra de ejemplo')}
           onClose={() => setCartOpen(false)}
         >
           <div className="cart-panel modal-cart">{cartPanel}</div>
@@ -268,13 +287,16 @@ export default function CatalogDemo({
       ) : null}
       {receipt ? (
         <Modal
-          title={kind === 'menu' ? 'Pedido de ejemplo preparado' : 'Compra simulada completada'}
+          title={
+            kind === 'menu' ? ui('Pedido de ejemplo preparado') : ui('Compra simulada completada')
+          }
           onClose={() => setReceipt(null)}
         >
           <div className="success-mark">✓</div>
           <p className="receipt-text">
-            Así se vería una confirmación para tu negocio. No se realizó ningún cobro ni se envió
-            una orden real.
+            {ui(
+              'Así se vería una confirmación para tu negocio. No se realizó ningún cobro ni se envió una orden real. ',
+            )}
           </p>
           <div className="receipt-total">{money(receipt.total)}</div>
           <button
@@ -284,13 +306,13 @@ export default function CatalogDemo({
               setTab('Pedidos');
             }}
           >
-            Ver pedidos simulados →
+            {ui('Ver pedidos simulados → ')}
           </button>
         </Modal>
       ) : null}
       {editor ? (
         <Modal
-          title={editor.id ? 'Editar producto' : 'Nuevo producto'}
+          title={editor.id ? ui('Editar producto') : ui('Nuevo producto')}
           onClose={() => setEditor(null)}
         >
           <form
@@ -308,10 +330,10 @@ export default function CatalogDemo({
             }}
           >
             <div className="form-grid">
-              <Field label="Nombre *" full>
+              <Field label={ui('Nombre *')} full>
                 <input name="name" defaultValue={editor.name || ''} required maxLength={120} />
               </Field>
-              <Field label="Categoría *">
+              <Field label={ui('Categoría *')}>
                 <input
                   name="category"
                   defaultValue={editor.category || ''}
@@ -319,7 +341,7 @@ export default function CatalogDemo({
                   maxLength={60}
                 />
               </Field>
-              <Field label="Precio MXN *">
+              <Field label={ui('Precio MXN *')}>
                 <input
                   name="price"
                   type="number"
@@ -330,7 +352,7 @@ export default function CatalogDemo({
                   required
                 />
               </Field>
-              <Field label="Disponibles *">
+              <Field label={ui('Disponibles *')}>
                 <input
                   name="stock"
                   type="number"
@@ -342,7 +364,7 @@ export default function CatalogDemo({
                 />
               </Field>
               <input type="hidden" name="min" value="0" />
-              <Field label="Descripción" full>
+              <Field label={ui('Descripción')} full>
                 <textarea
                   name="description"
                   defaultValue={editor.description || ''}
@@ -351,24 +373,25 @@ export default function CatalogDemo({
               </Field>
               <label className="check-field">
                 <input name="active" type="checkbox" defaultChecked={editor.active !== false} />{' '}
-                Visible en el catálogo
+                {ui('Visible en el catálogo ')}
               </label>
             </div>
             <button className="demo-button full-width" disabled={busy} type="submit">
-              Guardar producto
+              {ui('Guardar producto ')}
             </button>
           </form>
         </Modal>
       ) : null}
       {deleting ? (
-        <Modal title="Eliminar producto de ejemplo" onClose={() => setDeleting(null)}>
+        <Modal title={ui('Eliminar producto de ejemplo')} onClose={() => setDeleting(null)}>
           <p>
-            Se eliminará «{deleting.name}» de tu demo. Puedes recuperar los ejemplos originales con
-            Restablecer demo.
+            {ui('Se eliminará «')}
+            {deleting.name}
+            {ui('» de tu demo. Puedes recuperar los ejemplos originales con Restablecer demo. ')}
           </p>
           <div className="modal-actions">
             <button className="demo-button secondary" onClick={() => setDeleting(null)}>
-              Cancelar
+              {ui('Cancelar ')}
             </button>
             <button
               className="demo-button danger"
@@ -377,7 +400,7 @@ export default function CatalogDemo({
                 if (await send({ type: 'product.delete', id: deleting.id })) setDeleting(null);
               }}
             >
-              Eliminar producto
+              {ui('Eliminar producto ')}
             </button>
           </div>
         </Modal>

@@ -1,3 +1,4 @@
+import { ui } from '../../i18n/messages.mjs';
 import { useState } from 'react';
 import { searchDocuments } from '../../lib/demo-domain.mjs';
 import { Empty, Field, Modal, values, type DemoProps } from './Shared';
@@ -12,28 +13,28 @@ export default function SearchDemo({ data, send, busy }: DemoProps) {
     <>
       <div className="demo-heading">
         <div>
-          <span className="demo-eyebrow">BIBLIOTECA DE EJEMPLO</span>
+          <span className="demo-eyebrow">{ui('BIBLIOTECA DE EJEMPLO')}</span>
           <h2>
-            La respuesta
+            {ui('La respuesta ')}
             <br />
-            está más cerca.
+            {ui('está más cerca. ')}
           </h2>
-          <p>Encuentra información en documentos y guías del negocio.</p>
+          <p>{ui('Encuentra información en documentos y guías del negocio.')}</p>
         </div>
         <button className="demo-button" onClick={() => setEditor({})}>
-          + Nuevo documento
+          {ui('+ Nuevo documento ')}
         </button>
       </div>
       <label className="search-field large-search">
         <span aria-hidden="true">⌕</span>
         <input
-          aria-label="Buscar documentos"
-          placeholder="Prueba con “envíos”, “cita” o “inventario”"
+          aria-label={ui('Buscar documentos')}
+          placeholder={ui('Prueba con “envíos”, “cita” o “inventario”')}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
         {query ? (
-          <button aria-label="Limpiar búsqueda" onClick={() => setQuery('')}>
+          <button aria-label={ui('Limpiar búsqueda')} onClick={() => setQuery('')}>
             ×
           </button>
         ) : null}
@@ -46,8 +47,8 @@ export default function SearchDemo({ data, send, busy }: DemoProps) {
         ))}
       </div>
       <p className="results-count" role="status">
-        {results.length} {results.length === 1 ? 'documento' : 'documentos'} ·{' '}
-        {query ? 'Ordenados por relevancia' : 'Explora la biblioteca'}
+        {results.length} {results.length === 1 ? ui('documento') : ui('documentos')} ·{' '}
+        {query ? ui('Ordenados por relevancia') : ui('Explora la biblioteca')}
       </p>
       <div className="search-results">
         {results.map((d: any) => (
@@ -62,12 +63,18 @@ export default function SearchDemo({ data, send, busy }: DemoProps) {
               </h3>
               <p>{d.body.length > 170 ? d.body.slice(0, 170) + '…' : d.body}</p>
               <div className="inline-actions">
-                <button onClick={() => setSelected(d)}>Leer documento →</button>
-                <button aria-label={`Editar ${d.title}`} onClick={() => setEditor(d)}>
-                  Editar
+                <button onClick={() => setSelected(d)}>{ui('Leer documento →')}</button>
+                <button
+                  aria-label={ui('Editar {value0}', undefined, { value0: d.title })}
+                  onClick={() => setEditor(d)}
+                >
+                  {ui('Editar ')}
                 </button>
-                <button aria-label={`Eliminar ${d.title}`} onClick={() => setDeleting(d)}>
-                  Eliminar
+                <button
+                  aria-label={ui('Eliminar {value0}', undefined, { value0: d.title })}
+                  onClick={() => setDeleting(d)}
+                >
+                  {ui('Eliminar ')}
                 </button>
               </div>
             </div>
@@ -75,7 +82,9 @@ export default function SearchDemo({ data, send, busy }: DemoProps) {
         ))}
       </div>
       {!results.length ? (
-        <Empty>No encontramos resultados. Prueba con menos palabras o cambia la categoría.</Empty>
+        <Empty>
+          {ui('No encontramos resultados. Prueba con menos palabras o cambia la categoría.')}
+        </Empty>
       ) : null}
       {selected ? (
         <Modal title={selected.title} onClose={() => setSelected(null)}>
@@ -85,7 +94,7 @@ export default function SearchDemo({ data, send, busy }: DemoProps) {
       ) : null}
       {editor ? (
         <Modal
-          title={editor.id ? 'Editar documento' : 'Nuevo documento'}
+          title={editor.id ? ui('Editar documento') : ui('Nuevo documento')}
           onClose={() => setEditor(null)}
         >
           <form
@@ -96,10 +105,10 @@ export default function SearchDemo({ data, send, busy }: DemoProps) {
             }}
           >
             <div className="form-grid">
-              <Field label="Título *" full>
+              <Field label={ui('Título *')} full>
                 <input name="title" defaultValue={editor.title || ''} required maxLength={120} />
               </Field>
-              <Field label="Categoría *" full>
+              <Field label={ui('Categoría *')} full>
                 <input
                   name="category"
                   defaultValue={editor.category || 'Operación'}
@@ -107,7 +116,7 @@ export default function SearchDemo({ data, send, busy }: DemoProps) {
                   maxLength={60}
                 />
               </Field>
-              <Field label="Contenido de ejemplo *" full>
+              <Field label={ui('Contenido de ejemplo *')} full>
                 <textarea
                   name="body"
                   defaultValue={editor.body || ''}
@@ -117,19 +126,25 @@ export default function SearchDemo({ data, send, busy }: DemoProps) {
                 />
               </Field>
             </div>
-            <p className="demo-caption">Usa información ficticia; evita documentos privados.</p>
+            <p className="demo-caption">
+              {ui('Usa información ficticia; evita documentos privados.')}
+            </p>
             <button className="demo-button full-width" disabled={busy} type="submit">
-              Guardar documento
+              {ui('Guardar documento ')}
             </button>
           </form>
         </Modal>
       ) : null}
       {deleting ? (
-        <Modal title="Eliminar documento de ejemplo" onClose={() => setDeleting(null)}>
-          <p>Se eliminará «{deleting.title}» de la biblioteca de tu demo.</p>
+        <Modal title={ui('Eliminar documento de ejemplo')} onClose={() => setDeleting(null)}>
+          <p>
+            {ui('Se eliminará «')}
+            {deleting.title}
+            {ui('» de la biblioteca de tu demo.')}
+          </p>
           <div className="modal-actions">
             <button className="demo-button secondary" onClick={() => setDeleting(null)}>
-              Cancelar
+              {ui('Cancelar ')}
             </button>
             <button
               className="demo-button danger"
@@ -138,7 +153,7 @@ export default function SearchDemo({ data, send, busy }: DemoProps) {
                 if (await send({ type: 'document.delete', id: deleting.id })) setDeleting(null);
               }}
             >
-              Eliminar documento
+              {ui('Eliminar documento ')}
             </button>
           </div>
         </Modal>

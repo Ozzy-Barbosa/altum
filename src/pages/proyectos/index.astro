@@ -76,6 +76,7 @@ const filters: { id: ProjectFilter; label: string }[] = [
       </p>
     </div><a class="button" href="/demos/">Explorar demos ↗</a>
   </section><script>
+    import { ui } from '../../i18n/messages.mjs';
     document.querySelectorAll<HTMLButtonElement>('[data-filter]').forEach((b) =>
       b.addEventListener('click', () => {
         document
@@ -88,7 +89,7 @@ const filters: { id: ProjectFilter; label: string }[] = [
         });
         const result = document.querySelector('.project-count');
         if (result)
-          result.textContent = `${count} ${count === 1 ? 'proyecto' : 'proyectos'} · ${b.childNodes[0]?.textContent?.trim()}`;
+          result.textContent = `${count} ${ui(count === 1 ? 'proyecto' : 'proyectos')} · ${b.childNodes[0]?.textContent?.trim()}`;
       }),
     );
   </script></Layout

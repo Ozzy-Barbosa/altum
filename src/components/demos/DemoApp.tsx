@@ -1,3 +1,4 @@
+import { ui, localizedHref } from '../../i18n/messages.mjs';
 import { Component, lazy, Suspense, useState, type ReactNode } from 'react';
 import { solutions } from '../../data/catalog';
 import { Modal, useDemo } from './Shared';
@@ -21,10 +22,11 @@ class DemoErrorBoundary extends Component<{ children: ReactNode }, { failed: boo
   render() {
     return this.state.failed ? (
       <div className="demo-error" role="alert">
-        <h2>No se pudo abrir la demo.</h2>
+        <h2>{ui('No se pudo abrir la demo.')}</h2>
         <p>
-          Los datos guardados en este navegador podrían estar dañados. Puedes volver al catálogo o
-          restablecer este módulo.
+          {ui(
+            'Los datos guardados en este navegador podrían estar dañados. Puedes volver al catálogo o restablecer este módulo. ',
+          )}
         </p>
         <button
           className="demo-button"
@@ -37,10 +39,10 @@ class DemoErrorBoundary extends Component<{ children: ReactNode }, { failed: boo
             location.reload();
           }}
         >
-          Restablecer este módulo
+          {ui('Restablecer este módulo ')}
         </button>
-        <a className="text-link" href="/demos/">
-          Volver a las demos
+        <a className="text-link" href={localizedHref('/demos/')}>
+          {ui('Volver a las demos ')}
         </a>
       </div>
     ) : (
@@ -61,16 +63,16 @@ function Workspace({ module }: { module: string }) {
         style={{ '--demo-accent': solution.color } as React.CSSProperties}
       >
         <aside className="demo-sidebar">
-          <a className="demo-home" href="/demos/">
-            ↙ Todas las demos
+          <a className="demo-home" href={localizedHref('/demos/')}>
+            {ui('↙ Todas las demos ')}
           </a>
-          <p className="demo-sidebar-label">TU NEGOCIO, EN DIGITAL</p>
+          <p className="demo-sidebar-label">{ui('TU NEGOCIO, EN DIGITAL')}</p>
           <label className="demo-switcher">
-            Explorar otra demo
+            {ui('Explorar otra demo ')}
             <select
               value={module}
               onChange={(e) => {
-                location.href = `/demos/${e.target.value}/`;
+                location.href = localizedHref(`/demos/${e.target.value}/`);
               }}
             >
               {solutions.map((s) => (
@@ -80,10 +82,10 @@ function Workspace({ module }: { module: string }) {
               ))}
             </select>
           </label>
-          <nav aria-label="Aplicaciones de demostración">
+          <nav aria-label={ui('Aplicaciones de demostración')}>
             {solutions.map((s, i) => (
               <a
-                href={`/demos/${s.slug}/`}
+                href={localizedHref(`/demos/${s.slug}/`)}
                 aria-current={module === s.slug ? 'page' : undefined}
                 key={s.slug}
               >
@@ -96,40 +98,42 @@ function Workspace({ module }: { module: string }) {
           </nav>
           <div className="sidebar-help">
             <span className="status-dot"></span>
-            <strong>Hecho para tu negocio.</strong>
-            <p>Explora esta base e imagínala con tu marca.</p>
-            <a href={`/contacto/?solucion=${module}`}>Quiero una solución así ↗</a>
+            <strong>{ui('Hecho para tu negocio.')}</strong>
+            <p>{ui('Explora esta base e imagínala con tu marca.')}</p>
+            <a href={localizedHref(`/contacto/?solucion=${module}`)}>
+              {ui('Quiero una solución así ↗')}
+            </a>
           </div>
         </aside>
         <div className="demo-main">
           <div className="demo-topbar">
             <span>
               <span className="status-dot"></span>
-              {cloud ? 'Sesión en la nube' : 'Demo local'}{' '}
-              <span className="demo-topbar-detail">· Datos de ejemplo</span>
+              {cloud ? ui('Sesión en la nube') : ui('Demo local')}{' '}
+              <span className="demo-topbar-detail">{ui('· Datos de ejemplo')}</span>
             </span>
             <button onClick={() => setReset(true)} disabled={busy || !ready}>
-              ↻ Restablecer demo
+              {ui('↻ Restablecer demo ')}
             </button>
           </div>
           <div className="demo-save-note">
             {cloud
-              ? 'Tus cambios se guardan en tu espacio de prueba.'
-              : 'Tus cambios se guardan solo en este navegador. No uses datos reales.'}
+              ? ui('Tus cambios se guardan en tu espacio de prueba.')
+              : ui('Tus cambios se guardan solo en este navegador. No uses datos reales.')}
           </div>
           <div className="feedback-area" aria-live="polite">
             {error ? (
               <p className="demo-alert" role="alert">
-                {error}
+                {ui(error)}
               </p>
             ) : notice ? (
               <p className="demo-notice" role="status">
-                {notice}
+                {ui(notice)}
               </p>
             ) : null}
           </div>
           <fieldset className="demo-content" disabled={busy || !ready} aria-busy={!ready || busy}>
-            <Suspense fallback={<p className="loading-demo">Cargando tu demostración…</p>}>
+            <Suspense fallback={<p className="loading-demo">{ui('Cargando tu demostración…')}</p>}>
               <div key={revision}>
                 {module === 'menu' || module === 'commerce' ? (
                   <Catalog kind={module} {...props} />
@@ -160,14 +164,15 @@ function Workspace({ module }: { module: string }) {
         </div>
       </div>
       {reset ? (
-        <Modal title="Restablecer esta demo" onClose={() => setReset(false)}>
+        <Modal title={ui('Restablecer esta demo')} onClose={() => setReset(false)}>
           <p>
-            Se reemplazarán tus cambios de {solution.name} por la información de ejemplo original.
-            Las otras demos se conservan.
+            {ui('Se reemplazarán tus cambios de ')}
+            {solution.name}{' '}
+            {ui(' por la información de ejemplo original. Las otras demos se conservan. ')}
           </p>
           <div className="modal-actions">
             <button className="demo-button secondary" onClick={() => setReset(false)}>
-              Conservar cambios
+              {ui('Conservar cambios ')}
             </button>
             <button
               className="demo-button"
@@ -179,7 +184,7 @@ function Workspace({ module }: { module: string }) {
                 }
               }}
             >
-              Restablecer ejemplos
+              {ui('Restablecer ejemplos ')}
             </button>
           </div>
         </Modal>

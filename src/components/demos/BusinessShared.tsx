@@ -1,3 +1,4 @@
+import { ui } from '../../i18n/messages.mjs';
 import { Field, Modal, values, type Dispatch } from './Shared';
 export type RecordData = Record<string, any>;
 export type FieldSpec = {
@@ -40,7 +41,9 @@ export function RecordEditor({
               {f.options ? (
                 <select name={f.name} defaultValue={record[f.name] ?? f.options[0]}>
                   {f.options.map((o) => (
-                    <option key={o}>{o}</option>
+                    <option key={o} value={o}>
+                      {ui(o)}
+                    </option>
                   ))}
                 </select>
               ) : f.type === 'textarea' ? (
@@ -68,10 +71,10 @@ export function RecordEditor({
         </div>
         <div className="modal-actions">
           <button className="demo-button secondary" type="button" onClick={close}>
-            Cancelar
+            {ui('Cancelar ')}
           </button>
           <button className="demo-button" disabled={busy}>
-            Guardar
+            {ui('Guardar ')}
           </button>
         </div>
       </form>
@@ -94,11 +97,15 @@ export function DeleteRecord({
   close: () => void;
 }) {
   return (
-    <Modal title="Eliminar registro" onClose={close}>
-      <p>Se eliminará «{name}» de esta demostración. Esta acción no se puede deshacer.</p>
+    <Modal title={ui('Eliminar registro')} onClose={close}>
+      <p>
+        {ui('Se eliminará «')}
+        {name}
+        {ui('» de esta demostración. Esta acción no se puede deshacer.')}
+      </p>
       <div className="modal-actions">
         <button className="demo-button secondary" onClick={close}>
-          Conservar
+          {ui('Conservar ')}
         </button>
         <button
           className="demo-button"
@@ -107,7 +114,7 @@ export function DeleteRecord({
             if (await send({ type: `${entity}.delete`, id: record.id })) close();
           }}
         >
-          Eliminar registro
+          {ui('Eliminar registro ')}
         </button>
       </div>
     </Modal>

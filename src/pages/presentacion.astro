@@ -3,14 +3,16 @@ import Layout from '../layouts/Layout.astro';
 import { solutions, site, services, projects } from '../data/catalog';
 import { CONTACT } from '../data/contact';
 import QRCode from 'qrcode';
-const qr = await QRCode.toDataURL(site.origin + '/demos/', {
+import { getLocale, localizePath } from '../i18n/routing.mjs';
+const localPath = (path: string) => localizePath(path, getLocale(Astro.url.pathname));
+const qr = await QRCode.toDataURL(site.origin + localPath('/demos/'), {
   width: 240,
   margin: 2,
   errorCorrectionLevel: 'M',
 });
 const codes = await Promise.all(
   solutions.map((s) =>
-    QRCode.toDataURL(`${site.origin}/demos/${s.slug}/`, {
+    QRCode.toDataURL(site.origin + localPath(`/demos/${s.slug}/`), {
       width: 200,
       margin: 2,
       errorCorrectionLevel: 'M',

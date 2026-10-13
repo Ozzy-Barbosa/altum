@@ -30,6 +30,7 @@ const { categories, label, placeholder, total, noun } = Astro.props;
   </div>
 </div>
 <script>
+  import { ui } from '../i18n/messages.mjs';
   document.querySelectorAll<HTMLElement>('[data-filter-catalog]').forEach((catalog) => {
     const search = catalog.querySelector<HTMLInputElement>('[data-filter-search]')!;
     const category = catalog.querySelector<HTMLSelectElement>('[data-filter-category]')!;
@@ -44,7 +45,7 @@ const { categories, label, placeholder, total, noun } = Astro.props;
       catalog.querySelectorAll<HTMLElement>('[data-filter-item]').forEach((item) => {
         const terms = normalize(search.value).split(/\s+/).filter(Boolean);
         const match =
-          terms.every((term) => normalize(item.dataset.filterItem || '').includes(term)) &&
+          terms.every((term) => normalize((item.dataset.filterItem || '') + ' ' + item.textContent).includes(term)) &&
           (!category.value || category.value === item.dataset.category);
         item.hidden = !match;
         if (match) {
@@ -53,7 +54,7 @@ const { categories, label, placeholder, total, noun } = Astro.props;
         }
       });
       catalog.querySelector<HTMLElement>('[data-filter-count]')!.textContent =
-        `${visible} ${visible === 1 ? 'resultado' : 'resultados'} · ${catalog.dataset.noun}`;
+        `${visible} ${ui(visible === 1 ? 'resultado' : 'resultados')} · ${ui(catalog.dataset.noun || '')}`;
       catalog.querySelector<HTMLElement>('[data-filter-empty]')!.hidden = visible > 0;
     };
     search.addEventListener('input', filter);

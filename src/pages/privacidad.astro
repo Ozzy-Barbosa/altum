@@ -107,6 +107,7 @@ import { CONTACT } from '../data/contact';
       <a class="text-link" href="https://wa.me/526122125198">+52 612 212 5198</a>.
     </p>
   </section><script>
+    import { ui } from '../i18n/messages.mjs';
     const dialog = document.querySelector<HTMLDialogElement>('#clear-dialog')!;
     document.getElementById('clear-demos')?.addEventListener('click', () => dialog.showModal());
     document.getElementById('clear-cancel')?.addEventListener('click', () => dialog.close());
@@ -116,10 +117,10 @@ import { CONTACT } from '../data/contact';
         const keys = Object.keys(localStorage).filter((key) => key.startsWith('altum-demo-v2:'));
         keys.forEach((key) => localStorage.removeItem(key));
         feedback.textContent =
-          'Los datos de demostración guardados en este navegador se eliminaron.';
+          ui('Los datos de demostración guardados en este navegador se eliminaron.');
       } catch {
         feedback.textContent =
-          'El navegador no permite acceder al almacenamiento. Puedes borrar los datos del sitio desde su configuración.';
+          ui('El navegador no permite acceder al almacenamiento. Puedes borrar los datos del sitio desde su configuración.');
       }
       dialog.close();
     });

@@ -1,3 +1,4 @@
+import { ui } from '../../i18n/messages.mjs';
 import { useState } from 'react';
 import { normalize } from '../../lib/demo-domain.mjs';
 import { Empty, ExportButton, Field, Modal, Stats, values, type DemoProps } from './Shared';
@@ -18,24 +19,24 @@ export default function ProjectsDemo({ data, send, busy }: DemoProps) {
     <>
       <div className="demo-heading">
         <div>
-          <span className="demo-eyebrow">EQUIPO DE EJEMPLO</span>
+          <span className="demo-eyebrow">{ui('EQUIPO DE EJEMPLO')}</span>
           <h2>
-            Del pendiente
+            {ui('Del pendiente ')}
             <br />
-            al hecho.
+            {ui('al hecho. ')}
           </h2>
-          <p>Coordina entregables y mantén claro el siguiente paso.</p>
+          <p>{ui('Coordina entregables y mantén claro el siguiente paso.')}</p>
         </div>
         <button className="demo-button" onClick={() => setEditor({})}>
-          + Nueva tarea
+          {ui('+ Nueva tarea ')}
         </button>
       </div>
       <Stats
         items={[
-          { label: 'Tareas en esta vista', value: filtered.length },
-          { label: 'Terminadas', value: finished },
+          { label: ui('Tareas en esta vista'), value: filtered.length },
+          { label: ui('Terminadas'), value: finished },
           {
-            label: 'Avance',
+            label: ui('Avance'),
             value: (filtered.length ? Math.round((finished / filtered.length) * 100) : 0) + '%',
           },
         ]}
@@ -44,18 +45,20 @@ export default function ProjectsDemo({ data, send, busy }: DemoProps) {
         <label className="search-field">
           <span aria-hidden="true">⌕</span>
           <input
-            aria-label="Buscar tareas"
-            placeholder="Buscar tarea o responsable..."
+            aria-label={ui('Buscar tareas')}
+            placeholder={ui('Buscar tarea o responsable...')}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
         </label>
         <label className="compact-field">
-          Proyecto
+          {ui('Proyecto ')}
           <select value={project} onChange={(e) => setProject(e.target.value)}>
-            <option>Todos</option>
+            <option value={'Todos'}>{ui('Todos')}</option>
             {[...new Set(tasks.map((t) => t.project))].map((p) => (
-              <option key={p}>{p}</option>
+              <option key={p} value={p}>
+                {p}
+              </option>
             ))}
           </select>
         </label>
@@ -75,7 +78,7 @@ export default function ProjectsDemo({ data, send, busy }: DemoProps) {
           <section className={`kanban-column column-${index}`} key={status}>
             <h3>
               <span></span>
-              {status}
+              {ui(status)}
               <small>{filtered.filter((t) => t.status === status).length}</small>
             </h3>
             {filtered
@@ -88,11 +91,11 @@ export default function ProjectsDemo({ data, send, busy }: DemoProps) {
                     <span className="avatar">{t.assignee.slice(0, 1)}</span>
                     {t.assignee}
                   </div>
-                  <small className="task-date">{t.due || 'Sin fecha definida'}</small>
+                  <small className="task-date">{t.due || ui('Sin fecha definida')}</small>
                   <label className="task-status">
-                    Mover a
+                    {ui('Mover a ')}
                     <select
-                      aria-label={`Estado de ${t.title}`}
+                      aria-label={ui('Estado de {value0}', undefined, { value0: t.title })}
                       value={t.status}
                       disabled={busy}
                       onChange={(e) =>
@@ -100,28 +103,39 @@ export default function ProjectsDemo({ data, send, busy }: DemoProps) {
                       }
                     >
                       {states.map((s) => (
-                        <option key={s}>{s}</option>
+                        <option key={s} value={s}>
+                          {ui(s)}
+                        </option>
                       ))}
                     </select>
                   </label>
                   <div className="inline-actions">
-                    <button aria-label={`Editar ${t.title}`} onClick={() => setEditor(t)}>
-                      Editar
+                    <button
+                      aria-label={ui('Editar {value0}', undefined, { value0: t.title })}
+                      onClick={() => setEditor(t)}
+                    >
+                      {ui('Editar ')}
                     </button>
-                    <button aria-label={`Eliminar ${t.title}`} onClick={() => setDeleting(t)}>
-                      Eliminar
+                    <button
+                      aria-label={ui('Eliminar {value0}', undefined, { value0: t.title })}
+                      onClick={() => setDeleting(t)}
+                    >
+                      {ui('Eliminar ')}
                     </button>
                   </div>
                 </article>
               ))}
             {!filtered.some((t) => t.status === status) ? (
-              <Empty>Sin tareas en esta etapa.</Empty>
+              <Empty>{ui('Sin tareas en esta etapa.')}</Empty>
             ) : null}
           </section>
         ))}
       </div>
       {editor ? (
-        <Modal title={editor.id ? 'Editar tarea' : 'Nueva tarea'} onClose={() => setEditor(null)}>
+        <Modal
+          title={editor.id ? ui('Editar tarea') : ui('Nueva tarea')}
+          onClose={() => setEditor(null)}
+        >
           <form
             onSubmit={async (e) => {
               e.preventDefault();
@@ -130,13 +144,13 @@ export default function ProjectsDemo({ data, send, busy }: DemoProps) {
             }}
           >
             <div className="form-grid">
-              <Field label="Tarea *" full>
+              <Field label={ui('Tarea *')} full>
                 <input name="title" defaultValue={editor.title || ''} required maxLength={120} />
               </Field>
-              <Field label="Proyecto *">
+              <Field label={ui('Proyecto *')}>
                 <input name="project" defaultValue={editor.project || ''} required maxLength={80} />
               </Field>
-              <Field label="Responsable de ejemplo *">
+              <Field label={ui('Responsable de ejemplo *')}>
                 <input
                   name="assignee"
                   defaultValue={editor.assignee || ''}
@@ -144,29 +158,35 @@ export default function ProjectsDemo({ data, send, busy }: DemoProps) {
                   maxLength={80}
                 />
               </Field>
-              <Field label="Fecha límite">
+              <Field label={ui('Fecha límite')}>
                 <input name="due" type="date" defaultValue={editor.due || ''} />
               </Field>
-              <Field label="Estado">
+              <Field label={ui('Estado')}>
                 <select name="status" defaultValue={editor.status || 'Pendiente'}>
                   {states.map((s) => (
-                    <option key={s}>{s}</option>
+                    <option key={s} value={s}>
+                      {ui(s)}
+                    </option>
                   ))}
                 </select>
               </Field>
             </div>
             <button className="demo-button full-width" disabled={busy} type="submit">
-              Guardar tarea
+              {ui('Guardar tarea ')}
             </button>
           </form>
         </Modal>
       ) : null}
       {deleting ? (
-        <Modal title="Eliminar tarea de ejemplo" onClose={() => setDeleting(null)}>
-          <p>Se eliminará «{deleting.title}» del tablero de tu demo.</p>
+        <Modal title={ui('Eliminar tarea de ejemplo')} onClose={() => setDeleting(null)}>
+          <p>
+            {ui('Se eliminará «')}
+            {deleting.title}
+            {ui('» del tablero de tu demo.')}
+          </p>
           <div className="modal-actions">
             <button className="demo-button secondary" onClick={() => setDeleting(null)}>
-              Cancelar
+              {ui('Cancelar ')}
             </button>
             <button
               className="demo-button danger"
@@ -175,7 +195,7 @@ export default function ProjectsDemo({ data, send, busy }: DemoProps) {
                 if (await send({ type: 'task.delete', id: deleting.id })) setDeleting(null);
               }}
             >
-              Eliminar tarea
+              {ui('Eliminar tarea ')}
             </button>
           </div>
         </Modal>

@@ -1,3 +1,4 @@
+import { ui } from '../../i18n/messages.mjs';
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from 'react';
 import { seed, transition, loadCloud, saveCloud, currentSession } from '../../lib/demo-store';
 import { readBrowserSnapshot, saveBrowserSnapshot } from '../../lib/local-persistence.mjs';
@@ -127,13 +128,18 @@ export function Modal({
     >
       <div className="modal-head">
         <h2>{title}</h2>
-        <button type="button" className="icon-button" aria-label="Cerrar ventana" onClick={onClose}>
+        <button
+          type="button"
+          className="icon-button"
+          aria-label={ui('Cerrar ventana')}
+          onClick={onClose}
+        >
           ×
         </button>
       </div>
       {error ? (
         <p className="demo-alert" role="alert">
-          {error}
+          {ui(error)}
         </p>
       ) : null}
       {children}
@@ -191,7 +197,7 @@ export function Tabs({
   onChange: (v: string) => void;
 }) {
   return (
-    <div className="demo-tabs" aria-label="Vistas disponibles">
+    <div className="demo-tabs" aria-label={ui('Vistas disponibles')}>
       {options.map((option) => (
         <button
           key={option}
@@ -199,7 +205,7 @@ export function Tabs({
           aria-pressed={value === option}
           onClick={() => onChange(option)}
         >
-          {option}
+          {ui(option)}
         </button>
       ))}
     </div>
@@ -217,7 +223,7 @@ export function ExportButton({ rows, name }: { rows: Record<string, unknown>[]; 
     const csv =
       '\uFEFF' +
       [
-        headers.map(escape).join(','),
+        headers.map((header) => escape(ui(header))).join(','),
         ...rows.map((r) => headers.map((h) => escape(r[h])).join(',')),
       ].join('\r\n');
     const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' }));
@@ -234,7 +240,7 @@ export function ExportButton({ rows, name }: { rows: Record<string, unknown>[]; 
       onClick={download}
       disabled={!rows.length}
     >
-      Exportar CSV ↓
+      {ui('Exportar CSV ↓ ')}
     </button>
   );
 }

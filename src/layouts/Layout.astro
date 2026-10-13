@@ -294,6 +294,7 @@ const graph = [
       </div>
     </footer>
     <script>
+      import { ui } from '../i18n/messages.mjs';
       const motionButton = document.querySelector<HTMLButtonElement>('.motion-toggle');
       const motionMedia = matchMedia('(prefers-reduced-motion: reduce)');
       let motionPreference = false;
@@ -305,11 +306,11 @@ const graph = [
         document.documentElement.dataset.motion = paused ? 'paused' : 'playing';
         motionButton?.setAttribute('aria-pressed', String(paused));
         if (motionButton) {
-          motionButton.textContent = motionMedia.matches
+          motionButton.textContent = ui(motionMedia.matches
             ? 'Movimiento reducido del sistema'
             : paused
               ? 'Activar animaciones'
-              : 'Pausar animaciones';
+              : 'Pausar animaciones');
           motionButton.disabled = motionMedia.matches;
         }
         document.dispatchEvent(new Event('altum:motion'));
@@ -327,13 +328,13 @@ const graph = [
       const nav = document.getElementById('main-nav');
       const close = () => {
         toggle?.setAttribute('aria-expanded', 'false');
-        toggle?.setAttribute('aria-label', 'Abrir menú');
+        toggle?.setAttribute('aria-label', ui('Abrir menú'));
         nav?.classList.remove('open');
       };
       toggle?.addEventListener('click', () => {
         const open = toggle.getAttribute('aria-expanded') !== 'true';
         toggle.setAttribute('aria-expanded', String(open));
-        toggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+        toggle.setAttribute('aria-label', ui(open ? 'Cerrar menú' : 'Abrir menú'));
         nav?.classList.toggle('open', open);
       });
       document.addEventListener('keydown', (e) => {

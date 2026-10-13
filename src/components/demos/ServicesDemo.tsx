@@ -1,3 +1,4 @@
+import { ui } from '../../i18n/messages.mjs';
 import { useState } from 'react';
 import { localDate, normalize } from '../../lib/demo-domain.mjs';
 import { jobStages } from '../../lib/business-domain.mjs';
@@ -22,32 +23,39 @@ export default function ServicesDemo({ data, send, busy }: DemoProps) {
     <>
       <div className="demo-heading">
         <div>
-          <span className="demo-eyebrow">TALLER Y SERVICIO TÉCNICO · EJEMPLO</span>
+          <span className="demo-eyebrow">{ui('TALLER Y SERVICIO TÉCNICO · EJEMPLO')}</span>
           <h2>
-            Del reporte
-            <br />a la entrega.
+            {ui('Del reporte ')}
+            <br />
+            {ui('a la entrega. ')}
           </h2>
-          <p>Controla equipos, responsables y cada avance del servicio.</p>
+          <p>{ui('Controla equipos, responsables y cada avance del servicio.')}</p>
         </div>
         <button
           className="demo-button"
           onClick={() => setEditor({ date: localDate(), priority: 'Normal' })}
         >
-          + Nueva orden
+          {ui('+ Nueva orden ')}
         </button>
       </div>
       <Stats
         items={[
-          { label: 'Órdenes activas', value: jobs.filter((j) => j.status !== 'Entregada').length },
           {
-            label: 'Prioridad alta o urgente',
+            label: ui('Órdenes activas'),
+            value: jobs.filter((j) => j.status !== 'Entregada').length,
+          },
+          {
+            label: ui('Prioridad alta o urgente'),
             value: jobs.filter((j) => j.priority !== 'Normal' && j.status !== 'Entregada').length,
           },
-          { label: 'Listas para entregar', value: jobs.filter((j) => j.status === 'Lista').length },
-          { label: 'Entregadas', value: jobs.filter((j) => j.status === 'Entregada').length },
+          {
+            label: ui('Listas para entregar'),
+            value: jobs.filter((j) => j.status === 'Lista').length,
+          },
+          { label: ui('Entregadas'), value: jobs.filter((j) => j.status === 'Entregada').length },
         ]}
       />
-      <div className="service-flow" aria-label="Etapas del servicio">
+      <div className="service-flow" aria-label={ui('Etapas del servicio')}>
         {jobStages.map((s, i) => (
           <button
             key={s}
@@ -55,10 +63,10 @@ export default function ServicesDemo({ data, send, busy }: DemoProps) {
             onClick={() => setStatus(status === s ? 'Todas' : s)}
           >
             <span>{String(i + 1).padStart(2, '0')}</span>
-            <strong>{s}</strong>
+            <strong>{ui(s)}</strong>
             <small>
               {jobs.filter((j) => j.status === s).length}{' '}
-              {jobs.filter((j) => j.status === s).length === 1 ? 'orden' : 'órdenes'}
+              {jobs.filter((j) => j.status === s).length === 1 ? ui('orden') : ui('órdenes')}
             </small>
           </button>
         ))}
@@ -67,18 +75,20 @@ export default function ServicesDemo({ data, send, busy }: DemoProps) {
         <label className="search-field">
           <span aria-hidden="true">⌕</span>
           <input
-            aria-label="Buscar órdenes"
-            placeholder="Equipo, cliente, responsable o folio…"
+            aria-label={ui('Buscar órdenes')}
+            placeholder={ui('Equipo, cliente, responsable o folio…')}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
         </label>
         <label className="compact-field">
-          Estado
+          {ui('Estado ')}
           <select value={status} onChange={(e) => setStatus(e.target.value)}>
-            <option>Todas</option>
+            <option value={'Todas'}>{ui('Todas')}</option>
             {jobStages.map((s) => (
-              <option key={s}>{s}</option>
+              <option key={s} value={s}>
+                {ui(s)}
+              </option>
             ))}
           </select>
         </label>
@@ -101,7 +111,7 @@ export default function ServicesDemo({ data, send, busy }: DemoProps) {
             <div className="card-top">
               <small>{folio('OS', j.number)}</small>
               <span className={`tag ${j.priority !== 'Normal' ? 'priority-high' : ''}`}>
-                {j.priority}
+                {ui(j.priority)}
               </span>
             </div>
             <h3>{j.equipment}</h3>
@@ -109,57 +119,64 @@ export default function ServicesDemo({ data, send, busy }: DemoProps) {
             <p className="job-issue">{j.issue}</p>
             <div className="job-meta">
               <span>
-                Responsable <strong>{j.assignee}</strong>
+                {ui('Responsable ')}
+                <strong>{j.assignee}</strong>
               </span>
               <span>
-                Programada <strong>{j.date}</strong>
+                {ui('Programada ')}
+                <strong>{j.date}</strong>
               </span>
             </div>
             <div className="job-bottom">
-              <span className="tag">{j.status}</span>
+              <span className="tag">{ui(j.status)}</span>
               <button
                 className="inline-button"
                 onClick={() => setDetailId(j.id)}
-                aria-label={`Seguimiento de ${folio('OS', j.number)}`}
+                aria-label={ui('Seguimiento de {value0}', undefined, {
+                  value0: folio('OS', j.number),
+                })}
               >
-                Ver seguimiento →
+                {ui('Ver seguimiento → ')}
               </button>
             </div>
             <div className="inline-actions">
-              <button onClick={() => setEditor(j)} aria-label={`Editar ${folio('OS', j.number)}`}>
-                Editar
+              <button
+                onClick={() => setEditor(j)}
+                aria-label={ui('Editar {value0}', undefined, { value0: folio('OS', j.number) })}
+              >
+                {ui('Editar ')}
               </button>
               <button
                 onClick={() => setDeleting(j)}
-                aria-label={`Eliminar ${folio('OS', j.number)}`}
+                aria-label={ui('Eliminar {value0}', undefined, { value0: folio('OS', j.number) })}
               >
-                Eliminar
+                {ui('Eliminar ')}
               </button>
             </div>
           </article>
         ))}
       </div>
       {!filtered.length && (
-        <Empty>No hay órdenes con estos filtros. Registra un servicio de ejemplo.</Empty>
+        <Empty>{ui('No hay órdenes con estos filtros. Registra un servicio de ejemplo.')}</Empty>
       )}
       {editor && (
         <RecordEditor
-          title={editor.id ? 'Editar orden' : 'Nueva orden de servicio'}
+          title={editor.id ? ui('Editar orden') : ui('Nueva orden de servicio')}
           record={editor}
           entity="job"
           send={send}
           busy={busy}
           close={() => setEditor(null)}
           fields={[
-            { name: 'customer', label: 'Cliente de ejemplo' },
-            { name: 'equipment', label: 'Equipo o servicio' },
-            { name: 'issue', label: 'Trabajo solicitado', type: 'textarea', full: true },
-            { name: 'assignee', label: 'Responsable', maxLength: 80 },
-            { name: 'date', label: 'Fecha programada', type: 'date' },
-            { name: 'priority', label: 'Prioridad', options: ['Normal', 'Alta', 'Urgente'] },
+            { name: 'customer', label: ui('Cliente de ejemplo') },
+            { name: 'equipment', label: ui('Equipo o servicio') },
+            { name: 'issue', label: ui('Trabajo solicitado'), type: 'textarea', full: true },
+            { name: 'assignee', label: ui('Responsable'), maxLength: 80 },
+            { name: 'date', label: ui('Fecha programada'), type: 'date' },
+            { name: 'priority', label: ui('Prioridad'), options: ['Normal', 'Alta', 'Urgente'] },
             {
               name: 'notes',
-              label: 'Notas internas',
+              label: ui('Notas internas'),
               type: 'textarea',
               full: true,
               required: false,
@@ -179,7 +196,7 @@ export default function ServicesDemo({ data, send, busy }: DemoProps) {
       )}
       {detail && (
         <Modal
-          title={`Seguimiento · ${folio('OS', detail.number)}`}
+          title={ui('Seguimiento · {value0}', undefined, { value0: folio('OS', detail.number) })}
           onClose={() => setDetailId(null)}
         >
           <h3>{detail.equipment}</h3>
@@ -193,7 +210,7 @@ export default function ServicesDemo({ data, send, busy }: DemoProps) {
               <li key={i}>
                 <span className="timeline-dot" />
                 <div>
-                  <strong>{h.status}</strong>
+                  <strong>{ui(h.status)}</strong>
                   <small>{h.at}</small>
                   <p>{h.note}</p>
                 </div>
@@ -214,25 +231,28 @@ export default function ServicesDemo({ data, send, busy }: DemoProps) {
             }}
           >
             <div className="form-grid">
-              <Field label="Nuevo estado">
+              <Field label={ui('Nuevo estado')}>
                 <select name="stage" defaultValue={detail.status}>
                   {jobStages.map((s) => (
-                    <option key={s}>{s}</option>
+                    <option key={s} value={s}>
+                      {ui(s)}
+                    </option>
                   ))}
                 </select>
               </Field>
-              <Field label="Nota de avance (opcional)">
-                <input name="note" maxLength={250} placeholder="Qué cambió en este paso" />
+              <Field label={ui('Nota de avance (opcional)')}>
+                <input name="note" maxLength={250} placeholder={ui('Qué cambió en este paso')} />
               </Field>
             </div>
             <div className="modal-actions">
               <button className="demo-button" disabled={busy}>
-                Actualizar seguimiento
+                {ui('Actualizar seguimiento ')}
               </button>
             </div>
             <p className="form-note">
-              El historial registra cambios de estado de ejemplo. No envía notificaciones a
-              clientes.
+              {ui(
+                'El historial registra cambios de estado de ejemplo. No envía notificaciones a clientes. ',
+              )}
             </p>
           </form>
         </Modal>

@@ -7,6 +7,8 @@ import TechStack from '../components/TechStack.astro';
 import HeroMotion from '../components/HeroMotion.astro';
 import Newsletter from '../components/Newsletter.astro';
 import { solutions, projects } from '../data/catalog';
+import { getLocale } from '../i18n/routing.mjs';
+const weekdays = getLocale(Astro.url.pathname) === 'en' ? ['M', 'T', 'W', 'T', 'F'] : ['L', 'M', 'M', 'J', 'V'];
 ---
 
 <Layout
@@ -51,7 +53,7 @@ import { solutions, projects } from '../data/catalog';
       </div><div class="floating-card fc-two">
         <span class="mini-icon violet">◷</span><div>
           <small>AGENDA DIGITAL</small><strong>Tu próximo espacio.</strong><span
-            class="calendar-days"><i>L</i><i>M</i><i class="selected">M</i><i>J</i><i>V</i></span
+            class="calendar-days">{weekdays.map((day, index) => <i class:list={{ selected: index === 2 }}>{day}</i>)}</span
           ><span class="mini-foot"
             ><i class="status-dot violet-dot"></i> Cada cita, en su lugar</span
           >

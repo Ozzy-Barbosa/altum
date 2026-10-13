@@ -1,3 +1,4 @@
+import { ui } from '../../i18n/messages.mjs';
 import { useState } from 'react';
 import { localDate, normalize } from '../../lib/demo-domain.mjs';
 import { ticketStages, ticketCategories } from '../../lib/extended-domain.mjs';
@@ -22,13 +23,13 @@ export default function SupportDemo({ data, send, busy }: DemoProps) {
     <>
       <div className="demo-heading">
         <div>
-          <span className="demo-eyebrow">MESA DE AYUDA · EJEMPLO</span>
+          <span className="demo-eyebrow">{ui('MESA DE AYUDA · EJEMPLO')}</span>
           <h2>
-            Escuchar.
+            {ui('Escuchar. ')}
             <br />
-            Atender. Resolver.
+            {ui('Atender. Resolver. ')}
           </h2>
-          <p>Cada incidencia tiene un responsable y una historia.</p>
+          <p>{ui('Cada incidencia tiene un responsable y una historia.')}</p>
         </div>
         <button
           className="demo-button"
@@ -36,41 +37,43 @@ export default function SupportDemo({ data, send, busy }: DemoProps) {
             setEditor({ category: 'Red y Wi-Fi', priority: 'Media', due: localDate() })
           }
         >
-          + Nuevo ticket
+          {ui('+ Nuevo ticket ')}
         </button>
       </div>
       <Stats
         items={[
           {
-            label: 'Solicitudes activas',
+            label: ui('Solicitudes activas'),
             value: tickets.filter((t) => t.status !== 'Resuelto').length,
           },
           {
-            label: 'Prioridad alta activa',
+            label: ui('Prioridad alta activa'),
             value: tickets.filter((t) => t.priority === 'Alta' && t.status !== 'Resuelto').length,
           },
           {
-            label: 'Fuera de fecha objetivo',
+            label: ui('Fuera de fecha objetivo'),
             value: tickets.filter((t) => t.due < localDate() && t.status !== 'Resuelto').length,
           },
-          { label: 'Resueltas', value: tickets.filter((t) => t.status === 'Resuelto').length },
+          { label: ui('Resueltas'), value: tickets.filter((t) => t.status === 'Resuelto').length },
         ]}
       />
       <div className="demo-toolbar" style={{ marginTop: 25 }}>
         <label className="search-input">
           <span aria-hidden="true">⌕</span>
           <input
-            aria-label="Buscar tickets"
-            placeholder="Buscar asunto, cliente o folio…"
+            aria-label={ui('Buscar tickets')}
+            placeholder={ui('Buscar asunto, cliente o folio…')}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
         </label>
         <label className="compact-field">
-          Estado del ticket
+          {ui('Estado del ticket ')}
           <select value={stage} onChange={(e) => setStage(e.target.value)}>
             {['Todos', ...ticketStages].map((s) => (
-              <option key={s}>{s}</option>
+              <option key={s} value={s}>
+                {ui(s)}
+              </option>
             ))}
           </select>
         </label>
@@ -89,18 +92,18 @@ export default function SupportDemo({ data, send, busy }: DemoProps) {
         />
       </div>
       {!rows.length ? (
-        <Empty>No hay tickets con estos filtros.</Empty>
+        <Empty>{ui('No hay tickets con estos filtros.')}</Empty>
       ) : (
         <div className="table-scroll">
           <table className="data-table">
-            <caption>Solicitudes de soporte</caption>
+            <caption>{ui('Solicitudes de soporte')}</caption>
             <thead>
               <tr>
-                <th>Solicitud</th>
-                <th>Responsable</th>
-                <th>Prioridad / fecha</th>
-                <th>Estado</th>
-                <th>Acciones</th>
+                <th>{ui('Solicitud')}</th>
+                <th>{ui('Responsable')}</th>
+                <th>{ui('Prioridad / fecha')}</th>
+                <th>{ui('Estado')}</th>
+                <th>{ui('Acciones')}</th>
               </tr>
             </thead>
             <tbody>
@@ -108,38 +111,44 @@ export default function SupportDemo({ data, send, busy }: DemoProps) {
                 <tr key={t.id}>
                   <td>
                     <small>
-                      {folio('TK', t.number)} · {t.category}
+                      {folio('TK', t.number)} · {ui(t.category)}
                     </small>
                     <strong>{t.subject}</strong>
                     <span>{t.customer}</span>
                   </td>
                   <td>{t.assignee}</td>
                   <td>
-                    {t.priority}
+                    {ui(t.priority)}
                     <small>{t.due}</small>
                   </td>
                   <td>
-                    <span className="tag">{t.status}</span>
+                    <span className="tag">{ui(t.status)}</span>
                   </td>
                   <td>
                     <div className="row-actions">
                       <button
                         onClick={() => setDetail(t.id)}
-                        aria-label={`Abrir ${folio('TK', t.number)}`}
+                        aria-label={ui('Abrir {value0}', undefined, {
+                          value0: folio('TK', t.number),
+                        })}
                       >
-                        Ver y responder
+                        {ui('Ver y responder ')}
                       </button>
                       <button
                         onClick={() => setEditor(t)}
-                        aria-label={`Editar ${folio('TK', t.number)}`}
+                        aria-label={ui('Editar {value0}', undefined, {
+                          value0: folio('TK', t.number),
+                        })}
                       >
-                        Editar
+                        {ui('Editar ')}
                       </button>
                       <button
                         onClick={() => setRemove(t)}
-                        aria-label={`Eliminar ${folio('TK', t.number)}`}
+                        aria-label={ui('Eliminar {value0}', undefined, {
+                          value0: folio('TK', t.number),
+                        })}
                       >
-                        Eliminar
+                        {ui('Eliminar ')}
                       </button>
                     </div>
                   </td>
@@ -150,24 +159,25 @@ export default function SupportDemo({ data, send, busy }: DemoProps) {
         </div>
       )}
       <p className="form-note">
-        No se envían mensajes ni se monitorean dispositivos. La fecha objetivo es una referencia del
-        ejemplo.
+        {ui(
+          'No se envían mensajes ni se monitorean dispositivos. La fecha objetivo es una referencia del ejemplo. ',
+        )}
       </p>
       {editor ? (
         <RecordEditor
-          title={editor.id ? 'Editar ticket' : 'Nuevo ticket'}
+          title={editor.id ? ui('Editar ticket') : ui('Nuevo ticket')}
           entity="ticket"
           record={editor}
           fields={[
-            { name: 'subject', label: 'Asunto', full: true },
-            { name: 'customer', label: 'Cliente de ejemplo' },
-            { name: 'assignee', label: 'Responsable' },
-            { name: 'category', label: 'Categoría', options: ticketCategories },
-            { name: 'priority', label: 'Prioridad', options: ['Alta', 'Media', 'Baja'] },
-            { name: 'due', label: 'Fecha objetivo', type: 'date' },
+            { name: 'subject', label: ui('Asunto'), full: true },
+            { name: 'customer', label: ui('Cliente de ejemplo') },
+            { name: 'assignee', label: ui('Responsable') },
+            { name: 'category', label: ui('Categoría'), options: ticketCategories },
+            { name: 'priority', label: ui('Prioridad'), options: ['Alta', 'Media', 'Baja'] },
+            { name: 'due', label: ui('Fecha objetivo'), type: 'date' },
             {
               name: 'description',
-              label: 'Descripción',
+              label: ui('Descripción'),
               type: 'textarea',
               full: true,
               maxLength: 1000,
@@ -190,7 +200,10 @@ export default function SupportDemo({ data, send, busy }: DemoProps) {
       ) : null}
       {selected ? (
         <Modal
-          title={`${folio('TK', selected.number)} · ${selected.subject}`}
+          title={ui('{value0} · {value1}', undefined, {
+            value0: folio('TK', selected.number),
+            value1: selected.subject,
+          })}
           onClose={() => setDetail(null)}
         >
           <p>{selected.description}</p>
@@ -198,7 +211,7 @@ export default function SupportDemo({ data, send, busy }: DemoProps) {
             {selected.history.map((h: RecordData) => (
               <li key={h.id}>
                 <strong>
-                  {h.status} · {h.date}
+                  {ui(h.status)} · {h.date}
                 </strong>
                 <p>{h.note}</p>
               </li>
@@ -213,14 +226,16 @@ export default function SupportDemo({ data, send, busy }: DemoProps) {
             }}
           >
             <div className="form-grid">
-              <Field label="Nuevo estado" full>
+              <Field label={ui('Nuevo estado')} full>
                 <select name="status" defaultValue={selected.status} key={selected.status}>
                   {ticketStages.map((s) => (
-                    <option key={s}>{s}</option>
+                    <option key={s} value={s}>
+                      {ui(s)}
+                    </option>
                   ))}
                 </select>
               </Field>
-              <Field label="Respuesta o avance" full>
+              <Field label={ui('Respuesta o avance')} full>
                 <textarea name="note" required maxLength={1000} rows={3} />
               </Field>
             </div>
@@ -230,10 +245,10 @@ export default function SupportDemo({ data, send, busy }: DemoProps) {
                 className="demo-button secondary"
                 onClick={() => setDetail(null)}
               >
-                Cerrar
+                {ui('Cerrar ')}
               </button>
               <button className="demo-button" disabled={busy}>
-                Guardar respuesta
+                {ui('Guardar respuesta ')}
               </button>
             </div>
           </form>

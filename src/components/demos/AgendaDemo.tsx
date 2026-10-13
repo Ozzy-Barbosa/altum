@@ -1,5 +1,7 @@
+import { ui } from '../../i18n/messages.mjs';
 import { useState } from 'react';
-import { localDate, money, slots } from '../../lib/demo-domain.mjs';
+import { localDate, slots } from '../../lib/demo-domain.mjs';
+import { formatMoney as money } from '../../i18n/messages.mjs';
 import { Empty, Field, Modal, Stats, Tabs, type DemoProps } from './Shared';
 export default function AgendaDemo({ data, send, busy }: DemoProps) {
   const [view, setView] = useState('Reservar');
@@ -17,18 +19,18 @@ export default function AgendaDemo({ data, send, busy }: DemoProps) {
     <>
       <div className="demo-heading">
         <div>
-          <span className="demo-eyebrow">ESTUDIO DE SERVICIOS · EJEMPLO</span>
+          <span className="demo-eyebrow">{ui('ESTUDIO DE SERVICIOS · EJEMPLO')}</span>
           <h2>{data.brand}</h2>
-          <p>Un espacio para ti, a tu ritmo.</p>
+          <p>{ui('Un espacio para ti, a tu ritmo.')}</p>
         </div>
-        <span className="pill">Horario de La Paz, BCS</span>
+        <span className="pill">{ui('Horario de La Paz, BCS')}</span>
       </div>
       <Tabs values={['Reservar', 'Mis citas', 'Panel']} value={view} onChange={setView} />
       {view === 'Reservar' ? (
         <div className="booking-layout">
           <div>
             <h3 className="step-title">
-              <span>01</span> Elige tu servicio
+              <span>01</span> {ui(' Elige tu servicio ')}
             </h3>
             <div className="service-options">
               {data.services.map((s: any) => (
@@ -43,17 +45,19 @@ export default function AgendaDemo({ data, send, busy }: DemoProps) {
                 >
                   <span>
                     <strong>{s.name}</strong>
-                    <small>{s.duration} minutos</small>
+                    <small>
+                      {s.duration} {ui(' minutos')}
+                    </small>
                   </span>
                   <strong>{money(s.price)}</strong>
                 </button>
               ))}
             </div>
             <h3 className="step-title">
-              <span>02</span> Encuentra tu horario
+              <span>02</span> {ui(' Encuentra tu horario ')}
             </h3>
             <div className="form-grid">
-              <Field label="Profesional">
+              <Field label={ui('Profesional')}>
                 <select
                   value={professional}
                   onChange={(e) => {
@@ -62,13 +66,15 @@ export default function AgendaDemo({ data, send, busy }: DemoProps) {
                   }}
                 >
                   {data.professionals.map((p: string) => (
-                    <option key={p}>{p}</option>
+                    <option key={p} value={p}>
+                      {p}
+                    </option>
                   ))}
                 </select>
               </Field>
-              <Field label="Fecha">
+              <Field label={ui('Fecha')}>
                 <input
-                  aria-label="Fecha de la cita"
+                  aria-label={ui('Fecha de la cita')}
                   type="date"
                   min={localDate()}
                   value={date}
@@ -88,18 +94,18 @@ export default function AgendaDemo({ data, send, busy }: DemoProps) {
               ))}
             </div>
             {!available.length ? (
-              <Empty>No hay horarios para esta fecha. Prueba otro día o profesional.</Empty>
+              <Empty>{ui('No hay horarios para esta fecha. Prueba otro día o profesional.')}</Empty>
             ) : null}
           </div>
           <aside className="booking-summary">
-            <span className="demo-eyebrow">TU RESERVA DE EJEMPLO</span>
+            <span className="demo-eyebrow">{ui('TU RESERVA DE EJEMPLO')}</span>
             <h3>{service.name}</h3>
             <p>
-              {professional} · {service.duration} min
+              {professional} · {service.duration} {ui(' min ')}
             </p>
             <div className="summary-date">
-              <span>{date || 'Elige una fecha'}</span>
-              <strong>{time || 'Elige un horario'}</strong>
+              <span>{date || ui('Elige una fecha')}</span>
+              <strong>{time || ui('Elige un horario')}</strong>
             </div>
             <form
               onSubmit={async (e) => {
@@ -112,7 +118,7 @@ export default function AgendaDemo({ data, send, busy }: DemoProps) {
                 }
               }}
             >
-              <Field label="Nombre de ejemplo">
+              <Field label={ui('Nombre de ejemplo')}>
                 <input
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -122,7 +128,7 @@ export default function AgendaDemo({ data, send, busy }: DemoProps) {
               </Field>
               <div className="cart-totals">
                 <div className="total">
-                  <strong>Total de ejemplo</strong>
+                  <strong>{ui('Total de ejemplo')}</strong>
                   <strong>{money(service.price)}</strong>
                 </div>
               </div>
@@ -131,23 +137,25 @@ export default function AgendaDemo({ data, send, busy }: DemoProps) {
                 className="demo-button full-width"
                 disabled={busy || !available.includes(time)}
               >
-                Confirmar cita de ejemplo →
+                {ui('Confirmar cita de ejemplo → ')}
               </button>
             </form>
-            <p className="demo-caption">No se agenda una cita real ni se envían recordatorios.</p>
+            <p className="demo-caption">
+              {ui('No se agenda una cita real ni se envían recordatorios.')}
+            </p>
           </aside>
         </div>
       ) : (
         <>
           <Stats
             items={[
-              { label: 'Citas confirmadas', value: active.length },
+              { label: ui('Citas confirmadas'), value: active.length },
               {
-                label: 'Tiempo reservado',
+                label: ui('Tiempo reservado'),
                 value: active.reduce((sum: number, b: any) => sum + b.duration, 0) + ' min',
               },
               {
-                label: 'Valor de ejemplo',
+                label: ui('Valor de ejemplo'),
                 value: money(active.reduce((sum: number, b: any) => sum + b.price, 0)),
               },
             ]}
@@ -163,34 +171,38 @@ export default function AgendaDemo({ data, send, busy }: DemoProps) {
                   <div>
                     <h3>{b.service}</h3>
                     <p>
-                      {b.professional} · {b.time} · {b.duration} min
+                      {b.professional} · {b.time} · {b.duration} {ui(' min ')}
                     </p>
                     <small>
-                      {b.name} · Folio {b.id.slice(0, 8)}
+                      {b.name} {ui(' · Folio ')}
+                      {b.id.slice(0, 8)}
                     </small>
                   </div>
                   <span className={`pill ${b.status === 'Cancelada' ? 'dim' : ''}`}>
-                    {b.status}
+                    {ui(b.status)}
                   </span>
                   {b.status === 'Confirmada' ? (
                     <button className="demo-button secondary" onClick={() => setCancel(b.id)}>
-                      Cancelar cita
+                      {ui('Cancelar cita ')}
                     </button>
                   ) : null}
                 </article>
               ))}
             </div>
           ) : (
-            <Empty>No tienes citas todavía. Elige un servicio y un horario para empezar.</Empty>
+            <Empty>
+              {ui('No tienes citas todavía. Elige un servicio y un horario para empezar.')}
+            </Empty>
           )}
         </>
       )}
       {receipt ? (
-        <Modal title="Tu cita de ejemplo está confirmada" onClose={() => setReceipt(false)}>
+        <Modal title={ui('Tu cita de ejemplo está confirmada')} onClose={() => setReceipt(false)}>
           <div className="success-mark">✓</div>
           <p>
-            Revisa tu reserva en Mis citas. Este horario ya no se ofrece para el mismo profesional
-            en tu demo.
+            {ui(
+              'Revisa tu reserva en Mis citas. Este horario ya no se ofrece para el mismo profesional en tu demo. ',
+            )}
           </p>
           <button
             className="demo-button full-width"
@@ -199,16 +211,16 @@ export default function AgendaDemo({ data, send, busy }: DemoProps) {
               setView('Mis citas');
             }}
           >
-            Ver mi cita →
+            {ui('Ver mi cita → ')}
           </button>
         </Modal>
       ) : null}
       {cancel ? (
-        <Modal title="Cancelar cita de ejemplo" onClose={() => setCancel(null)}>
-          <p>El horario quedará disponible nuevamente en tu demo.</p>
+        <Modal title={ui('Cancelar cita de ejemplo')} onClose={() => setCancel(null)}>
+          <p>{ui('El horario quedará disponible nuevamente en tu demo.')}</p>
           <div className="modal-actions">
             <button className="demo-button secondary" onClick={() => setCancel(null)}>
-              Conservar cita
+              {ui('Conservar cita ')}
             </button>
             <button
               className="demo-button danger"
@@ -217,7 +229,7 @@ export default function AgendaDemo({ data, send, busy }: DemoProps) {
                 if (await send({ type: 'booking.cancel', id: cancel })) setCancel(null);
               }}
             >
-              Confirmar cancelación
+              {ui('Confirmar cancelación ')}
             </button>
           </div>
         </Modal>
