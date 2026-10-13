@@ -5,6 +5,7 @@ import '../styles/evolution.scss';
 import '../styles/editorial.scss';
 import '../styles/appearance.css';
 import AppearanceControls from '../components/AppearanceControls.astro';
+import { getLocale, localizePath } from '../i18n/routing.mjs';
 import '@fontsource-variable/manrope';
 import '@fontsource-variable/space-grotesk';
 import { site, services } from '../data/catalog';
@@ -38,7 +39,10 @@ const {
   articleDate,
   articleUpdated,
 } = Astro.props;
-const canonical = new URL(Astro.url.pathname, site.origin).href;
+const canonical = new URL(localizePath(Astro.url.pathname, getLocale(Astro.url.pathname)), site.origin).href;
+const locale = getLocale(Astro.url.pathname);
+const language = locale === 'en' ? 'en' : 'es-MX';
+const spanishPath = localizePath(Astro.url.pathname, 'es');
 const socialImageUrl = new URL(image, site.origin).href;
 const defaultSocialImageUrl = new URL(defaultSocialImage, site.origin).href;
 const usesDefaultSocialImage = socialImageUrl === defaultSocialImageUrl;
@@ -47,9 +51,9 @@ const socialImageAlt =
   (usesDefaultSocialImage
     ? 'Altum La Paz: páginas web, apps y software, con su símbolo de montañas plateadas y azules.'
     : `Vista de ${title.replace(' · Caso de estudio', '').replace(/\s*\|\s*Altum$/, '')}`);
-const activePath = /^\/soluciones\/(?!guias\/|rss\.xml)[^/]+\//.test(Astro.url.pathname)
+const activePath = /^\/soluciones\/(?!guias\/|rss\.xml)[^/]+\//.test(spanishPath)
   ? '/demos/'
-  : Astro.url.pathname;
+  : spanishPath;
 const nav = [
   ['Inicio', '/'],
   ['Servicios', '/servicios/'],
@@ -75,7 +79,7 @@ const graph = [
       availableLanguage: 'Spanish',
     },
     image: defaultSocialImageUrl,
-    logo: site.origin + '/assets/logo-altum-symbol-transparent.png',
+    logo: site.origin + '/assets/logo-altum-clean.png',
     address: {
       '@type': 'PostalAddress',
       addressLocality: 'La Paz',
@@ -90,14 +94,14 @@ const graph = [
     '@id': `${site.origin}/#website`,
     name: 'Altum',
     url: site.origin,
-    inLanguage: 'es-MX',
+    inLanguage: ['es-MX', 'en'],
   },
   {
     '@type': 'WebPage',
     name: title,
     description,
     url: canonical,
-    inLanguage: 'es-MX',
+    inLanguage: language,
     isPartOf: { '@id': `${site.origin}/#website` },
   },
   ...(schema ? [schema] : []),
@@ -121,7 +125,7 @@ const graph = [
 ---
 
 <!doctype html>
-<html lang="es-MX" data-theme="light">
+<html lang={language} data-theme="light">
   <head>
     <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
     <script is:inline>
@@ -138,13 +142,16 @@ const graph = [
       content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'}
     />
     <link rel="canonical" href={canonical} /><meta name="theme-color" content="#f8faff" />
+    <link rel="alternate" hreflang="es-MX" href={new URL(spanishPath, site.origin).href} />
+    <link rel="alternate" hreflang="en" href={new URL(localizePath(spanishPath, 'en'), site.origin).href} />
+    <link rel="alternate" hreflang="x-default" href={new URL(spanishPath, site.origin).href} />
     <meta property="og:title" content={socialTitle} /><meta
       property="og:description"
       content={socialDescription}
     /><meta property="og:type" content={articleDate ? 'article' : 'website'} /><meta
       property="og:url"
       content={canonical}
-    /><meta property="og:locale" content="es_MX" /><meta
+    /><meta property="og:locale" content={locale === 'en' ? 'en_US' : 'es_MX'} /><meta
       property="og:site_name"
       content="Altum La Paz"
     />

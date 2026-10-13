@@ -1,0 +1,15 @@
+---
+import { getLocale, localizePath } from '../i18n/routing.mjs';
+const locale = getLocale(Astro.url.pathname);
+---
+<nav class="language-switch" aria-label={locale === 'en' ? 'Language' : 'Idioma'}>
+  <a data-language-link="es" href={localizePath(Astro.url.pathname, 'es')} lang="es" hreflang="es-MX" aria-current={locale === 'es' ? 'true' : undefined}>ES</a>
+  <span aria-hidden="true">/</span>
+  <a data-language-link="en" href={localizePath(Astro.url.pathname, 'en')} lang="en" hreflang="en" aria-current={locale === 'en' ? 'true' : undefined}>EN</a>
+</nav>
+<script>
+  // Keep campaign parameters and the visitor's current section on language changes.
+  document.querySelectorAll<HTMLAnchorElement>('[data-language-link]').forEach((link) => {
+    link.addEventListener('click', () => { link.href = link.pathname + location.search + location.hash; });
+  });
+</script>

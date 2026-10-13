@@ -1,0 +1,18 @@
+---
+// English routes share the exact same compositions as their Spanish originals.
+export async function getStaticPaths() {
+  const pages = import.meta.glob(['../**/*.astro', '!../en/**'], { eager: true }) as Record<string, { default: any; getStaticPaths?: () => any }>;
+  const routes = [];
+  for (const [file, page] of Object.entries(pages)) {
+    const base = file.replace(/^\.\.\//, '').replace(/\.astro$/, '');
+    const entries = page.getStaticPaths ? await page.getStaticPaths() : [{ params: {}, props: {} }];
+    for (const entry of entries) {
+      const path = base.replace(/\[([^\]]+)\]/g, (_, key) => entry.params[key]).replace(/(?:^|\/)index$/, '');
+      routes.push({ params: { path: path || undefined }, props: { View: page.default, viewProps: { ...entry.props, ...entry.params } } });
+    }
+  }
+  return routes;
+}
+const { View, viewProps } = Astro.props;
+---
+<View {...viewProps} />

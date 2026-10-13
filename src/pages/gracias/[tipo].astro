@@ -1,10 +1,11 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { CONTACT } from '../../data/contact';
+interface Props { tipo?: string }
 export function getStaticPaths() {
   return ['propuesta', 'newsletter'].map((tipo) => ({ params: { tipo } }));
 }
-const newsletter = Astro.params.tipo === 'newsletter';
+const newsletter = (Astro.props.tipo ?? Astro.params.tipo) === 'newsletter';
 ---
 
 <Layout
