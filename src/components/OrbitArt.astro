@@ -25,7 +25,7 @@
         [90, 'atom-three'],
       ].map(([rotation, name]) => (
         <g transform={`rotate(${rotation} 300 300)`}>
-          <ellipse cx="300" cy="300" rx="265" ry="104" class="atom-track" />
+          <ellipse cx="300" cy="300" rx="265" ry="104" pathLength="1" class="atom-track" />
           <g class={`atom-electron ${name}`}>
             <>
               <circle cx="0" cy="0" r="4" />

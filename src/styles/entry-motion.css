@@ -1,31 +1,137 @@
-/* Only parent opacity changes: child motion and fixed positioning stay intact. */
-html[data-entry='active']:not([data-motion='paused']) :is(.header, #contenido) {
-  animation: altum-document-entry 650ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+/* Content is visible by default. The entrance controller only enhances it. */
+.hero-line-mask {
+  display: block;
+  overflow: clip;
+  padding-block: 0.12em;
+  margin-block: -0.12em;
 }
-html[data-entry='active']:not([data-motion='paused']) #contenido {
-  animation-delay: 60ms;
+.hero-line {
+  display: block;
+  transform-origin: 0 100%;
 }
-@keyframes altum-document-entry {
+.hero-line.gradient {
+  background-size: 145% 100%;
+  animation: altum-spectrum 14s ease-in-out infinite alternate;
+}
+.hero-lightfield,
+.hero-arrival {
+  position: absolute;
+  pointer-events: none;
+  z-index: -1;
+  border-radius: 50%;
+}
+.hero-lightfield {
+  inset: 9%;
+  background: radial-gradient(ellipse at 30% 30%, #25c5eb19, transparent 65%);
+  mask-image: radial-gradient(ellipse, #000 28%, transparent 72%);
+  translate: calc(var(--pointer-x) * 22px) calc(var(--pointer-y) * 18px);
+  transition: translate 0.75s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.hero-lightfield::before,
+.hero-lightfield::after {
+  content: '';
+  position: absolute;
+  inset: 6%;
+  border-radius: inherit;
+  background: radial-gradient(ellipse at 65% 32%, #596bff30, transparent 68%);
+  animation: altum-light-tide 12s ease-in-out infinite alternate;
+}
+.hero-lightfield::after {
+  inset: 20% -2%;
+  background: radial-gradient(ellipse at 36% 65%, #26cbd324, transparent 65%);
+  animation-direction: alternate-reverse;
+  animation-duration: 17s;
+}
+/* A one-off expanding light wave, not a loading overlay or an opaque logo disc. */
+.hero-arrival {
+  width: min(74%, 390px);
+  aspect-ratio: 1;
+  opacity: 0;
+  border: 1px solid #33bcde70;
+  background: radial-gradient(
+    circle,
+    transparent 30%,
+    #369cfa12 63%,
+    #42ceec30 70%,
+    transparent 72%
+  );
+  box-shadow:
+    0 0 35px #358aef1a,
+    inset 0 0 25px #48caf020;
+}
+.hero-arrival::before {
+  content: '';
+  position: absolute;
+  inset: -12%;
+  border: 1px solid #967cff40;
+  border-radius: inherit;
+}
+.atom-svg {
+  transform-origin: center;
+}
+.hero-system .system-core img {
+  transform-origin: center;
+}
+.hero .button {
+  translate: var(--magnet-x, 0px) var(--magnet-y, 0px);
+  transition:
+    translate 0.28s ease-out,
+    transform 0.24s,
+    box-shadow 0.24s,
+    filter 0.24s;
+}
+@media (hover: hover) and (pointer: fine) {
+  .hero-system .floating-card:hover {
+    border-color: color-mix(in srgb, var(--cyan) 40%, transparent);
+    box-shadow:
+      0 18px 48px #287bd21a,
+      inset 0 1px #ffffff35;
+  }
+}
+@keyframes altum-spectrum {
   from {
-    opacity: 0.18;
+    background-position: 0% 50%;
   }
   to {
-    opacity: 1;
+    background-position: 100% 50%;
   }
 }
-html[data-motion='paused'] :is(.header, #contenido) {
-  animation: none !important;
-  opacity: 1;
+@keyframes altum-light-tide {
+  from {
+    transform: translate(-3%, 2%) rotate(-12deg) scale(0.94);
+  }
+  to {
+    transform: translate(3%, -2%) rotate(12deg) scale(1.06);
+  }
+}
+html[data-motion='paused'] .hero .button,
+html[data-motion='paused'] .hero-lightfield {
+  translate: none;
+}
+html[data-motion='paused'] .hero-arrival {
+  display: none;
 }
 @media (prefers-reduced-motion: reduce) {
-  html[data-entry='active'] :is(.header, #contenido) {
-    animation: none !important;
-    opacity: 1;
+  .hero-arrival {
+    display: none;
+  }
+  .hero-lightfield,
+  .hero .button {
+    translate: none;
+  }
+  .hero-line.gradient {
+    animation: none;
   }
 }
 @media print {
-  html[data-entry='active'] :is(.header, #contenido) {
-    animation: none !important;
-    opacity: 1;
+  .hero-arrival,
+  .hero-lightfield {
+    display: none;
+  }
+  .hero-line-mask {
+    overflow: visible;
+  }
+  .hero-line.gradient {
+    animation: none;
   }
 }

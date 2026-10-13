@@ -8,7 +8,8 @@ import HeroMotion from '../components/HeroMotion.astro';
 import Newsletter from '../components/Newsletter.astro';
 import { solutions, projects } from '../data/catalog';
 import { getLocale } from '../i18n/routing.mjs';
-const weekdays = getLocale(Astro.url.pathname) === 'en' ? ['M', 'T', 'W', 'T', 'F'] : ['L', 'M', 'M', 'J', 'V'];
+const weekdays =
+  getLocale(Astro.url.pathname) === 'en' ? ['M', 'T', 'W', 'T', 'F'] : ['L', 'M', 'M', 'J', 'V'];
 ---
 
 <Layout
@@ -20,8 +21,10 @@ const weekdays = getLocale(Astro.url.pathname) === 'en' ? ['M', 'T', 'W', 'T', '
   <section class="hero container" id="inicio">
     <div class="hero-copy">
       <p class="eyebrow"><span class="status-dot"></span> ESTUDIO DIGITAL · LA PAZ, BCS</p><h1>
-        Diseño que inspira.<br /><span class="gradient"
-          >Tecnología que<br />impulsa tu negocio.</span
+        <span class="hero-line-mask"><span class="hero-line">Diseño que inspira.</span></span>
+        <span class="hero-line-mask"><span class="hero-line gradient">Tecnología que</span></span>
+        <span class="hero-line-mask"
+          ><span class="hero-line gradient">impulsa tu negocio.</span></span
         >
       </h1><p class="lead">
         Creamos páginas web y aplicaciones que comunican el valor de tu negocio, simplifican tu
@@ -37,13 +40,12 @@ const weekdays = getLocale(Astro.url.pathname) === 'en' ? ['M', 'T', 'W', 'T', '
         >
       </div>
     </div><div class="hero-system" aria-label="Vista ilustrativa de las soluciones de Altum">
+      <div class="hero-lightfield" aria-hidden="true"></div>
+      <div class="hero-arrival" aria-hidden="true"></div>
       <OrbitArt /><div class="system-core">
-        <img
-          src="/assets/logo-altum-clean.png"
-          alt="Altum"
-          width="360"
-          height="195"
-        /><span>IDEAS EN MOVIMIENTO</span>
+        <img src="/assets/logo-altum-clean.png" alt="Altum" width="360" height="195" /><span
+          >IDEAS EN MOVIMIENTO</span
+        >
       </div><div class="floating-card fc-one">
         <span class="mini-icon mint">▦</span><div>
           <small>OPERACIÓN</small><strong>Todo en su lugar.</strong><div class="mini-bars">
@@ -53,7 +55,10 @@ const weekdays = getLocale(Astro.url.pathname) === 'en' ? ['M', 'T', 'W', 'T', '
       </div><div class="floating-card fc-two">
         <span class="mini-icon violet">◷</span><div>
           <small>AGENDA DIGITAL</small><strong>Tu próximo espacio.</strong><span
-            class="calendar-days">{weekdays.map((day, index) => <i class:list={{ selected: index === 2 }}>{day}</i>)}</span
+            class="calendar-days"
+            >{
+              weekdays.map((day, index) => <i class:list={{ selected: index === 2 }}>{day}</i>)
+            }</span
           ><span class="mini-foot"
             ><i class="status-dot violet-dot"></i> Cada cita, en su lugar</span
           >
