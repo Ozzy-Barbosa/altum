@@ -3,6 +3,8 @@ import '../styles/global.css';
 import '../styles/enhancements.css';
 import '../styles/evolution.scss';
 import '../styles/editorial.scss';
+import '../styles/appearance.css';
+import AppearanceControls from '../components/AppearanceControls.astro';
 import '@fontsource-variable/manrope';
 import '@fontsource-variable/space-grotesk';
 import { site, services } from '../data/catalog';
@@ -119,15 +121,23 @@ const graph = [
 ---
 
 <!doctype html>
-<html lang="es-MX">
+<html lang="es-MX" data-theme="light">
   <head>
     <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>
+      (() => {
+        let theme = 'light';
+        try { if (localStorage.getItem('altum-theme') === 'dark') theme = 'dark'; } catch {}
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.style.colorScheme = theme;
+      })();
+    </script>
     <title>{title.includes('| Altum') ? title : `${title} | Altum`}</title>
     <meta name="description" content={description} /><meta
       name="robots"
       content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'}
     />
-    <link rel="canonical" href={canonical} /><meta name="theme-color" content="#060a12" />
+    <link rel="canonical" href={canonical} /><meta name="theme-color" content="#f8faff" />
     <meta property="og:title" content={socialTitle} /><meta
       property="og:description"
       content={socialDescription}
@@ -183,12 +193,13 @@ const graph = [
       <div class="header-inner">
         <a class="brand" href="/" aria-label="Altum, inicio"
           ><img
-            src="/assets/logo-altum-symbol-transparent.png"
+            src="/assets/logo-altum-clean.png"
             width="48"
             height="27"
             alt=""
           /><span>ALTUM<small>SOLUCIONES DIGITALES</small></span></a
         >
+        <AppearanceControls />
         <button
           class="nav-toggle"
           aria-label="Abrir menú"
@@ -233,7 +244,7 @@ const graph = [
           <div>
             <a class="brand" href="/"
               ><img
-                src="/assets/logo-altum-symbol-transparent.png"
+                src="/assets/logo-altum-clean.png"
                 alt=""
                 width="48"
                 height="27"

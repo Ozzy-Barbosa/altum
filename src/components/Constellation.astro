@@ -11,6 +11,7 @@
     let stars: { x: number; y: number; vx: number; vy: number; r: number }[] = [];
     const paused = () => document.documentElement.dataset.motion === 'paused' || media.matches;
     const paint = (move: boolean) => {
+      const light = document.documentElement.dataset.theme !== 'dark';
       context.clearRect(0, 0, width, height);
       for (let i = 0; i < stars.length; i++) {
         const p = stars[i];
@@ -24,14 +25,14 @@
           const q = stars[j],
             distance = Math.hypot(p.x - q.x, p.y - q.y);
           if (distance < 145) {
-            context.strokeStyle = `rgba(91,157,231,${(1 - distance / 145) * 0.22})`;
+            context.strokeStyle = light ? `rgba(42,94,154,${(1 - distance / 145) * 0.2})` : `rgba(91,157,231,${(1 - distance / 145) * 0.22})`;
             context.beginPath();
             context.moveTo(p.x, p.y);
             context.lineTo(q.x, q.y);
             context.stroke();
           }
         }
-        context.fillStyle = i % 4 === 0 ? 'rgba(73,219,239,.7)' : 'rgba(125,167,234,.45)';
+        context.fillStyle = light ? (i % 4 === 0 ? 'rgba(8,121,144,.65)' : 'rgba(63,105,172,.4)') : (i % 4 === 0 ? 'rgba(73,219,239,.7)' : 'rgba(125,167,234,.45)');
         context.beginPath();
         context.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         context.fill();
@@ -74,6 +75,7 @@
     addEventListener('resize', resize, { passive: true });
     document.addEventListener('visibilitychange', sync);
     document.addEventListener('altum:motion', sync);
+    document.addEventListener('altum:theme', () => paint(false));
     media.addEventListener('change', sync);
     resize();
   }

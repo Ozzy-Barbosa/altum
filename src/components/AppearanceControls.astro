@@ -1,0 +1,34 @@
+<div class="appearance-controls" aria-label="Apariencia">
+  <button class="theme-toggle" type="button" aria-label="Cambiar a tema oscuro" aria-pressed="false">
+    <svg class="theme-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M20.8 13.1A9 9 0 0 1 10.9 3.2 9 9 0 1 0 20.8 13.1Z"/></svg>
+    <svg class="theme-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.4 1.4m11.2 11.2L19 19M5 19l1.4-1.4M17.6 6.4 19 5"/></svg>
+    <span class="theme-label">Oscuro</span>
+  </button>
+</div>
+<script>
+  import { applyTheme, readTheme } from '../lib/appearance.mjs';
+  const button = document.querySelector<HTMLButtonElement>('.theme-toggle');
+  const label = button?.querySelector('.theme-label');
+  const sync = () => {
+    const dark = document.documentElement.dataset.theme === 'dark';
+    const english = document.documentElement.lang.startsWith('en');
+    button?.setAttribute('aria-pressed', String(dark));
+    button?.setAttribute('aria-label', english ? (dark ? 'Switch to light theme' : 'Switch to dark theme') : (dark ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro'));
+    if (label) label.textContent = english ? (dark ? 'Light' : 'Dark') : (dark ? 'Claro' : 'Oscuro');
+  };
+  applyTheme(document.documentElement.dataset.theme || 'light', document);
+  sync();
+  document.addEventListener('altum:theme', sync);
+  button?.addEventListener('click', () => {
+    const theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+    try { localStorage.setItem('altum-theme', theme); } catch {}
+    applyTheme(theme, document);
+  });
+  window.addEventListener('storage', (event) => {
+    if (event.key === 'altum-theme' || event.key === null) {
+      let theme = 'light';
+      try { theme = readTheme(localStorage); } catch {}
+      applyTheme(theme, document);
+    }
+  });
+</script>
